@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/reveal.min.css"/>
+    <style type="text/css">code{white-space: pre;}</style>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/theme/simple.css" id="theme">
+  <link rel="stylesheet" media="print" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" />
+  <!--[if lt IE 9]>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+  <![endif]-->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <style>
+        .reveal i{
+            font-family: 'FontAwesome';
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="continuous-review-jenkins-sonar" class="slide level2">
+<h1>Continuous Review Jenkins &amp; Sonar</h1>
+<h3 id="maciej-szulik">Maciej Szulik</h3>
+<h3 id="soltysh">soltysh @ <i class="fa-twitter"></i><i class="fa-github"></i><i class="fa-bitbucket"></i></h3>
+<p>Katowice, 2013</p>
+</section>
+<section id="toc" class="slide level2">
+<h1>TOC</h1>
+<ul>
+<li>Continuous Integration</li>
+<li>Code review</li>
+<li>Demo</li>
+</ul>
+</section>
+<section id="continuous-integration" class="slide level2">
+<h1>Continuous Integration</h1>
+<ul>
+<li>XP</li>
+<li>Merging working copies several times a day</li>
+<li>Prevent integration problems - &quot;integration hell&quot;</li>
+<li>TDD</li>
+<li>Build server, which automatically run the unit tests periodically or after every commit and report the results</li>
+</ul>
+<p> </p>
+<p><a href="http://en.wikipedia.org/wiki/Continuous_integration">http://en.wikipedia.org/wiki/Continuous_integration</a></p>
+</section>
+<section id="ci-advantages" class="slide level2">
+<h1>CI Advantages</h1>
+<ul>
+<li>Immediate unit testing</li>
+<li>Detect and fix integration problems continuously</li>
+<li>Early warning of broken/incompatible code</li>
+<li>Early warning of conflicting changes</li>
+<li>Constant availability of a &quot;current&quot; build</li>
+<li>Immediate feedback to developers on the quality</li>
+<li>Less complex code</li>
+<li>Metrics</li>
+</ul>
+</section>
+<section id="ci-disadvantages" class="slide level2">
+<h1>CI Disadvantages</h1>
+<ul>
+<li>Initial setup time required</li>
+<li>Well-developed test-suite</li>
+</ul>
+</section>
+<section id="meet-jenkins" class="slide level2">
+<h1>Meet Jenkins</h1>
+<ul>
+<li>Hudson in Feb. 2005</li>
+<li>Jenkins in Jan 2011</li>
+<li>Java</li>
+<li>Open source (MIT License)</li>
+</ul>
+</section>
+<section id="tasks" class="slide level2">
+<h1>Tasks</h1>
+<ul>
+<li>Building/testing software projects continuously</li>
+<li>Monitoring executions of externally-run jobs</li>
+</ul>
+<p> </p>
+<p><a href="https://wiki.jenkins-ci.org/display/JENKINS/Meet+Jenkin">https://wiki.jenkins-ci.org/display/JENKINS/Meet+Jenkins</a></p>
+</section>
+<section id="features" class="slide level2">
+<h1>Features</h1>
+<ul>
+<li>Easy installation &amp; configuration</li>
+<li>Changelog</li>
+<li>Permanent links</li>
+<li>RSS/E-mail/IM integration</li>
+<li>After-the-fact tagging</li>
+<li>Distributed builds</li>
+<li>File fingerprinting</li>
+<li>Plugin support</li>
+</ul>
+<p> </p>
+<p><a href="https://wiki.jenkins-ci.org/display/JENKINS/Meet+Jenkin">https://wiki.jenkins-ci.org/display/JENKINS/Meet+Jenkins</a></p>
+</section>
+<section id="workflow" class="slide level2">
+<h1>Workflow</h1>
+<ul>
+<li>Checkout from SCM</li>
+<li>Pre-build steps</li>
+<li>Build</li>
+<li>Post-build steps</li>
+<li>Post-build actions</li>
+</ul>
+</section>
+<section id="jenkins-demo" class="slide level2">
+<h1>Jenkins Demo</h1>
+<p><img src="img/jenkins.png" alt="Jenkins" /> </p>
+</section>
+<section id="code-review" class="slide level2">
+<h1>Code review</h1>
+<ul>
+<li>Systematic examination of source code</li>
+<li>Remove common vulnerabilities</li>
+<li>Improve quiality of software and the developers' skills</li>
+</ul>
+<p> </p>
+<p><a href="http://en.wikipedia.org/wiki/Code_review">http://en.wikipedia.org/wiki/Code_review</a></p>
+</section>
+<section id="cr-types" class="slide level2">
+<h1>CR Types</h1>
+<ul>
+<li>Over-the-shoulder</li>
+<li>Email pass-around</li>
+<li>Pair programming</li>
+<li>Tool-assisted code review</li>
+</ul>
+<p> </p>
+<p><a href="http://en.wikipedia.org/wiki/Code_review">http://en.wikipedia.org/wiki/Code_review</a></p>
+</section>
+<section id="cr-python-tools" class="slide level2">
+<h1>CR python Tools</h1>
+<ul>
+<li>pep8</li>
+<li>pylint</li>
+<li>pyflakes</li>
+<li>pychecker</li>
+<li>coverage</li>
+</ul>
+</section>
+<section id="sonarqube" class="slide level2">
+<h1>Sonarqube</h1>
+<ul>
+<li>At a glance</li>
+<li>For all stakeholder</li>
+<li>Seven Deadly Sins</li>
+<li>Language support</li>
+<li>Time machine</li>
+<li>Stop the leak</li>
+<li>Pre-commit check</li>
+<li>Zoom to the source</li>
+<li>Automate</li>
+<li>Security</li>
+<li>Extend</li>
+<li>Integrate</li>
+</ul>
+<p> </p>
+<p><a href="http://www.sonarqube.org/">http://www.sonarqube.org/</a></p>
+</section>
+<section id="sonar-demo" class="slide level2">
+<h1>Sonar demo</h1>
+<p><img src="img/sonarqube.png" alt="Sonarqube" /> </p>
+</section>
+<section id="integrate-integrate-integrate..." class="slide level2">
+<h1>Integrate, integrate, integrate...</h1>
+<p><img src="img/jenkins.png" alt="Jenkins" /> <img src="img/sonarqube.png" alt="Sonarqube" /></p>
+</section>
+<section id="questions" class="slide level2">
+<h1>Questions?</h1>
+<h3 id="maciej-szulik-1">Maciej Szulik</h3>
+<h3 id="soltysh-1">soltysh @ <i class="fa-twitter"></i><i class="fa-github"></i><i class="fa-bitbucket"></i></h3>
+</section>
+    </div>
+  </div>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/head.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/js/reveal.min.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        theme: 'solarized', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+//          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+  </body>
+</html>

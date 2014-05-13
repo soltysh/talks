@@ -1,0 +1,197 @@
+https://github.com/dataflow/devdocs/wiki/Configuringjenkins
+http://www.wallix.org/2011/06/29/how-to-use-jenkins-for-python-development/
+
+Continuous integration (CI) is the practice, in software engineering, of
+merging all developer working copies with a shared mainline several times a day.
+It was first named and proposed as part of extreme programming (XP). Its main
+aim is to prevent integration problems, referred to as "integration hell" in
+early descriptions of XP.
+CI can be seen as an intensification of practices of periodic integration
+advocated by earlier published methods of incremental and iterative software
+development, such as the Booch method.
+CI was originally intended to be used in combination with automated unit tests
+written through the practices of test-driven development. Initially this was
+conceived of as running all unit tests and verifying they all passed before
+committing to the mainline. This helps avoid one developer's work in progress
+breaking another developer's copy. If necessary, partially complete features
+can be disabled before committing using feature toggles.
+Later elaborations of the concept introduced build servers, which automatically
+run the unit tests periodically or even after every commit and report the
+results to the developers. The use of build servers (not necessarily running
+unit tests) had already been practised by some teams outside the XP community.
+Nowadays, many organizations have adopted CI without adopting all of XP.
+
+In addition to automated unit tests, organizations using CI typically use a
+build server to implement continuous processes of applying quality control in
+general — small pieces of effort, applied frequently. In addition to running
+the unit and integration tests, such processes run additional static and dynamic
+tests, measure and profile performance, extract and format documentation from
+the source code and facilitate manual QA processes. This continuous application
+of quality control aims to improve the quality of software, and to reduce the
+time taken to deliver it, by replacing the traditional practice of applying
+quality control after completing all development. This is very similar to the
+original idea of integrating more frequently to make integration easier, only
+applied to QA processes.
+In the same vein the practice of continuous delivery further extends CI by
+making sure the software checked in on the mainline is always in a state that
+can be deployed to users and makes the actual deployment process very rapid.
+
+Advantages:
+* Immediate unit testing of all changes
+* Developers detect and fix integration problems continuously — avoiding
+  last-minute chaos at release dates, (when everyone tries to check in their
+  slightly incompatible versions).
+* Early warning of broken/incompatible code
+* Early warning of conflicting changes
+* Constant availability of a "current" build for testing, demo, or release purposes
+* Immediate feedback to developers on the quality, functionality, or system-wide
+  impact of code they are writing
+* Frequent code check-in pushes developers to create modular, less complex code
+* Metrics generated from automated testing and CI (such as metrics for code
+  coverage, code complexity, and features complete) focus developers on
+  developing functional, quality code, and help develop momentum in a team
+
+Disadvantages
+* Initial setup time required
+* Well-developed test-suite required to achieve automated testing advantages
+
+Jenkins was originally developed as the Hudson project. Hudson's creation
+started in summer of 2004 in Sun Microsystems. It was first released in java.net
+in Feb. 2005.
+
+During November 2010, an issue arose in the Hudson community with respect to
+the infrastructure used, which grew to encompass questions over the
+stewardship and control by Oracle. Negotiations between the principal project
+contributors and Oracle took place, and although there were many areas of
+agreement a key sticking point was the trademarked name "Hudson", after
+Oracle claimed the right to the name and applied for a trademark in December
+2010. As a result, on January 11, 2011, a call for votes was made to change
+the project name from "Hudson" to "Jenkins". The proposal was overwhelmingly
+approved by community vote on January 29, 2011 creating the Jenkins project.
+
+Jenkins is an award-winning application that monitors executions of repeated
+jobs, such as building a software project or jobs run by cron. Among those things,
+current Jenkins focuses on the following two jobs:
+* Building/testing software projects continuously, just like CruiseControl or
+  DamageControl. In a nutshell, Jenkins provides an easy-to-use so-called
+  continuous integration system, making it easier for developers to integrate
+  changes to the project, and making it easier for users to obtain a fresh build.
+  The automated, continuous build increases the productivity.
+* Monitoring executions of externally-run jobs, such as cron jobs and procmail
+  jobs, even those that are run on a remote machine. For example, with cron,
+  all you receive is regular e-mails that capture the output, and it is up to you
+  to look at them diligently and notice when it broke. Jenkins keeps those
+  outputs and makes it easy for you to notice when something is wrong.
+
+Features:
+* Easy installation: Just java -jar jenkins.war, or deploy it in a servlet
+  container. No additional install, no database.
+* Easy configuration: Jenkins can be configured entirely from its friendly web
+  GUI with extensive on-the-fly error checks and inline help. There's no need
+  to tweak XML manually anymore, although if you'd like to do so, you can do that, too.
+* Changelog: Jenkins can generate a list of changes made into the build from any SCM.
+* Permanent links: Jenkins gives you clean readable URLs for most of its pages,
+  including some permalinks like "latest build"/"latest successful build",
+  so that they can be easily linked from elsewhere.
+* RSS/E-mail/IM Integration: Monitor build results by RSS or e-mail to get
+  real-time notifications on failures.
+* After-the-fact tagging: Builds can be tagged long after builds are completed.
+* Distributed builds: Jenkins can distribute build/test loads to multiple computers.
+  This lets you get the most out of those idle workstations sitting beneath
+  developers' desks.
+* File fingerprinting: Jenkins can keep track of which build produced which jars,
+  and which build is using which version of jars, and so on. This works even for
+  jars that are produced outside Jenkins, and is ideal for projects to track dependency.
+* Plugin Support: Jenkins can be extended via 3rd party plugins. You can write
+  plugins to make Jenkins support tools/processes that your team uses.
+
+Workflow:
+* Checkout from SCM – wide range of supported SCMs, such as SVN, CVS, git, hg, etc.
+* Pre-Build Steps – here you can execute windows/shell script
+* Build - where the real building process takes place, it can be either invoked
+  manually from GUI or triggered from defined schedule or triggered from SCM commit
+* Post-Build Steps – like above, execute windows/shell script
+* Post-Build Actions – this is a place where all your plugins can take place,
+  such as: build other project, archive artifacts, publish to scm, create version
+  in issue tracker (JIRA, Bugzilla, etc), SCP, email notifications, sonar, others...
+
+JENKINS DEMO
+1. Manage Jenkins
+    - Plugins
+2. Create new job
+3. Run job
+4. Show results
+
+Code review is systematic examination of computer source code. It is intended
+to find and remove common vulnerabilities such as format string exploits, race
+conditions, memory leaks and buffer overflows, thereby improving software
+quality, security and developers' skills.
+
+Code Review Types:
+* Over-the-shoulder – One developer looks over the author's shoulder as the
+  latter walks through the code.
+* Email pass-around – Source code management system emails code to reviewers
+  automatically after checkin is made.
+* Pair Programming – Two authors develop code together at the same workstation,
+  such is common in Extreme Programming.
+* Tool-assisted code review – Authors and reviewers use specialized tools
+designed for peer code review
+
+Python Tools:
+* pep8 – tool verifying code against famous PEP-8 describing coding standards
+  in python
+* Pylint is a source code bug and quality checker for the Python programming
+  language.
+* Pyflakes analyzes programs and detects various errors. It works by parsing
+  the source file, not importing it, so it is safe to use on modules with side
+  effects. It's also much faster.
+* PyChecker is a tool for finding bugs in python source code. It finds problems
+  that are typically caught by a compiler for less dynamic languages,
+  like C and C++. It is similar to lint
+
+SonarQube:
+* At a Glance - Whether you want to manage code quality at the file, module,
+  project or portfolio level, SonarQube’s numerous dashboards offer quick insight.
+  Take a look at Nemo, our public instance of SonarQube to see what to expect.
+* For all stakeholders - Many dashboards are available out of the box, and the
+  possibilities for new ones are endless, whether you want to focus on measures
+  or issues. Users can create fully customized private dashboards to show only
+  the data most valuable to them.  	
+* Seven Deadly Sins - The platform covers the Seven Axes of Quality, also known
+  as Developers’ Seven Deadly Sins: Duplications, Coding standards, Lack of
+  coverage, Potential bugs, Complexity, Documentation and Design.
+* Languages Support - More than 20 different languages, including Java, C#,
+  C/C++, Cobol, PL/SQL, ABAP, Javascript, PHP, Web, XML, etc. are supported.
+  The platform also offers the ability to add your own rules on those languages.
+* Time Machine - Several methods are available to replay the past, showing how
+  your metrics evolved: tables, timelines, dynamic charts, etc. This will ensure
+  progress get tracked over time.
+* Stop the Leak! - When dealing with broken plumbing, common sense says you should
+  fix the leak before mopping the floor. That is why the platform provides the
+  ability to track quality on new code: recently introduced issues, lack of test
+  coverage on new code, etc. Once found, issues can easily be assigned for mop-up.
+* Pre-Commit Check - Source code can be checked before pushing changes to the SCM:
+  either directly in Eclipse or through a batch with the Issues Report plugin.
+  Both let you make sure that you are not introducing new quality issues.
+* Zoom to the Source - Whatever you are looking at, a project, group of projects,
+  and so on, you can break down any metric in a few clicks, and drill down to
+  the source of the information: the source code!
+* Automate - Quality analyses can be easily integrated into any continuous
+  integration server to fully automate the process. This lets you easily put in
+  place a process of Continuous Inspection.
+* Security - A complete mechanism for authentication and authorization is
+  available out of the box, but it is also possible to delegate security to an
+  external system such as LDAP, Active Directory, etc. or to use SSO.
+* Extend - Extensibility is part of the DNA of the platform, which can be extended
+  with the 60+ plugins that are available through the SonarQube plugins library.
+  You can also develop your own plugins.
+* Integrate - Integration comes out of the box with standard ALM components such
+  as Maven, Ant, SVN, Git, Mercurial, JIRA, Mantis, Google Analytics, Piwik, Fortify…
+
+SONAR DEMO
+1. Update center
+    - Plugins
+2. Analyze project from CLI
+3. Show results
+4. Settings Quality profiles
+
