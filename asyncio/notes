@@ -1,0 +1,26 @@
+http://compiletoi.net/fast-scraping-in-python-with-asyncio.html
+http://davebehnke.com/python-asyncio-streams-client-server.html
+http://krondo.com/?p=1209
+
+Normal mode of writing a program is synchronous. Your code calls a function, 
+it does some work, and when it's done it returns a value. Execution returns 
+to your code at that point, where the return value can be used. If the function 
+had to do something that takes a long time, your code must just sit there 
+and wait (or block) while the function performs the task. An example of this 
+is raw_input()/input(). While the user is typing, your code is not executing. 
+There's no way for your code to do anything until the user presses enter.
+
+An alternative is not to block. If there is an action that must be performed 
+that can potentially block, then instead of waiting, the function call merely 
+initiates the action and returns to the caller immediately. The action 
+is completed in the background, and when the result is ready the code 
+is notified somehow. There are a variety of ways of achieving that -- 
+registering callbacks is the most common and popular.
+This asynchronous style (sometimes also called event-driven or non-blocking) 
+of programming allows for doing multiple things from a single thread, such as 
+a web server that can handle multiple requests at once without using threads. 
+You can find existing examples of this in modules like Twisted (network 
+programming framework) and Tornado (non-blocking web server).
+
+For field from you can either use coroutine or function returning Future.
+
