@@ -78,7 +78,7 @@ Katowice, 2014
 
 * Coroutines - `@coroutine` & `yield from`
 * Future - object with result
-* Task - variant (subclass) of a coroutine
+* Task - variant (subclass) of a Task
 
 
 ## Event loop ##
