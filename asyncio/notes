@@ -1,26 +1,88 @@
-http://compiletoi.net/fast-scraping-in-python-with-asyncio.html
+Synchronous
+-----------
+This is the simplest style of programming. Each task is performed one at a time,
+with one finishing completely before another is started. And if the tasks are
+always performed in a definite order, the implementation of a later task can
+assume that all earlier tasks have finished without errors, with all their
+output available for use — a definite simplification in logic.
+
+Threaded
+--------
+In this model, each task is performed in a separate thread of control. The
+threads are managed by the operating system and may, on a system with multiple
+processors or multiple cores, run truly concurrently, or may be interleaved
+together on a single processor. The point is, in the threaded model the
+details of execution are handled by the OS and the programmer simply thinks
+in terms of independent instruction streams which may run simultaneously.
+
+Asynchronous
+------------
+In this model, the tasks are interleaved with one another, but in a single
+thread of control. This is simpler than the threaded case because the programmer
+always knows that when one task is executing, another task is not. Although
+in a single-processor system a threaded program will also execute in an
+interleaved pattern, a programmer using threads should still think in terms
+of Figure 2, not Figure 3, lest the program work incorrectly when moved to
+a multi-processor system. But a single-threaded asynchronous system will always
+execute with interleaving, even on a multi-processor system.
+There is another difference between the asynchronous and threaded models.
+In a threaded system the decision to suspend one thread and execute another is
+largely outside of the programmer’s control. Rather, it is under the control of
+the operating system, and the programmer must assume that a thread may be
+suspended and replaced with another at almost any time. In contrast, under the
+asynchronous model a task will continue to run until it explicitly relinquishes
+control to other tasks. This is a further simplification from the threaded case.
+
+
+Compared to the synchronous model, the asynchronous model performs best when:
+
+1. There are a large number of tasks so there is likely always at least one task
+   that can make progress.
+2. The tasks perform lots of I/O, causing a synchronous program to waste lots
+   of time blocking when other tasks could be running.
+3. The tasks are largely independent from one another so there is little need
+   for inter-task communication (and thus for one task to wait upon another).
+
+Transport & Protocol
+--------------------
+
+Transport is concerned with how bytes are transmitted, while the protocol
+determines which bytes to transmit. Simply stating a transport is an abstraction
+for a socket, while a protocol is an abstraction for an application.
+
+Coroutines
+----------
+Coroutines is just a function with decorator @coroutine. Although the decorator
+currently does not do anything special, but maybe in future it will. You should
+use it for readability! Eventually if your function does not uses yield from, then
+interpreter might have problems with recognizing this method is generator.
+
+Future
+------
+Future is just a interface to the object, that will hold information about result.
+It holds a value or not, in latter case you'll get an Exception, no blocking
+will be happening. You might use result = yield from Future.
+When using yield from you might switch back and forth futures and generators.
+You never instantiate Future, usually functions return Future, so you should 
+use yield from your_function().
+
+Task
+----
+Task is just a subclass of a Future, means that yield from can be used.
+A Task is an object that manages an independently running coroutine, this way
+we introduce real parallelism.
+
+Future 
+
+Links
+-----
 http://davebehnke.com/python-asyncio-streams-client-server.html
-http://krondo.com/?p=1209
-
-Normal mode of writing a program is synchronous. Your code calls a function, 
-it does some work, and when it's done it returns a value. Execution returns 
-to your code at that point, where the return value can be used. If the function 
-had to do something that takes a long time, your code must just sit there 
-and wait (or block) while the function performs the task. An example of this 
-is raw_input()/input(). While the user is typing, your code is not executing. 
-There's no way for your code to do anything until the user presses enter.
-
-An alternative is not to block. If there is an action that must be performed 
-that can potentially block, then instead of waiting, the function call merely 
-initiates the action and returns to the caller immediately. The action 
-is completed in the background, and when the result is ready the code 
-is notified somehow. There are a variety of ways of achieving that -- 
-registering callbacks is the most common and popular.
-This asynchronous style (sometimes also called event-driven or non-blocking) 
-of programming allows for doing multiple things from a single thread, such as 
-a web server that can handle multiple requests at once without using threads. 
-You can find existing examples of this in modules like Twisted (network 
-programming framework) and Tornado (non-blocking web server).
-
-For field from you can either use coroutine or function returning Future.
+http://compiletoi.net/fast-scraping-in-python-with-asyncio.html
+https://code.google.com/p/tulip/
+https://groups.google.com/forum/?fromgroups#!forum/python-tulip
+http://www.python.org/dev/peps/pep-3156/
+http://www.python.org/dev/peps/pep-380/
+http://www.youtube.com/watch?v=1coLC-MUCJc
+http://www.youtube.com/watch?v=c7D63mqCs5Y
+http://krondo.com/?p=1209 
 
