@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/reveal.min.css"/>
+    <style type="text/css">code{white-space: pre;}</style>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/theme/simple.css" id="theme">
+  <link rel="stylesheet" media="print" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" />
+  <!--[if lt IE 9]>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+  <![endif]-->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <style>
+        .reveal i{
+            font-family: 'FontAwesome';
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="async-io" class="slide level2">
+<h1>Async I/O</h1>
+<h3 id="maciej-szulik">Maciej Szulik</h3>
+<h3 id="soltysh">soltysh @ <i class="fa-twitter"></i><i class="fa-github"></i><i class="fa-bitbucket"></i></h3>
+<p>Katowice, 2014</p>
+</section>
+<section id="toc" class="slide level2">
+<h1>TOC</h1>
+<ul>
+<li>Synchronous vs. Threaded vs. Asynchronous</li>
+<li>Asynchronous I/O</li>
+<li>Architecture</li>
+<li>Examples</li>
+<li>Q &amp; A</li>
+</ul>
+</section>
+<section id="synchronous" class="slide level2">
+<h1>Synchronous</h1>
+<p><img src="img/sync.png" alt="Synchronous" /> </p>
+</section>
+<section id="threaded" class="slide level2">
+<h1>Threaded</h1>
+<p><img src="img/sync.png" alt="Synchronous" /> <img src="img/threaded.png" alt="Threaded" /></p>
+</section>
+<section id="asynchronous" class="slide level2">
+<h1>Asynchronous</h1>
+<p><img src="img/sync.png" alt="Synchronous" /> <img src="img/threaded.png" alt="Threaded" /> <img src="img/async.png" alt="Asynchronous" /></p>
+</section>
+<section id="asynchronous-io" class="slide level2">
+<h1>Asynchronous I/O</h1>
+<ul>
+<li><code>select</code>, <code>poll</code>, <code>kqueue</code></li>
+<li>I/O Completion Ports</li>
+<li>asyncore</li>
+</ul>
+</section>
+<section id="asynchronous-io-1" class="slide level2">
+<h1>Asynchronous I/O</h1>
+<p><img src="img/keepcalm.png" alt="KeepCalm" /> </p>
+</section>
+<section id="asynchronous-io-2" class="slide level2">
+<h1>Asynchronous I/O</h1>
+<ul>
+<li>Asynchronous frameworks:
+<ul>
+<li>Twisted</li>
+<li>Tornado</li>
+<li>Stackless Python</li>
+</ul></li>
+<li>asyncio (PEP-3156)</li>
+</ul>
+</section>
+<section id="asynchronous-io-3" class="slide level2">
+<h1>Asynchronous I/O</h1>
+<ul>
+<li>Usability</li>
+<li>Interoperability</li>
+<li>Multiplatform</li>
+<li>TCP &amp; UDP support</li>
+<li>IPv4 &amp; IPv6 support</li>
+<li>Pipes, subprocesses, etc.</li>
+<li>Standard library (no 3rd party dependency)</li>
+<li>Almost pure python</li>
+</ul>
+</section>
+<section id="architecture" class="slide level2">
+<h1>Architecture</h1>
+<ul>
+<li>Coroutines, Futures, Tasks</li>
+<li>Event loop</li>
+<li>Transport &amp; Protocols</li>
+</ul>
+</section>
+<section id="coroutines-et-all" class="slide level2">
+<h1>Coroutines et all</h1>
+<ul>
+<li>Coroutines - <code>@coroutine</code> &amp; <code>yield from</code></li>
+<li>Future - object with result</li>
+<li>Task - variant (subclass) of a coroutine</li>
+</ul>
+</section>
+<section id="event-loop" class="slide level2">
+<h1>Event loop</h1>
+<ul>
+<li>Multiplexes different activities</li>
+<li>Managing:
+<ul>
+<li><code>get_event_loop</code></li>
+<li><code>set_event_loop</code></li>
+<li><code>new_event_loop</code></li>
+<li><code>stop</code></li>
+<li><code>close</code></li>
+<li><code>is_running</code></li>
+</ul></li>
+<li>No nested loops</li>
+</ul>
+</section>
+<section id="event-loop-1" class="slide level2">
+<h1>Event loop</h1>
+<ul>
+<li>Coroutines:
+<ul>
+<li><code>run_forever</code></li>
+<li><code>run_until_complete</code></li>
+</ul></li>
+<li>Callbacks:
+<ul>
+<li><code>call_soon</code></li>
+<li><code>call_later</code></li>
+<li><code>call_at</code></li>
+<li><em>No repeated callback</em></li>
+</ul></li>
+</ul>
+</section>
+<section id="transport-protocol" class="slide level2">
+<h1>Transport &amp; Protocol</h1>
+<ul>
+<li>Transport -&gt; socket, pipe</li>
+<li>Protocol -&gt; your application</li>
+<li>Client &amp; server</li>
+</ul>
+</section>
+<section id="examples" class="slide level2">
+<h1>Examples</h1>
+</section>
+<section id="pros-cons" class="slide level2">
+<h1>Pros &amp; Cons</h1>
+<p><img src="img/turtlerabbit.png" alt="Turtle vs. Rabbit" /> </p>
+</section>
+<section id="pros-cons-1" class="slide level2">
+<h1>Pros &amp; Cons</h1>
+<ul>
+<li>small memory footprint</li>
+<li>~ fast I/0</li>
+<li><p>python built-in</p></li>
+<li>young project</li>
+<li><p>python 3.4+</p></li>
+</ul>
+</section>
+<section id="summary" class="slide level2">
+<h1>Summary</h1>
+<ul>
+<li>python 3.4+</li>
+<li>https://code.google.com/p/tulip/</li>
+<li>https://groups.google.com/forum/?fromgroups#!forum/python-tulip</li>
+<li>http://www.python.org/dev/peps/pep-3156/</li>
+<li>http://www.youtube.com/watch?v=1coLC-MUCJc</li>
+<li>http://www.youtube.com/watch?v=c7D63mqCs5Y</li>
+</ul>
+</section>
+<section id="questions" class="slide level2">
+<h1>Questions?</h1>
+<p><img src="img/questions.png" alt="Questions" /><br /></p>
+<h4 id="maciej-szulik-1">Maciej Szulik</h4>
+<h4 id="soltysh-1">soltysh @ <i class="fa-twitter"></i><i class="fa-github"></i><i class="fa-bitbucket"></i></h4>
+</section>
+    </div>
+  </div>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/head.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/js/reveal.min.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        theme: 'solarized', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+//          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+  </body>
+</html>
