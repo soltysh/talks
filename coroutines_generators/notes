@@ -1,0 +1,48 @@
+Journey to the center of asynchronous world
+-------------------------------------------
+
+Abstract
+--------
+Prepare yourself for an amazing journey into one of python's most talked
+features. We'll start our journey with looking into iteration protocol, then
+later smoothly transfer ourself into generators as a major simplification in
+iteration. Our journey will be full of simple yet very descriptive examples,
+which should help you understand the basics as well as more advanced details of
+this topic. Diving deeper we'll explore how we can use generators to create
+coroutines with various examples from wide range of fields, including
+concurrency. Finally we'll reach to the heart of our talk - asynchronous IO,
+the library introduced in python 3.4 with all it's pros and cons.
+Interested? Join us on this unique journey...
+
+Rough plan
+----------
+1. Introduction:
+    - plan presentation
+    - short info about myself
+    - promote using newest available python - *use the latet possible*!
+2. Iterators and Generators:
+    - iteration
+    - iteration protocol
+    - generators introduction
+    - deep dive into how generators work - python internals explanation
+    - generators vs. iterators
+    - generator expression
+    - Example!
+    - pipelining generators philosophy similar to unix pipelining
+    - consumer - producer
+    - shutting generators down
+    - a word about how to go from generator to co-routine
+    - coroutines pipelines
+    - problems: error handling, debugging, component interconections
+
+Reference
+---------
+* Python Cookbook, 3rd Edition, David M. Beazley
+* Python Essential Reference, 4th Edition, David M. Beazley
+  (http://www.amazon.com/Python-Essential-Reference-Developers-Library/dp/0672329786)
+
+Links
+-----
+* http://www.dabeaz.com/generators/
+* http://www.dabeaz.com/coroutines/
+* http://www.dabeaz.com/finalgenerator/
