@@ -252,6 +252,18 @@ fut.add_done_callback(handle_result)
 
 If exeception will happend it will return when getting the result.
 
-See twisted callbacks.
+So above solution has 2 possibilities, either wait for the result or
+create a callback function.
 
-start at 32:00
+
+!!! Think about adding Task thing from presentation ~42min.
+
+Must be Task, as this is how asyncio works.
+
+yield from generator is basically transfering control to subgenerators.
+
+Don't forget to add example how to bypass sys.getrecursionlimit() which is 1000,
+using Task and recursive function. As well as to show that even though we're using
+ThreadPoolExecutor we are doing job faster, no GIL problem!
+
+ended @ 1:16:30
