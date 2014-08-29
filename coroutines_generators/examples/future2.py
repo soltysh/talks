@@ -16,6 +16,9 @@ if __name__ == '__main__':
     pool = ThreadPoolExecutor(8)
     # and than we can submit the task to it
     fut = pool.submit(executor, 2, 3)
-    # and get the result
-    print(fut.result())
-    print("We're blocked until we get the result...")
+    # and the callback function as well
+    fut.add_done_callback(handle_result)
+    # to prove that we still have control in main thread
+    for i in range(20):
+        time.sleep(1)
+        print(".", end="", flush=True)
