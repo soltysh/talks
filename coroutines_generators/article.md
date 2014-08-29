@@ -1,13 +1,13 @@
-One of the hottest topics, most frequently mentioned since python3.4 was
-introduced as asyncio module, introduced with [PEP 3156](http://legacy.python.org/dev/peps/pep-3156/).
+One of the hottest topics, most frequently mentioned, since python3.4 was
+introduced is asyncio module, introduced in [PEP 3156](http://legacy.python.org/dev/peps/pep-3156/).
 In the following article I'll try to show you some cool stuff that lies at the
-core of this module. Before we dig in, one warning, most of the samples
+core of this module. But before we dig in, one warning, most of the samples
 presented in this article are written with python3.4 in mind, so make sure
 to use at least that version when running examples which are available at
-[my github account](http://github.com/soltysh/talks/coroutines_generators/examples).
+[my github account](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples).
 
 Let's start with this sample piece of code
-[generator1.py](http://github.com/soltysh/talks/coroutines_generators/examples/generator1.py):
+[generator1.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/generator1.py):
 
 ```
 def countdown(n):
@@ -64,7 +64,7 @@ TODO:
 !!!Generators as pipelines -> explored in 1st tutorial, must be here!!!
 
 What's probably lesser known fact, is that `yield` statement can be used
-to receive values. See [generator2.py](http://github.com/soltysh/talks/coroutines_generators/examples/generator2.py):
+to receive values. See [generator2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/generator2.py):
 
 ```
 def receiver():
@@ -109,7 +109,7 @@ it'll return *generator object*, which provides following operations:
 
 In Python 3.4 specifically you can have both `yield` and `return` statement,
 in previous python versions that was syntax error. Currently if you write
-[generator3.py](http://github.com/soltysh/talks/coroutines_generators/examples/generator3.py)
+[generator3.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/generator3.py)
 
 ```
 def returnyield(x):
@@ -140,7 +140,7 @@ Interesting isn't it?
 Let's move forward than. [PEP 380](http://legacy.python.org/dev/peps/pep-0380/)
 introduced the concept of generator delegation. This basically means that
 instead of manually iterating, we're passing the generation to other function.
-As it is presented in [yieldfrom.py](http://github.com/soltysh/talks/coroutines_generators/examples/yieldfrom.py):
+As it is presented in [yieldfrom.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/yieldfrom.py):
 
 ```
 def yieldfrom(x, y):
@@ -188,7 +188,7 @@ which are basically normal objects implementing two methods:
 * `__exit__(self, exc, val, tb)` - release the object, or handle the exception
 
 We can create sample context manager for working with temporary directory as
-follows [contextmanager1.py](http://github.com/soltysh/talks/coroutines_generators/examples/contextmanager1.py):
+follows [contextmanager1.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/contextmanager1.py):
 
 ```
 class tempdir(object):
@@ -206,7 +206,7 @@ This sample context manager will create a temporary directory, which name we
 print and then check for it's existence.
 
 Thanks to our awesome `yield` keyword the same code can be rewritten as following
-[contextmanager2.py](http://github.com/soltysh/talks/coroutines_generators/examples/contextmanager2.py):
+[contextmanager2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/contextmanager2.py):
 
 ```
 @contextmanager
@@ -240,7 +240,7 @@ Finally we've reached our final part - asynchronous processing. The usual way
 of processing in those cases as as follows: we have some main thread, in it
 we run some asynchronous function, and after some time we reach for the results.
 This very common programming pattern can be presented with following code,
-[future1.py](http://github.com/soltysh/talks/coroutines_generators/examples/future1.py):
+[future1.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/future1.py):
 
 ```
 def executor(x, y):
@@ -256,7 +256,7 @@ Above code basically runs in a different thread, and you can either wait for the
 execution to finish or create a callback function that will take care of the
 result. Waiting means blocking we're blocked until we get the result, but the
 latter means we still have control in main thread and the result will get back
-to us when it's ready, [future2.py](http://github.com/soltysh/talks/coroutines_generators/examples/future2.py):
+to us when it's ready, [future2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/future2.py):
 
 ```
 def handle_result(result):
