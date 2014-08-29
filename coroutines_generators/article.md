@@ -1,5 +1,13 @@
+One of the hottest topics, most frequently mentioned since python3.4 was
+introduced as asyncio module, introduced with PEP 3156. In the following
+article I'll try to show you some cool stuff that lies at the core of this
+module. Before we dig in, one warning, most of the samples presented in this
+article are written with python3.4 in mind, so make sure to use at least
+that version when running examples which are available at
+[my github account](http://github.com/soltysh/talks/coroutines_generators/examples).
 
-Typical generator function, using `yield` statement:
+Let's start with this sample piece of code
+[generator.py](http://github.com/soltysh/talks/coroutines_generators/examples/generator.py):
 
 ```
 def countdown(n):
@@ -8,160 +16,178 @@ def countdown(n):
         n =- 1
 ```
 
-Typical usage:
+As you've probably noticed this is the simplest generator function you
+can think of. It's typical usage is as following:
 
 ```
 for x in countdown(10):
-    print("We've got ", x)
+    print("Got ", x)
 ```
 
-Basically every function written using yield statement is a generator, which
-can than be used to feed all kinds of loops and iterations.
-
-Under the cover iteration calls `next()` to get the next value from generator,
-until it reaches `StopIteration` exception.
+This basically print every number starting from 10 down to 1. We can conclude
+that every function written using yield statement is a generator, which
+can than be used to feed all kinds of loops and iterations. If we look under
+the cover this iteration calls `next()` to get the next value from generator,
+until it reaches `StopIteration` exception. We can ilustrate that with following
+piece of code:
 
 ```
->>> c = countdown(3)
->>> c
-<generator object countdown at 0x7f62b5c58090>
->>> next(c)
+c = countdown(3)
+print(c)
+next(c)
+next(c)
+next(c)
+next(c)
+```
+
+The result of running this code is:
+
+```
+<generator object countdown at 0x7f2b0fa7a0d0>
 3
->>> next(c)
 2
->>> next(c)
 1
->>> next(c)
+Traceback (most recent call last):
+  File "generator.py", line 21, in <module>
+    print(next(c))
+StopIteration
 Traceback (most recent call last):
   File "stdin", line 1, in ?
     print(next(c))
 StopIteration
+```
 
-This is just the beginning, and more is to come in a second.
+This is of course just the beginning, to make sure everybody will reach the
+samle level of knowledge. So expect more of the promised awesomeness to come.
 
-Generators as pipelines -> explored in 1st tutorial, must be here!!!!
+TODO:
+!!!Generators as pipelines -> explored in 1st tutorial, must be here!!!
 
-What's probably lesser known functionality is that `yield` statement can be used
-to receive values.
+What's probably lesser known fact, is that `yield` statement can be used
+to receive values. See [receiver.py](http://github.com/soltysh/talks/coroutines_generators/examples/receiver.py):
 
 ```
 def receiver():
     while True:
         item = yield
         print("Got: ", item)
+
+c = receiver()
+print(c)
+next(c)
+c.send(43)
+c.send([1, 2, 3])
+c.send("Hello")
 ```
 
+Output of this code is following:
+
 ```
->>> c = receiver()
->>> c
-<generator object countdown at 0x7f62b5c58090>
->>> next(c)
->>> c.send(43)
-('Got: ', 43)
->>> c.send([1, 2, 3])
-('Got: ', [1, 2, 3])
->>> c.send("Hello")
-('Got: ', 'Hello')
+<generator object receiver at 0x7f1690d88f58>
+Got:  43
+Got:  [1, 2, 3]
+Got:  Hello
 ```
 
-These are called couroutines -> explored in 2nd tutorial, must be here!!!
+TODO:
+!!!These are called couroutines -> explored in 2nd tutorial, must be here!!!
 
-*Any* function having `yield` statement in it's body is actually generator,
-it's not gonna to execute, it'll return *generator object*. Starting from here
-you can do following operations:
-* `next()` - advance code to `yield` statement and emit value, if such  was passed
-  as a parameter, that's the only operation you can call after creating generator.
-* `send()` - sends value to `yield` statement making it produce value instead of
-  emitting, remember to call `next()` beforehand
-* `close()` - closing generator is a way to inform it that it should finish his work,
-  it generates `GeneartorExit` exception upon calling `yield` statement
-* `throw()` - give you opportunity to send an error to generator upon call to `yield`
-  statement
+So at this point we can conclude that *any* function having `yield` statement
+in it's body is actually generator. Meaning it's not gonna to execute, but
+it'll return *generator object*, which provides following operations:
+* `next()` - advance code to `yield` statement and emit value, if such was
+  passed as a parameter. That's the *only* operation you can call after
+  creating generator.
+* `send()` - sends value to `yield` statement making it produce value instead
+  of emitting. *Remember* to call `next()` beforehand.
+* `close()` - closing generator is a way to inform it that it should finish
+  his work. It generates `GeneartorExit` exception upon calling `yield`
+  statement.
+* `throw()` - gives you opportunity to send an error to generator upon call
+  to `yield` statement.
 
-In Python 3 you can have both `yield` and `return` statement, in previous python
-version that was syntax error. Currently it means
+
+In Python 3.4 specifically you can have both `yield` and `return` statement,
+in previous python versions that was syntax error. Currently if you write
+[returnyield.py](http://github.com/soltysh/talks/coroutines_generators/examples/returnyield.py)
 
 ```
 def returnyield(x):
-    """Using return in generator"""
     yield x
     return "Hi there"
+
+ry = returnyield(5)
+print(ry)
+print(next(ry))
+print(next(ry))
 ```
 
+Output of above code is following:
+
 ```
->>> ry = returnyield(5)
-<generator object returnyield at 0x7f0fb6335090>
->>> print(ry)
+<generator object returnyield at 0x7f27bf38bf58>
 5
->>> print(ry)
 Traceback (most recent call last):
-  File "returnyield.py", line 14, in <module>
+  File "returnyield.py", line 15, in <module>
     print(next(ry))
 StopIteration: Hi there
 ```
 
-Generator delegation, PEP-380 -> `yield from`
-You're passing the generation to other function.
+If you carefully study the output you'll notice that the value of the `return`
+statement was actually passed as value of the `StopIteration` exception.
+Interesting isn't it?
+
+Let's move forward than. PEP-380 introduced the concept of generator delegation.
+This basically means that instead of manually iterating, we're passing the
+generation to other function. As it is presented in
+[yieldfrom.py](http://github.com/soltysh/talks/coroutines_generators/examples/yieldfrom.py):
 
 ```
 def yieldfrom(x, y):
     yield from x
     yield from y
+
+x = [1, 2, 3]
+y = [4, 5, 6]
+for i in yieldfrom(x, y):
+     print(i, end=' ')
 ```
 
-```
->>> x = [1, 2, 3]
->>> y = [4, 5, 6]
->>> for i in yieldfrom(x, y):
-...     print(i)
-1
-2
-3
-4
-5
-6
-```
-
-These both `yield from` statements took values from both lists, consume them
-and spit them as it they were one list. So in it's simplest form these can
-be seen as hidden for loops, but soon you'll see there's more to it than just
-this. What else can be done from here is chaining meaning iteration can be
-delegated even further.
-
-If now we would create something like this:
+Expected output is series of number starting from 1 until 6. What happened here
+is that both these `yield from` statements took values from both lists, consume
+them and spit them as if they were one list. So in it's simplest form, these can
+be seen as hidden for loops, but soon you'll see there's more to it. What else
+can be done from here is chaining, meaning iteration can be delegated even
+further. Let's create something like this:
 
 ```
 for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
-    print(i, end=' ')
+    print(i, ' ')
 ```
 
 What this piece of code will do is, the outer most call will delegate iteration
-to the inner generators.
+to the inner generators and further down until we reach single value that will
+be yielded. The output is left as an exercise to the reader.
 
-
-I guess you are familliar with constructs such as those:
+Moving further ahead, I'm hoping the reader is familiar with these constructs:
 
 ```
 file = open()
-... # do some stuff with f
+# do some stuff with f
 file.close()
-```
 
-```
 lock.acquire()
-... # do some stuff with lock
+# do some stuff with lock
 lock.release()
 ```
 
-etc.
+These constructs are curretly nicely handled by context managers(TODO: pep#),
+which are basically normal objects implementing two methods:
+* `__enter__(self)` - star work with your object, returning it
+* `__exit__(self, exc, val, tb)` - release the object, or handle the exception
 
-These are nicely handled currently by ContextManagers, which are basically
-normal objects implementing two methods:
-* `__enter__(self)` - you're basically staring work with your object, returning it
-* `__exit__(self, exc, val, tb)` - you're releasing the object here, or handle
-  exception here
-
-So having a context manager such as this:
+We can create sample context manager for working with temporary directory as
+follows [contextmanager1.py](http://github.com/soltysh/talks/coroutines_generators/examples/contextmanager1.py):
 
 ```
 class tempdir(object):
@@ -170,18 +196,16 @@ class tempdir(object):
         return self.dirname
     def __exit__(self, exc, val, tb):
         shutil.rmtree(self.dirname)
-```
 
-Can be than run as:
-
-```
 with tempdir() as dirname:
     print(dirname, os.path.isdir(dirname))
 ```
 
-Which will return the temporary directory name and the result of a existance check.
+This sample context manager will create a temporary directory, which name we
+print and then check for it's existance.
 
-Exactly the same code can be rewriten as following:
+Thanks to our awesome `yield` keyword the same code can be rewriten as following
+[contextmanager2.py](http://github.com/soltysh/talks/coroutines_generators/examples/contextmanager2.py):
 
 ```
 @contextmanager
@@ -193,9 +217,14 @@ def tempdir():
         shutil.rmtree(dirname)
 ```
 
-And basically the usage is the same, the only difference is how you define your
-context manager. In the later example the decorator is creating the context
-manager for you.
+One will use this piece of code exactly the same way as previous context manager.
+The only difference is how you define your context manager. In the later example
+the decorator is creating the context manager for you, and `yield` returns the
+temporary directory. If you look under the cover you'll see that calling
+`tempdir()` in the first example will return `<__main__.tempdir object at 0x7f3e4778f5a0>`
+whereas the later `<contextlib._GeneratorContextManager object at 0x7fd94c7ce538>`.
+You see the difference? Let's than look under the hood of the `@contextmanager`
+decorator:
 
 Paste here code how @contextmanager decorator looks like!!!
 And be sure to check the overhead added by using @contextmanager.

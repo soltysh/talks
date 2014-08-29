@@ -13,5 +13,6 @@ def tempdir():
         shutil.rmtree(dirname)
 
 if __name__ == '__main__':
+    print(tempdir())
     with tempdir() as dirname:
         print(dirname, os.path.isdir(dirname))

@@ -10,7 +10,11 @@ if __name__ == '__main__':
     # iterate over function result
     for i in yieldfrom(a, b):
         print(i, end=' ')
+    else:
+        print('')
 
     # chain generator calls
     for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
         print(i, end=' ')
+    else:
+        print('')
