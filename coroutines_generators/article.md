@@ -276,10 +276,39 @@ returned when getting the result. Testing this will be left as an exercise to
 the reader.
 
 OK, we've reached a point where I've showed you a couple cool tricks with
-generators, but you may ask is it useful? What can we do about it? Let's than
+generators, but you may ask how it's useful? What can we do about it? Let's than
 move to the final part where I'll show you how using previous tricks we can
 bypass certain python limitations and create asyncio core functionality.
 
+Let's start with creating a task object, which is basically what I've showed
+just before, but this time, we'll pack the idea into a reusable object,
+[task.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/task.py):
+
+```
+class Task:
+    def __init__(self, gen):
+        self._gen = gen
+
+    def step(self, value=None):
+        try:
+            fut = self._gen.send(value)
+            fut.add_done_callback(self._wakeup)
+        except StopIteration as exc:
+            pass
+
+    def _wakeup(self, fut):
+        result = fut.result()
+        self.step(result)
+```
+
+If you look at the above you'll notice the code is almost identical to previous
+with one, with `ThreadPoolExecutor` placed inside of a sort of context manager
+class presented couple examples before. The only difference being method names,
+`step()` in place of `__enter__` and `_wakeup()` for `__exit__()`. What we have
+here actually, is a task object accepting generator as the only initialization
+parameter, with main function `step()` responsible for proceeding with
+execution to the next yield statement and a callback to do something with
+the result. So how you can use it
 
 !!! Think about adding Task thing from presentation ~42min.
 
