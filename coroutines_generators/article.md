@@ -1,16 +1,20 @@
 Journey to the center of the the asynchronous world
----------------------------------------------------
+===================================================
 
 Introduction
-============
+------------
 
-One of the hottest topics, most frequently mentioned, since python3.4 was
-introduced is asyncio module, introduced in [PEP 3156](http://legacy.python.org/dev/peps/pep-3156/).
+One of the hottest topics, most frequently mentioned since python3.4 was
+introduced is `asyncio` module, introduced in [PEP 3156](http://legacy.python.org/dev/peps/pep-3156/).
 In the following article I'll try to show you some cool stuff that lies at the
 core of this module. But before we dig in, one warning, most of the samples
-presented in this article are written with python3.4 in mind, so make sure
-to use at least that version when running examples which are available at
+presented in this article are written in python3.4, so make sure to use at
+least that version when running examples which are available at
 [my github account](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples).
+
+
+Generators
+----------
 
 Let's start with this sample piece of code
 [generator1.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/generator1.py):
@@ -34,8 +38,8 @@ This basically print every number starting from 10 down to 1. So we can conclude
 that every function written using `yield` statement is a generator, which
 can than be used to feed all kinds of loops and iterations. If we look under
 the cover this iteration calls `next()` to get the next value from generator,
-until it reaches `StopIteration` exception. We can illustrate that with following
-piece of code:
+until it reaches `StopIteration` exception. We can illustrate that with the
+following piece of code:
 
 ```
 c = countdown(3)
@@ -65,12 +69,9 @@ StopIteration
 
 This is of course just the beginning, to make sure everybody will reach the
 same level of knowledge. So expect more of the promised awesomeness to come.
-
-TODO:
-!!!Generators as pipelines -> explored in 1st tutorial, must be here!!!
-
-What's probably lesser known fact, is that `yield` statement can be used
-to receive values. See [generator2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/generator2.py):
+Let's than fast forward a little bit. What's probably lesser known fact, is
+that `yield` statement can be used to receive values,
+[generator2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/generator2.py):
 
 ```
 def receiver():
@@ -95,23 +96,22 @@ Got:  [1, 2, 3]
 Got:  Hello
 ```
 
-TODO:
-!!!These are called couroutines -> explored in 2nd tutorial, must be here!!!
-
-So at this point we can conclude that *any* function having `yield` statement
-in it's body is actually generator. Meaning it's not gonna to execute, but
-it'll return *generator object*, which provides following operations:
+This idea was introduced in [PEP 342](http://legacy.python.org/dev/peps/pep-0342/),
+where the idea of coroutines where introduced. This PEP extended the functionality
+of generators presented in the first example with possibility to also send values
+to the generators. So basically *any* function having `yield` statement in it's
+body is actually generator. Meaning it's not gonna to execute, but it'll return
+a *generator object*, which provides following operations:
 * `next()` - advance code to `yield` statement and emit value, if such was
   passed as a parameter. That's the *only* operation you can call after
-  creating generator.
+  creating the generator.
 * `send()` - sends value to `yield` statement making it produce value instead
   of emitting. *Remember* to call `next()` beforehand.
 * `close()` - closing generator is a way to inform it that it should finish
   his work. It generates `GeneartorExit` exception upon calling `yield`
   statement.
-* `throw()` - gives you opportunity to send an error to generator upon call
+* `throw()` - gives you the opportunity to send an error to generator upon call
   to `yield` statement.
-
 
 In Python 3.4 specifically you can have both `yield` and `return` statement,
 in previous python versions that was syntax error. Currently if you write,
@@ -143,10 +143,14 @@ If you carefully study the output you'll notice that the value of the `return`
 statement was actually passed as value of the `StopIteration` exception.
 Interesting isn't it?
 
-Let's move forward than. [PEP 380](http://legacy.python.org/dev/peps/pep-0380/)
-introduced the concept of generator delegation. This basically means that
-instead of manually iterating, we're passing the generation to sombody else,
-who will do it for us, as presented in
+
+Delegating to subgenerator
+--------------------------
+
+[PEP 380](http://legacy.python.org/dev/peps/pep-0380/) proposed the syntax for a
+generator to delegate part, or all, of its work to another generator. This
+basically means that instead of manually iterating, we're passing the generation
+to somebody else, who will do it for us, as presented in
 [yieldfrom.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/yieldfrom.py):
 
 ```
@@ -164,8 +168,8 @@ Expected output is series of number starting from 1 until 6. What happened here
 is that both these `yield from` statements took values from both lists, consume
 them and spit them as if they were one list. So in it's simplest form, these can
 be seen as hidden for loops, but soon you'll see there's more to it. What else
-can be done from here is chaining, meaning iteration can be delegated even
-further. Let's create something more complicated:
+can be done from here is generator chaining, meaning iteration can be delegated
+even further. Let's create something more complicated:
 
 ```
 for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
@@ -176,7 +180,12 @@ What this piece of code will do is, the outer most call will delegate iteration
 to the inner generators and further down until we reach single value that will
 be yielded.
 
-Moving further ahead, I'm hoping the reader is familiar with these constructs:
+
+Context managers
+----------------
+
+For some time we leave the generator and coroutines topic and look at something
+differen. I'm hoping the reader is familiar with these constructs:
 
 ```
 file = open()
@@ -191,7 +200,7 @@ lock.release()
 These constructs are currently nicely handled by context managers, introduced
 with `with` statement, see [PEP 343](http://legacy.python.org/dev/peps/pep-0343/),
 which are basically normal objects implementing two methods:
-* `__enter__(self)` - star work with your object, returning it
+* `__enter__(self)` - start work with your object, returning it
 * `__exit__(self, exc, val, tb)` - release the object, or handle the exception
 
 We can create sample context manager for working with temporary directory,
@@ -212,8 +221,8 @@ with tempdir() as dirname:
 This sample context manager will create a temporary directory, which name we
 print and then check for it's existence.
 
-Thanks to awesome python core devs, `yield` and `@contextmanager` the same code
-can be rewritten,
+Thanks to awesome python core devs, `yield` and `@contextmanager` decorator the
+above code can be rewritten as follows,
 [contextmanager2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/contextmanager2.py):
 
 ```
@@ -226,29 +235,28 @@ def tempdir():
         shutil.rmtree(dirname)
 ```
 
-One will use this piece of code exactly the same way as previous context manager.
+You will use this piece of code exactly the same way as previous context manager.
 The only difference is how you define your context manager. In the later example
 the decorator is creating the context manager for you, and `yield` returns the
 temporary directory. If you look under the cover you'll see that calling
 `tempdir()` in the first example will return `<__main__.tempdir object at 0x7f3e4778f5a0>`
 whereas the later `<contextlib._GeneratorContextManager object at 0x7fd94c7ce538>`.
 Do you see the difference? If you look under the cover of `@contextmanger`
-decorator you'll find out that what it does it sets up the `__enter__` and
-`__exit__` methods with some additional error checking for you, see
+decorator you'll find out that what it does it sets up the `__enter__()` and
+`__exit__()` methods, with some additional error checking, for you, see
 [contextlib.py#96](http://hg.python.org/cpython/file/3.4/Lib/contextlib.py#l96).
-For those of you concerned about performance, I've tested it and the decorator
-solution runs ~9% slower than it's class counterpart. But think how much the
+For those of you concerned about performance, my test shows the decorator
+solution runs ~9% slower than it's class counterpart. But think of how much the
 decorator solution is easier to read.
 
-<!--
-The purpose of this decorator is to simplify write context managers. More of
-this in a minute...
- -->
+
+Thread pools
+------------
 
 Finally we've reached the last part - asynchronous processing. The usual way
 of processing in those cases is: we have some main thread, in it we run some
 asynchronous function, and after some time we reach for the results.
-This very common programming pattern can be presented with following code,
+This very common programming pattern can be presented with the following code,
 [future1.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/future1.py):
 
 ```
@@ -261,11 +269,11 @@ fut = pool.submit(executor, 2, 3)
 fut.result()
 ```
 
-Above code basically runs in a different thread, and you can either wait for the
-execution to finish or create a callback function that will take care of the
-result. Waiting means blocking we're blocked until we get the result, but the
-latter means we still have control in main thread and the result will get back
-to us when it's ready, [future2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/future2.py):
+Above code basically runs in a different thread, but we're blocked until we get
+the result. The next example shows how to use callback functions that will
+return when the result is ready, whereas in the meantime we still have control
+over the main thread,
+[future2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/future2.py):
 
 ```
 def handle_result(result):
@@ -281,13 +289,17 @@ Quick note, if exception will happen inside the executor method it will be
 returned when getting the result. Testing this will be left as an exercise to
 the reader.
 
+
+`asyncio` basics
+----------------
+
 OK, we've reached a point where I've showed you a couple cool tricks with
 generators, but you may ask how it's useful? What can we do about it? Let's than
 move to the final part where I'll show you how using previous parts we can
 bypass certain python limitations and create asyncio core functionality.
 
 Let's start with creating a task object, which is basically what I've showed
-just before, but this time, we'll pack the idea into a reusable object,
+just before, but this time, we'll put the idea into a reusable object,
 [task1.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/task1.py):
 
 ```
@@ -307,15 +319,15 @@ class Task:
         self.step(result)
 ```
 
-If you look at the code you'll notice it is almost identical to previous one
-placed inside of a sort of context manager class presented couple examples
-before. The only difference being method names, `step()` in place of `__enter__`
-and `_wakeup()` for `__exit__()`. What we have here actually, is a task object
-accepting generator as the only initialization parameter, with main function
-`step()` responsible for advancing the generator to the next yield statement,
-sending in a value and a callback to do something with the result. There's also
-one little trick at the end of attached callback method called `_wakup()` where
-we feed ourselves with the result to proceed execution to the next `yield`
+If you look at the code you'll notice it is almost identical to the previous
+one, but placed inside of some sort of a context manager class. The only
+difference being method names, `step()` in place of `__enter__()` and `_wakeup()`
+for `__exit__()`. What we have here actually, is a task object accepting
+generator as the only initialization parameter, with main function `step()`
+responsible for advancing the generator to the next `yield` statement, sending
+in a value and a callback to do something with the result. There's also one
+little trick at the end of attached callback method called `_wakup()` where we
+feed ourselves with the result to proceed execution to the next `yield`
 statement.
 
 So let's create a recursive function, to show that using above tricks we can
@@ -330,7 +342,7 @@ def recursive(pool, n):
 ```
 
 If you run it long enough, you'll notice that using this little trick python
-doesn't have any more stack limit. What's more the execution does not provide
+doesn't have any more stack limit. What's more, the execution does not provide
 any overhead when run.
 
 There's still one more modification to our `Task` object I'd like to show you.
@@ -369,14 +381,26 @@ No we can use the `Task` object to do some intensive calculation and then
 retrieve the result [task2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/task2.py).
 
 
-
-
 Summary
-=======
+-------
 
-Careful reader might say, it's summary already but you've promised to show how
-`asyncio` internals look like. But I did, the last example of the `Task` object
-is almost exactly the same as the one in `asyncio` library see
-[tasks.py#25](http://hg.python.org/cpython/file/3.4/Lib/asyncio/tasks.py#l25).
+Careful reader might say, it is summary already but you've promised to show how
+`asyncio` internals look like. But I just did that, the last example of the `Task`
+object is almost exactly the same as the one in `asyncio` library see
+[tasks.py#25](http://hg.python.org/cpython/file/3.4/Lib/asyncio/tasks.py#l25),
+with more error handling and most importantly some additional useful function
+that hide implementation details from users to make it easier to use. And of
+course there's also the most important thing which is the event loop being the
+core runner instead of thread pools.
 
-Task - user can add exception handling!
+Hopefully this article made you eager to get more for more generators. If so I
+highly recommend reading David Beazley's trilogy in this topic:
+
+1. [Generator Tricks for Systems Programmers](http://www.dabeaz.com/generators/)
+2. [A Curious Course on Coroutines and Concurrency](http://www.dabeaz.com/coroutines/)
+3. [Generators: The Final Frontier](http://www.dabeaz.com/finalgenerator/)
+
+I also would like to thank him for giving me the chance to use his materials as
+an input for my article and presentation. So definitely you should checkout
+above trilogy as well as his awesome mind-blowing book
+[Python Cookbook](http://shop.oreilly.com/product/0636920027072.do).
