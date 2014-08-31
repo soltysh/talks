@@ -1,3 +1,9 @@
+Journey to the center of the the asynchronous world
+---------------------------------------------------
+
+Introduction
+============
+
 One of the hottest topics, most frequently mentioned, since python3.4 was
 introduced is asyncio module, introduced in [PEP 3156](http://legacy.python.org/dev/peps/pep-3156/).
 In the following article I'll try to show you some cool stuff that lies at the
@@ -229,7 +235,7 @@ whereas the later `<contextlib._GeneratorContextManager object at 0x7fd94c7ce538
 Do you see the difference? If you look under the cover of `@contextmanger`
 decorator you'll find out that what it does it sets up the `__enter__` and
 `__exit__` methods with some additional error checking for you, see
-[contextlib.py#96](http://hg.python.org/cpython/file/ab81b4cdc33c/Lib/contextlib.py#l96).
+[contextlib.py#96](http://hg.python.org/cpython/file/3.4/Lib/contextlib.py#l96).
 For those of you concerned about performance, I've tested it and the decorator
 solution runs ~9% slower than it's class counterpart. But think how much the
 decorator solution is easier to read.
@@ -277,12 +283,12 @@ the reader.
 
 OK, we've reached a point where I've showed you a couple cool tricks with
 generators, but you may ask how it's useful? What can we do about it? Let's than
-move to the final part where I'll show you how using previous tricks we can
+move to the final part where I'll show you how using previous parts we can
 bypass certain python limitations and create asyncio core functionality.
 
 Let's start with creating a task object, which is basically what I've showed
 just before, but this time, we'll pack the idea into a reusable object,
-[task.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/task.py):
+[task1.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/task1.py):
 
 ```
 class Task:
@@ -301,25 +307,76 @@ class Task:
         self.step(result)
 ```
 
-If you look at the above you'll notice the code is almost identical to previous
-with one, with `ThreadPoolExecutor` placed inside of a sort of context manager
-class presented couple examples before. The only difference being method names,
-`step()` in place of `__enter__` and `_wakeup()` for `__exit__()`. What we have
-here actually, is a task object accepting generator as the only initialization
-parameter, with main function `step()` responsible for proceeding with
-execution to the next yield statement and a callback to do something with
-the result. So how you can use it
+If you look at the code you'll notice it is almost identical to previous one
+placed inside of a sort of context manager class presented couple examples
+before. The only difference being method names, `step()` in place of `__enter__`
+and `_wakeup()` for `__exit__()`. What we have here actually, is a task object
+accepting generator as the only initialization parameter, with main function
+`step()` responsible for advancing the generator to the next yield statement,
+sending in a value and a callback to do something with the result. There's also
+one little trick at the end of attached callback method called `_wakup()` where
+we feed ourselves with the result to proceed execution to the next `yield`
+statement.
 
-!!! Think about adding Task thing from presentation ~42min.
+So let's create a recursive function, to show that using above tricks we can
+bypass python's recursion limit which by default is
+[1000](http://hg.python.org/cpython/file/c30163548f64/Python/ceval.c#l687).
 
-Must be Task, as this is how asyncio works.
+```
+def recursive(pool, n):
+    yield pool.submit(time.sleep, 0.001)
+    print(n)
+    Task(recursive(pool, n+1)).step()
+```
 
-Check http://legacy.python.org/dev/peps/pep-0342/
+If you run it long enough, you'll notice that using this little trick python
+doesn't have any more stack limit. What's more the execution does not provide
+any overhead when run.
 
-yield from generator is basically transferring control to subgenerators.
+There's still one more modification to our `Task` object I'd like to show you.
+So far this class can only process background tasks, but how to return something
+from that background task? Let's use `concurrent.futures.Future` object as a
+base class for our `Task`. To do it we need to do little python patching,
+meaning we need to make `Task` class to be iterable to be used inside `yield from`
+statement:
 
-Don't forget to add example how to bypass sys.getrecursionlimit() which is 1000,
-using Task and recursive function. As well as to show that even though we're using
-ThreadPoolExecutor we are doing job faster, no GIL problem!
+```
+def patch_future(cls):
+    def __iter__(self):
+        if not self.done():
+            yield self
+        return self.result()
+    cls.__iter__ = __iter__
+```
 
-ended @ 1:16:30
+And than we can properly modify our `Task` object to return the result:
+
+```
+class Task(Future):                     # <--
+
+    def __init__(self, gen):
+        super().__init__()              # <--
+        self._gen = gen
+
+    def step(self, value=None):
+        try:
+            ...
+        except StopIteration as exc:
+            self.set_result(exc.value)  # <--
+```
+
+No we can use the `Task` object to do some intensive calculation and then
+retrieve the result [task2.py](https://github.com/soltysh/talks/tree/master/coroutines_generators/examples/task2.py).
+
+
+
+
+Summary
+=======
+
+Careful reader might say, it's summary already but you've promised to show how
+`asyncio` internals look like. But I did, the last example of the `Task` object
+is almost exactly the same as the one in `asyncio` library see
+[tasks.py#25](http://hg.python.org/cpython/file/3.4/Lib/asyncio/tasks.py#l25).
+
+Task - user can add exception handling!

@@ -1,23 +1,45 @@
-from task import Task
 from concurrent.futures import ThreadPoolExecutor
 import time
 
-def executor(x, y):
-    """Execution of very complex task asynchronously"""
-    print("I'm going to sleep for a while...")
-    time.sleep(10)
-    return x + y
+class Task:
+    """Task class wraps around and represents a running generator."""
 
-def do_executor(pool, x, y):
-    result = yield pool.submit(executor, x, y)
-    print("Got:", result)
+    def __init__(self, gen):
+        """Initialize task object with generator."""
+        self._gen = gen
+
+    def step(self, value=None):
+        """Advance the generator to the next yield, sending in a value."""
+        try:
+            fut = self._gen.send(value)
+            # attach callback to the produced future
+            fut.add_done_callback(self._wakeup)
+        except StopIteration as exc:
+            pass
+
+    def _wakeup(self, fut):
+        """Callback function called in response to receiving result."""
+        result = fut.result()
+        # this little trick will allow us to run to the next yield
+        self.step(result)
+
+def recursive(pool, n):
+    """Recursive function, using yield statements."""
+    yield pool.submit(time.sleep, 0.001)
+    print(n)
+    # let's call create another object of ourselves and run it
+    # sort of recursion in a very weird way
+    Task(recursive(pool, n+1)).step()
+
 
 if __name__ == '__main__':
     # first we need to create pool executor
     pool = ThreadPoolExecutor(8)
-    # and than we can submit the task to it
-    Task(do_executor(pool, 2, 3)).step()
-    for i in range(20):
-        time.sleep(1)
-        print(".", end="", flush=True)
+
+    # now call our recursive function using the Task object
+    Task(recursive(pool, 0)).step()
+
+    # make sure we don't loose the input
+    while True:
+        pass
 

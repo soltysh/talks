@@ -1,5 +1,5 @@
-Journey to the center of the asynchronous world
------------------------------------------------
+Journey to the center of the the asynchronous world
+---------------------------------------------------
 
 Abstract
 --------
@@ -47,4 +47,8 @@ Links
 * http://www.dabeaz.com/coroutines/
 * http://www.dabeaz.com/finalgenerator/
 * http://kolodziejj.info/asyncio/
+* http://legacy.python.org/dev/peps/pep-0342/
+* http://legacy.python.org/dev/peps/pep-0343/
+* http://legacy.python.org/dev/peps/pep-3156/
+* http://legacy.python.org/dev/peps/pep-0380/
 
