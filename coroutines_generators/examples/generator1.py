@@ -1,6 +1,6 @@
 
 def countdown(n):
-    """The simples generator"""
+    """The simplest generator"""
     while n > 0:
         yield n
         n -= 1

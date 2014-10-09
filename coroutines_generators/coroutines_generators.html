@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Journey to the center of the the asynchronous world</title>
+  <meta name="author" content="Maciej Szulik">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/reveal.min.css"/>
+  <style type="text/css">
+    code{white-space: pre;}
+    .reveal i{font-family: 'FontAwesome'; font-style: normal;}
+    .reveal li{list-style-type: none;}
+  </style>
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/theme/simple.css" id="theme">
+  <link rel="stylesheet" media="print" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" />
+  <!--[if lt IE 9]>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/default.min.css" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <h1>Journey to the center of the the asynchronous world</h1>
+        <br />
+        <h3>Maciej Szulik</h3>
+        <h3>soltysh @ <i class="fa-twitter"></i>&nbsp;<i class="fa-github"></i>&nbsp;
+        <i class="fa-bitbucket"></i>&nbsp;<i class="fa-google"></i></h3>
+        <p>Szczyrk, 2014</p>
+      </section>
+
+      <section>
+        <h2>TOC</h2>
+          <ul>
+            <li>Introduction</li>
+            <li>Generators</li>
+            <li>Coroutines</li>
+            <li>Context managers</li>
+            <li>Asynchronous processing</li>
+            <li><code>asyncio</code> basics</li>
+            <li>Q &amp; A</li>
+          </ul>
+      </section>
+
+      <section>
+        <!-- put here some info about yourself up to 3 slides, see how others are doing this (PyCon PL + US) -->
+        <!-- diversity in many different languages lead me to Red Hat's OpenShift -->
+      </section>
+
+      <section data-background="img/movie_poster.jpg">
+      </section>
+
+      <section>
+        <section>
+          <pre><code class="python">
+def countdown(n):
+    while n > 0:
+        yield n
+        n -= 1
+          </code></pre>
+        </section>
+
+        <section>
+          <pre><code class="python">
+def countdown(n):
+    while n > 0:
+        yield n
+        n -= 1
+          </code></pre>
+          <pre><code class="python">
+for c in countdown(3):
+    print(c)
+          </code></pre>
+          <pre><code class="python">
+c = countdown(3)
+next(c)
+next(c)
+next(c)
+next(c) # throws StopIteration exception
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Generators</h2>
+          <!-- explain what Generators and Iteration protocol are, whith PEP -->
+          <!-- funny pic! -->
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <pre><code class="python">
+def receiver():
+    while True:
+        item = yield
+        print("Got: ", item)
+          </code></pre>
+        </section>
+
+        <section>
+          <pre><code class="python">
+def receiver():
+    while True:
+        item = yield
+        print("Got: ", item)
+          </code></pre>
+          <pre><code class="python">
+c = receiver()    # create the generator
+next(c)           # advance to yield
+c.send(43)        # sending values to generator
+c.send([1, 2, 3])
+c.send("Hello")
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Coroutines</h2>
+          <!-- explain here what coroutines are, as usual with PEP -->
+          <!-- funny pic! -->
+          <!-- Coroutines - generators on steroids -->
+        </section>
+
+        <section style="white-space: nowrap;">
+          <ul>
+            <li><code>next()</code> - advance code to the <code>yield</code> and emit a value</li>
+            <li><code>send()</code> - sends a value to the <code>yield</code>, making it produce a value</li>
+            <li><code>close()</code> - inform the generator that it should finish its work</li>
+            <li><code>throw()</code> - sends an error to generator</li>
+          </ul>
+        </section>
+
+        <section>
+          <pre><code class="python">
+def returnyield(x):
+    yield x
+    return "Hi there"
+          </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <pre><code class="python">
+def yieldfrom(x, y):
+    yield from x
+    yield from y
+          </code></pre>
+        </section>
+
+        <section>
+          <pre><code class="python">
+for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
+    print(i, ' ')
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Delegating to subgenerator</h2>
+          <!-- explain here the idea of delegation to subgenerator with PEP-380 -->
+          <!-- funny pic! -->
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <pre><code class="python">
+file = open()
+# do some stuff with file
+file.close()
+          </code></pre>
+          <pre><code class="python">
+lock.acquire()
+# do some stuff with lock
+lock.release()
+          </code></pre>
+        </section>
+
+        <section>
+          <pre><code class="python">
+file = open()
+# do some stuff with file
+file.close()
+          </code></pre>
+          <pre><code class="python">
+class tempdir(object):
+
+    def __enter__(self):
+        self.dirname = tempfile.mkdtemp()
+        return self.dirname
+
+    def __exit__(self, exc, val, tb):
+        shutil.rmtree(self.dirname)
+          </code></pre>
+        </section>
+
+        <section>
+          <pre><code class="python">
+class tempdir(object):
+    def __enter__(self):
+        self.dirname = tempfile.mkdtemp()
+        return self.dirname
+    def __exit__(self, exc, val, tb):
+        shutil.rmtree(self.dirname)
+          </code></pre>
+          <pre><code class="python">
+with tempdir() as dirname:
+    print(dirname, os.path.isdir(dirname))
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Context managers</h2>
+          <!-- explain what context managers are with PEP 343 -->
+          <!-- funny pic! -->
+        </section>
+
+        <section style="white-space: nowrap;">
+          <h2>Context managers</h2>
+          <ul>
+            <li><code>__enter__()</code> - start work with your object, returning it</li>
+            <li><code>__exit__()</code> - release the object, or handle the exception</li>
+        </section>
+
+        <section>
+          <pre><code class="python">
+class tempdir(object):
+    def __enter__(self):
+        self.dirname = tempfile.mkdtemp()
+        return self.dirname
+    def __exit__(self, exc, val, tb):
+        shutil.rmtree(self.dirname)
+          </code></pre>
+        </section>
+
+        <section>
+          <pre><code class="python">
+class tempdir(object):
+    def __enter__(self):
+        self.dirname = tempfile.mkdtemp()
+        return self.dirname
+          </code></pre>
+          <pre><code class="python">
+    def __exit__(self, exc, val, tb):
+        shutil.rmtree(self.dirname)
+          </code></pre>
+        </section>
+
+        <!-- try creating small transformation effect by striking unnecessary elements and adding new ones -->
+
+        <section>
+          <pre><code class="python">
+@contextmanager
+def tempdir():
+    dirname = tempfile.mkdtemp()
+    try:
+        yield dirname # the magic happens here
+    finally:
+        shutil.rmtree(dirname)
+          </code></pre>
+        </section>
+
+        <section>
+            <!-- here either you put the part of the code, or just show it to the audience live from contextlib.py-->
+        </section>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/head.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/js/reveal.min.js"></script>
+
+  <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: 'night', // available themes are in /css/theme
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        ]
+      });
+
+    </script>
+  </body>
+</html>
