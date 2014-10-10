@@ -1,0 +1,13 @@
+The future of OpenShift
+-----------------------
+
+In the mysterious land of PaaS, there's one I'd like you to have a closer look at,
+OpenShift from Red Hat. I'll try to show you how you can benefit from using it,
+starting with basic features to allow you to setup a small, homegrown project.
+Then you can scale it up with more advanced features, as your project grows into
+larger complexity software with high loads. Finally I'll cover transitioning to
+hosting your own OpenShift installation. More than that, I'll show you how you can also
+be part of that project. Afterwards we'll have a little peek at what's going on
+in the next generation of OpenShift, and what Docker and Kubernetes are doing
+there. We'll have a live demo to see how simple and developer friendly this new
+version is going to be.
