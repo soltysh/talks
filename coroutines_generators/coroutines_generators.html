@@ -241,18 +241,16 @@ class tempdir(object):
 
         <section>
           <pre><code class="python">
-class tempdir(object):
-    def __enter__(self):
+<strike>class tempdir(object):</strike>
+    <strike>def __enter__(self):</strike>
         self.dirname = tempfile.mkdtemp()
-        return self.dirname
+        <strike>return</strike> yield self.dirname
           </code></pre>
           <pre><code class="python">
-    def __exit__(self, exc, val, tb):
+    <strike>def __exit__(self, exc, val, tb):</strike>
         shutil.rmtree(self.dirname)
           </code></pre>
         </section>
-
-        <!-- try creating small transformation effect by striking unnecessary elements and adding new ones -->
 
         <section>
           <pre><code class="python">
@@ -260,14 +258,40 @@ class tempdir(object):
 def tempdir():
     dirname = tempfile.mkdtemp()
     try:
-        yield dirname # the magic happens here
+        yield dirname
     finally:
         shutil.rmtree(dirname)
           </code></pre>
         </section>
 
         <section>
-            <!-- here either you put the part of the code, or just show it to the audience live from contextlib.py-->
+          <pre><code class="python">
+def contextmanager(func):
+    @wraps(func)
+    def helper(*args, **kwds):
+        return _GeneratorContextManager(func, *args, **kwds)
+    return helper
+          </code></pre>
+          <pre><code class="python">
+class _GeneratorContextManager(ContextDecorator):
+    # ...
+    def __enter__(self):
+        try:
+            return next(self.gen)
+        except StopIteration:
+            raise RuntimeError("generator didn't yield") from None
+
+    def __exit__(self, type, value, traceback):
+        if type is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return
+            else:
+                raise RuntimeError("generator didn't stop")
+        else:
+            # ...
+          </code></pre>
         </section>
       </section>
 
