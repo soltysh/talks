@@ -13,7 +13,6 @@
   <style type="text/css">
     code{white-space: pre;}
     .reveal i{font-family: 'FontAwesome'; font-style: normal;}
-    .reveal li{list-style-type: none;}
   </style>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/theme/simple.css" id="theme">
   <link rel="stylesheet" media="print" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" />
@@ -38,33 +37,38 @@
 
       <section>
         <h2>TOC</h2>
-          <ul>
-            <li>Introduction</li>
-            <li>Generators</li>
-            <li>Coroutines</li>
-            <li>Context managers</li>
-            <li>Asynchronous processing</li>
-            <li><code>asyncio</code> basics</li>
-            <li>Q &amp; A</li>
-          </ul>
+        <p>Introduction</p>
+        <p>Generators</p>
+        <p>Coroutines</p>
+        <p>Context managers</p>
+        <p>Asynchronous processing</p>
+        <p><code>asyncio</code> basics</p>
+        <p>Q &amp; A</p>
       </section>
 
       <section>
-        <!-- put here some info about yourself up to 3 slides, see how others are doing this (PyCon PL + US) -->
-        <!-- diversity in many different languages lead me to Red Hat's OpenShift -->
+        <h2>About me</h2>
+        <p>Programming &gt;10 years</p>
+        <p>C/C++, Java, JavaScript, Ruby, Bash, Go</p>
+      </section>
+
+      <section>
+        <h3>But I <i class="fa-heart"></i> Python</h3>
+        <img src="img/python.png" />
+      </section>
+
+      <section>
+        <h3>and I work for</h3>
+        <img src="img/shadowman.jpg" />
       </section>
 
       <section data-background="img/movie_poster.jpg">
       </section>
 
       <section>
-        <pre><code class="python">
-def countdown(n):
-    while n > 0:
-        yield n
-        n -= 1
-        </code></pre>
+        <img src="img/dave.jpg" />
       </section>
+
 
       <section>
         <pre><code class="python">
@@ -73,11 +77,11 @@ def countdown(n):
         yield n
         n -= 1
         </code></pre>
-        <pre><code class="python">
+        <pre class="fragment"><code class="python">
 for c in countdown(3):
     print(c)
         </code></pre>
-        <pre><code class="python">
+        <pre class="fragment"><code class="python">
 c = countdown(3)
 next(c)
 next(c)
@@ -86,10 +90,15 @@ next(c) # throws StopIteration exception
         </code></pre>
       </section>
 
-      <section>
-        <h2>Generators</h2>
-        <!-- explain what Generators and Iteration protocol are, whith PEP -->
-        <!-- funny pic! -->
+      <section data-background="img/yield.jpg">
+        <h3 class="fragment">
+          <p>Generators - <code>yield</code> - <a href="http://legacy.python.org/dev/peps/pep-0255/">PEP-255</a></p>
+          <p>Iterator protocol <a href="http://legacy.python.org/dev/peps/pep-0234/">PEP-234</a></p>
+        </h3>
+        <!--
+        http://stackoverflow.com/questions/1756096/understanding-generators-in-python
+        https://docs.python.org/3.1/reference/expressions.html#yield-expressions
+        -->
       </section>
 
       <section>
@@ -99,16 +108,7 @@ def receiver():
         item = yield
         print("Got: ", item)
         </code></pre>
-      </section>
-
-      <section>
-        <pre><code class="python">
-def receiver():
-    while True:
-        item = yield
-        print("Got: ", item)
-        </code></pre>
-        <pre><code class="python">
+        <pre class="fragment"><code class="python">
 c = receiver()    # create the generator
 next(c)           # advance to yield
 c.send(43)        # sending values to generator
@@ -117,20 +117,17 @@ c.send("Hello")
         </code></pre>
       </section>
 
-      <section>
-        <h2>Coroutines</h2>
-        <!-- explain here what coroutines are, as usual with PEP -->
-        <!-- funny pic! -->
-        <!-- Coroutines - generators on steroids -->
+      <section data-background="img/coroutines.png">
+        <h3 class="fragment">
+          Coroutines - generators on stereoids (<a href="http://legacy.python.org/dev/peps/pep-0342/">PEP-342</a>)
+        </h3>
       </section>
 
       <section style="white-space: nowrap;">
-        <ul>
-          <li><code>next()</code> - advance code to the <code>yield</code> and emit a value</li>
-          <li><code>send()</code> - sends a value to the <code>yield</code>, making it produce a value</li>
-          <li><code>close()</code> - inform the generator that it should finish its work</li>
-          <li><code>throw()</code> - sends an error to generator</li>
-        </ul>
+        <p><code>next()</code> - advance code to the <code>yield</code> and emit a value</p>
+        <p><code>send()</code> - sends a value to the <code>yield</code>, making it produce a value</p>
+        <p><code>close()</code> - inform the generator that it should finish its work</p>
+        <p><code>throw()</code> - sends an error to generator</p>
       </section>
 
       <section>
@@ -139,6 +136,9 @@ def returnyield(x):
     yield x
     return "Hi there"
         </code></pre>
+        <h3 class="fragment">
+          <i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;
+        </h3>
       </section>
 
       <section>
@@ -147,19 +147,16 @@ def yieldfrom(x, y):
     yield from x
     yield from y
         </code></pre>
-      </section>
-
-      <section>
-        <pre><code class="python">
+        <pre class="fragment"><code class="python">
 for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
     print(i, ' ')
         </code></pre>
       </section>
 
       <section>
-        <h2>Delegating to subgenerator</h2>
+        <h3>Delegating to subgenerator (<a href="http://legacy.python.org/dev/peps/pep-0380/">PEP-380</a>)</h3>
+        <img class="fragment" src="img/delegation.jpg" />
         <!-- explain here the idea of delegation to subgenerator with PEP-380 -->
-        <!-- funny pic! -->
       </section>
 
       <section>
@@ -209,16 +206,16 @@ with tempdir() as dirname:
       </section>
 
       <section>
-        <h2>Context managers</h2>
-        <!-- explain what context managers are with PEP 343 -->
-        <!-- funny pic! -->
+        <h3>
+          Context managers - <code>with</code> - <a href="http://legacy.python.org/dev/peps/pep-0343/">PEP-343</a>
+        </h3>
+        <img class="fragment" src="img/context_managers.jpg" />
       </section>
 
       <section style="white-space: nowrap;">
         <h2>Context managers</h2>
-        <ul>
-          <li><code>__enter__()</code> - start work with your object, returning it</li>
-          <li><code>__exit__()</code> - release the object, or handle the exception</li>
+        <p><code>__enter__()</code> - start work with your object, returning it</p>
+        <p><code>__exit__()</code> - release the object, or handle the exception</p>
       </section>
 
       <section>
@@ -352,23 +349,17 @@ def recursive(pool, n):
   <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/js/reveal.min.js"></script>
 
   <script>
-      // Full list of configuration options available here:
-      // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
         controls: true,
         progress: true,
         history: true,
         center: true,
-
-        theme: 'night', // available themes are in /css/theme
-        transition: 'none', // none/fade/slide/convex/concave/zoom
-
-        // Optional libraries used to extend on reveal.js
+        theme: 'night',
+        transition: 'none',
         dependencies: [
           { src: 'http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
         ]
       });
-
     </script>
   </body>
 </html>
