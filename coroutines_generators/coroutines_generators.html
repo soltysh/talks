@@ -58,137 +58,130 @@
       </section>
 
       <section>
-        <section>
-          <pre><code class="python">
+        <pre><code class="python">
 def countdown(n):
     while n > 0:
         yield n
         n -= 1
-          </code></pre>
-        </section>
+        </code></pre>
+      </section>
 
-        <section>
-          <pre><code class="python">
+      <section>
+        <pre><code class="python">
 def countdown(n):
     while n > 0:
         yield n
         n -= 1
-          </code></pre>
-          <pre><code class="python">
+        </code></pre>
+        <pre><code class="python">
 for c in countdown(3):
     print(c)
-          </code></pre>
-          <pre><code class="python">
+        </code></pre>
+        <pre><code class="python">
 c = countdown(3)
 next(c)
 next(c)
 next(c)
 next(c) # throws StopIteration exception
-          </code></pre>
-        </section>
-
-        <section>
-          <h2>Generators</h2>
-          <!-- explain what Generators and Iteration protocol are, whith PEP -->
-          <!-- funny pic! -->
-        </section>
+        </code></pre>
       </section>
 
       <section>
-        <section>
-          <pre><code class="python">
-def receiver():
-    while True:
-        item = yield
-        print("Got: ", item)
-          </code></pre>
-        </section>
+        <h2>Generators</h2>
+        <!-- explain what Generators and Iteration protocol are, whith PEP -->
+        <!-- funny pic! -->
+      </section>
 
-        <section>
-          <pre><code class="python">
+      <section>
+        <pre><code class="python">
 def receiver():
     while True:
         item = yield
         print("Got: ", item)
-          </code></pre>
-          <pre><code class="python">
+        </code></pre>
+      </section>
+
+      <section>
+        <pre><code class="python">
+def receiver():
+    while True:
+        item = yield
+        print("Got: ", item)
+        </code></pre>
+        <pre><code class="python">
 c = receiver()    # create the generator
 next(c)           # advance to yield
 c.send(43)        # sending values to generator
 c.send([1, 2, 3])
 c.send("Hello")
-          </code></pre>
-        </section>
+        </code></pre>
+      </section>
 
-        <section>
-          <h2>Coroutines</h2>
-          <!-- explain here what coroutines are, as usual with PEP -->
-          <!-- funny pic! -->
-          <!-- Coroutines - generators on steroids -->
-        </section>
+      <section>
+        <h2>Coroutines</h2>
+        <!-- explain here what coroutines are, as usual with PEP -->
+        <!-- funny pic! -->
+        <!-- Coroutines - generators on steroids -->
+      </section>
 
-        <section style="white-space: nowrap;">
-          <ul>
-            <li><code>next()</code> - advance code to the <code>yield</code> and emit a value</li>
-            <li><code>send()</code> - sends a value to the <code>yield</code>, making it produce a value</li>
-            <li><code>close()</code> - inform the generator that it should finish its work</li>
-            <li><code>throw()</code> - sends an error to generator</li>
-          </ul>
-        </section>
+      <section style="white-space: nowrap;">
+        <ul>
+          <li><code>next()</code> - advance code to the <code>yield</code> and emit a value</li>
+          <li><code>send()</code> - sends a value to the <code>yield</code>, making it produce a value</li>
+          <li><code>close()</code> - inform the generator that it should finish its work</li>
+          <li><code>throw()</code> - sends an error to generator</li>
+        </ul>
+      </section>
 
-        <section>
-          <pre><code class="python">
+      <section>
+        <pre><code class="python">
 def returnyield(x):
     yield x
     return "Hi there"
-          </code></pre>
-        </section>
+        </code></pre>
       </section>
 
       <section>
-        <section>
-          <pre><code class="python">
+        <pre><code class="python">
 def yieldfrom(x, y):
     yield from x
     yield from y
-          </code></pre>
-        </section>
-
-        <section>
-          <pre><code class="python">
-for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
-    print(i, ' ')
-          </code></pre>
-        </section>
-
-        <section>
-          <h2>Delegating to subgenerator</h2>
-          <!-- explain here the idea of delegation to subgenerator with PEP-380 -->
-          <!-- funny pic! -->
-        </section>
+        </code></pre>
       </section>
 
       <section>
-        <section>
-          <pre><code class="python">
+        <pre><code class="python">
+for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
+    print(i, ' ')
+        </code></pre>
+      </section>
+
+      <section>
+        <h2>Delegating to subgenerator</h2>
+        <!-- explain here the idea of delegation to subgenerator with PEP-380 -->
+        <!-- funny pic! -->
+      </section>
+
+      <section>
+        <pre><code class="python">
 file = open()
 # do some stuff with file
 file.close()
-          </code></pre>
-          <pre><code class="python">
+        </code></pre>
+        <pre><code class="python">
 lock.acquire()
 # do some stuff with lock
 lock.release()
-          </code></pre>
-        </section>
+        </code></pre>
+      </section>
 
-        <section>
-          <pre><code class="python">
+      <section>
+        <pre><code class="python">
 file = open()
 # do some stuff with file
 file.close()
-          </code></pre>
-          <pre><code class="python">
+        </code></pre>
+        <pre><code class="python">
 class tempdir(object):
 
     def __enter__(self):
@@ -197,63 +190,63 @@ class tempdir(object):
 
     def __exit__(self, exc, val, tb):
         shutil.rmtree(self.dirname)
-          </code></pre>
-        </section>
+        </code></pre>
+      </section>
 
-        <section>
-          <pre><code class="python">
+      <section>
+        <pre><code class="python">
 class tempdir(object):
     def __enter__(self):
         self.dirname = tempfile.mkdtemp()
         return self.dirname
     def __exit__(self, exc, val, tb):
         shutil.rmtree(self.dirname)
-          </code></pre>
-          <pre><code class="python">
+        </code></pre>
+        <pre><code class="python">
 with tempdir() as dirname:
     print(dirname, os.path.isdir(dirname))
-          </code></pre>
-        </section>
+        </code></pre>
+      </section>
 
-        <section>
-          <h2>Context managers</h2>
-          <!-- explain what context managers are with PEP 343 -->
-          <!-- funny pic! -->
-        </section>
+      <section>
+        <h2>Context managers</h2>
+        <!-- explain what context managers are with PEP 343 -->
+        <!-- funny pic! -->
+      </section>
 
-        <section style="white-space: nowrap;">
-          <h2>Context managers</h2>
-          <ul>
-            <li><code>__enter__()</code> - start work with your object, returning it</li>
-            <li><code>__exit__()</code> - release the object, or handle the exception</li>
-        </section>
+      <section style="white-space: nowrap;">
+        <h2>Context managers</h2>
+        <ul>
+          <li><code>__enter__()</code> - start work with your object, returning it</li>
+          <li><code>__exit__()</code> - release the object, or handle the exception</li>
+      </section>
 
-        <section>
-          <pre><code class="python">
+      <section>
+        <pre><code class="python">
 class tempdir(object):
     def __enter__(self):
         self.dirname = tempfile.mkdtemp()
         return self.dirname
     def __exit__(self, exc, val, tb):
         shutil.rmtree(self.dirname)
-          </code></pre>
-        </section>
+        </code></pre>
+      </section>
 
-        <section>
-          <pre><code class="python">
+      <section>
+        <pre><code class="python">
 <strike>class tempdir(object):</strike>
     <strike>def __enter__(self):</strike>
         self.dirname = tempfile.mkdtemp()
         <strike>return</strike> yield self.dirname
-          </code></pre>
-          <pre><code class="python">
+        </code></pre>
+        <pre><code class="python">
     <strike>def __exit__(self, exc, val, tb):</strike>
         shutil.rmtree(self.dirname)
-          </code></pre>
-        </section>
+        </code></pre>
+      </section>
 
-        <section>
-          <pre><code class="python">
+      <section>
+        <pre><code class="python">
 @contextmanager
 def tempdir():
     dirname = tempfile.mkdtemp()
@@ -261,18 +254,18 @@ def tempdir():
         yield dirname
     finally:
         shutil.rmtree(dirname)
-          </code></pre>
-        </section>
+        </code></pre>
+      </section>
 
-        <section>
-          <pre><code class="python">
+      <section>
+        <pre><code class="python">
 def contextmanager(func):
     @wraps(func)
     def helper(*args, **kwds):
         return _GeneratorContextManager(func, *args, **kwds)
     return helper
-          </code></pre>
-          <pre><code class="python">
+        </code></pre>
+        <pre><code class="python">
 class _GeneratorContextManager(ContextDecorator):
     # ...
     def __enter__(self):
@@ -291,8 +284,65 @@ class _GeneratorContextManager(ContextDecorator):
                 raise RuntimeError("generator didn't stop")
         else:
             # ...
-          </code></pre>
-        </section>
+        </code></pre>
+      </section>
+
+      <section>
+        <pre><code class="python">
+def executor(x, y):
+    time.sleep(10)
+    return x + y
+        </code></pre>
+        <pre><code class="python">
+pool = ThreadPoolExecutor(8)
+fut = pool.submit(executor, 2, 3)
+fut.result()
+        </code></pre>
+      </section>
+
+      <section>
+        <pre><code class="python">
+def executor(x, y):
+    time.sleep(10)
+    return x + y
+        </code></pre>
+        <pre><code class="python">
+def handle_result(result):
+    print("Got: ", result.result())
+        </code></pre>
+        <pre><code class="python">
+pool = ThreadPoolExecutor(8)
+fut = pool.submit(executor, 2, 3)
+fut.add_done_callback(handle_result)
+        </code></pre>
+      </section>
+
+      <section>
+        <pre><code class="python">
+class Task:
+    def __init__(self, gen):
+        self._gen = gen
+
+    def step(self, value=None):
+        try:
+            fut = self._gen.send(value)
+            fut.add_done_callback(self._wakeup)
+        except StopIteration as exc:
+            pass
+
+    def _wakeup(self, fut):
+        result = fut.result()
+        self.step(result)
+        </code></pre>
+      </section>
+
+      <section>
+        <pre><code class="python">
+def recursive(pool, n):
+    yield pool.submit(time.sleep, 0.001)
+    print(n)
+    Task(recursive(pool, n+1)).step()
+        </code></pre>
       </section>
 
     </div>
