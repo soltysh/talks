@@ -67,8 +67,12 @@
 
       <section>
         <img src="img/dave.jpg" />
-      </section>
 
+        <aside class="notes">
+          <p>~5 mins</p>
+          <p>Who is it?</p>
+        </aside>
+      </section>
 
       <section>
         <pre><code class="python">
@@ -170,6 +174,10 @@ lock.acquire()
 # do some stuff with lock
 lock.release()
         </code></pre>
+
+        <aside class="notes">
+          <p>~15 mins</p>
+        </aside>
       </section>
 
       <section>
@@ -295,6 +303,10 @@ pool = ThreadPoolExecutor(8)
 fut = pool.submit(executor, 2, 3)
 fut.result()
         </code></pre>
+
+        <aside class="notes">
+          <p>~25 mins</p>
+        </aside>
       </section>
 
       <section>
@@ -358,6 +370,7 @@ def recursive(pool, n):
         transition: 'none',
         dependencies: [
           { src: 'http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
         ]
       });
     </script>
