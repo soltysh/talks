@@ -44,6 +44,9 @@
         </aside>
       </section>
 
+      <section data-background="img/movie_poster.jpg">
+      </section>
+
       <section>
         <h2>TOC</h2>
         <p>About me</p>
@@ -69,17 +72,10 @@
       <section>
         <h3>and I work for</h3>
         <img src="img/redhat_openshift.png" />
-      </section>
-
-      <section data-background="img/movie_poster.jpg">
-      </section>
-
-      <section>
-        <img src="img/dave.jpg" />
 
         <aside class="notes">
           <p>~5 mins</p>
-          <p>Who is it?</p>
+          <p>OpnShift supports multiple languages, right?</p>
         </aside>
       </section>
 
@@ -105,13 +101,27 @@ next(c) # throws StopIteration exception
 
       <section data-background="img/yield.jpg">
         <h3 class="fragment">
+          <p>Iterator protocol - <a href="http://legacy.python.org/dev/peps/pep-0234/">PEP-234</a></p>
           <p>Generators - <code>yield</code> - <a href="http://legacy.python.org/dev/peps/pep-0255/">PEP-255</a></p>
-          <p>Iterator protocol <a href="http://legacy.python.org/dev/peps/pep-0234/">PEP-234</a></p>
         </h3>
-        <!--
-        http://stackoverflow.com/questions/1756096/understanding-generators-in-python
-        https://docs.python.org/3.1/reference/expressions.html#yield-expressions
-        -->
+
+        <aside class="notes">
+          <p>Iterator protocol states that An object can be iterated over with "for" if it implements
+          __iter__() or __getitem__(). And secondly an object can function as an iterator if it implements next().
+          </p>
+
+          <p>The execution starts when one of the generator’s methods is called. The execution proceeds
+          then to the first yield expression, where it is suspended, returning the value.
+          Suspended means here that all local state is retained, including the current bindings of
+          local variables, the instruction pointer, and the internal evaluation stack.
+          When the execution is resumed by calling one of the generator’s methods, the function can
+           proceed exactly as if the yield expression was just another external call.
+           The value of the yield expression after resuming depends on the method which resumed the execution.
+          </p>
+          <p>Example usage includes: generate list values on the fly instead of returning lists,
+          iterator replacement. It's the best way to describe big or even infinite data streams, which
+          wouldn't fit in memory otherwise.</p>
+        </aside>
       </section>
 
       <section>
@@ -131,27 +141,28 @@ c.send("Hello")
       </section>
 
       <section data-background="img/coroutines.png">
-        <h3 class="fragment">
-          Coroutines - generators on stereoids (<a href="http://legacy.python.org/dev/peps/pep-0342/">PEP-342</a>)
-        </h3>
+        <span class="fragment">
+          <h2>Coroutines</h2>
+          <h3>generators on steroids - <a href="http://legacy.python.org/dev/peps/pep-0342/">PEP-342</a></h3>
+        </span>
+
+        <aside class="notes">
+          Coroutines are computer program components that allow multiple entry points for suspending
+          and resuming execution at certain locations.
+          What then needed to be done with Python is to extend current generator implementation with
+          ability to send values into the generator. This in turn allows performing asynchronous
+          operations without needing to write the entire application as a series of callbacks, and
+          without requiring the use of resource-intensive threads for programs that need hundreds or
+          even thousands of co-operatively multitasking pseudothreads.
+        </aside>
       </section>
 
-      <section style="white-space: nowrap;">
+      <section>
+        <h3>Coroutine methods</h3>
         <p><code>next()</code> - advance code to the <code>yield</code> and emit a value</p>
         <p><code>send()</code> - sends a value to the <code>yield</code>, making it produce a value</p>
         <p><code>close()</code> - inform the generator that it should finish its work</p>
         <p><code>throw()</code> - sends an error to generator</p>
-      </section>
-
-      <section>
-        <pre><code class="python">
-def returnyield(x):
-    yield x
-    return "Hi there"
-        </code></pre>
-        <h3 class="fragment">
-          <i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;
-        </h3>
       </section>
 
       <section>
@@ -169,8 +180,32 @@ for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
       <section>
         <h3>Delegating to subgenerator (<a href="http://legacy.python.org/dev/peps/pep-0380/">PEP-380</a>)</h3>
         <img class="fragment" src="img/delegation.jpg" />
-        <!-- explain here the idea of delegation to subgenerator with PEP-380 -->
+
+        <aside class="notes">
+          Prior to this delegation there was no option to reuse code with generator inside other generator.
+          That was changed in PEP-380 to allow factoring out these bits of code into separate functions.
+          All this changes were made to simplify writing asynchronous code, so basically these are
+          foundations for asyncio.
+        </aside>
       </section>
+
+      <section>
+        <pre><code class="python">
+def returnyield(x):
+    yield x
+    return "Hi there"
+        </code></pre>
+        <h3 class="fragment">
+          <i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;
+        </h3>
+
+        <aside class="notes">
+          <p>The before mentioned PEP-380 also introduced this enhancement, question: what does this
+          piece of code return?</p>
+          <p>Answer: the return statement is passed as value to the StopIteration exception.</p>
+        </aside>
+      </section>
+
 
       <section>
         <pre><code class="python">
@@ -227,6 +262,10 @@ with tempdir() as dirname:
           Context managers - <code>with</code> - <a href="http://legacy.python.org/dev/peps/pep-0343/">PEP-343</a>
         </h3>
         <img class="fragment" src="img/context_managers.jpg" />
+
+        <aside class="notes">
+          The idea is to simplify repetitive operations, that an be unified.
+        </aside>
       </section>
 
       <section style="white-space: nowrap;">
@@ -244,6 +283,11 @@ class tempdir(object):
     def __exit__(self, exc, val, tb):
         shutil.rmtree(self.dirname)
         </code></pre>
+
+        <aside class="notes">
+          Although this piece of code is not that hard to write, but in a way it's cumbersome to write.
+          Isn't there a better and simpler solution?
+        </aside>
       </section>
 
       <section>
@@ -299,6 +343,14 @@ class _GeneratorContextManager(ContextDecorator):
         else:
             # ...
         </code></pre>
+
+        <aside class="notes">
+          This is part of the code from contextlib.py that's responsible for handling the decorator.
+          The performance of the decorator is ~9% slower, but the gain in readability is much bigger.
+        </aside>
+      </section>
+
+      <section data-background="img/async.png">
       </section>
 
       <section>
@@ -307,14 +359,16 @@ def executor(x, y):
     time.sleep(10)
     return x + y
         </code></pre>
-        <pre><code class="python">
+        <pre class="fragment"><code class="python">
 pool = ThreadPoolExecutor(8)
 fut = pool.submit(executor, 2, 3)
 fut.result()
         </code></pre>
 
         <aside class="notes">
-          <p>~25 mins</p>
+          <p>~30 mins</p>
+          <p>Prior to asyncio when writing asynchronous code of any sort you'd write a super complicated
+          function and put it into some sort of executor.
         </aside>
       </section>
 
@@ -333,6 +387,10 @@ pool = ThreadPoolExecutor(8)
 fut = pool.submit(executor, 2, 3)
 fut.add_done_callback(handle_result)
         </code></pre>
+
+        <aside class="notes">
+          If you want to get notified of when the task finishes you'd add some callback function.
+        </aside>
       </section>
 
       <section>
@@ -352,6 +410,11 @@ class Task:
         result = fut.result()
         self.step(result)
         </code></pre>
+
+        <aside class="notes">
+          Let's then go one step further in our simplifications and write a class that will handle
+          for us all the boilerplate we needed to write on the previous slide. Let's use it then.
+        </aside>
       </section>
 
       <section>
@@ -361,6 +424,93 @@ def recursive(pool, n):
     print(n)
     Task(recursive(pool, n+1)).step()
         </code></pre>
+
+        <aside class="notes">
+          Let's create some sort of weird, recursive function that will call ourself but beforehand
+          it'll print the argument passed in.
+        </aside>
+      </section>
+
+      <section>
+        <pre><code class="python">
+class Task(Future):                     # <--
+    def __init__(self, gen):
+        super().__init__()              # <--
+        self._gen = gen
+    def step(self, value=None):
+        try:
+            ...
+        except StopIteration as exc:
+            self.set_result(exc.value)  # <--
+        </code></pre>
+        <pre class="fragment"><code class="python">
+def patch_future(cls):
+    def __iter__(self):
+        if not self.done():
+            yield self
+        return self.result()
+    cls.__iter__ = __iter__
+        </code></pre>
+      </section>
+
+      <section>
+        <pre><code class="python">
+def calc(x, y):
+    print("I'm going to sleep for a while...")
+    time.sleep(10)
+    return x + y
+
+def do_calc(pool, x, y):
+    result = yield from pool.submit(calc, x, y)
+    return result
+        </code></pre>
+        <pre class="fragment"><code class="python">
+pool = ProcessPoolExecutor(8)
+t = Task(do_calc(pool, 2, 3))
+t.step()
+print("Got ", t.result())
+        </code></pre>
+      </section>
+
+      <section>
+        <pre><code class="python">
+class Task(futures.Future):
+    """A coroutine wrapped in a Future."""
+        </code></pre>
+        ...
+        <pre><code class="python">
+    def _step(self, value=None, exc=None):
+        try:
+            if exc is not None:
+                result = coro.throw(exc)
+            elif value is not None:
+                result = coro.send(value)
+            else:
+                result = next(coro)
+        except StopIteration as exc:
+            self.set_result(exc.value)
+        </code></pre>
+        ...
+        <pre><code class="python">
+    def _wakeup(self, future):
+        try:
+            value = future.result()
+        except Exception as exc:
+            # This may also be a cancellation.
+            self._step(None, exc)
+        </code></pre>
+      </section>
+
+      <section>
+        <img src="img/pythoncookbook.jpg" />
+      </section>
+
+      <section>
+        <h1><i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i></h1>
+        <br /><br /><br /><br />
+        <h3>Maciej Szulik</h3>
+        <h3>soltysh @ <i class="fa-twitter"></i>&nbsp;<i class="fa-github"></i>&nbsp;
+          <i class="fa-bitbucket"></i>&nbsp;<i class="fa-google"></i></h3>
       </section>
 
     </div>
