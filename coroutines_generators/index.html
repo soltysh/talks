@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Journey to the center of the the asynchronous world</title>
+  <title>Journey to the center of the asynchronous world</title>
   <meta name="author" content="Maciej Szulik">
 
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -29,24 +29,31 @@
     <div class="slides">
 
       <section>
-        <h1>Journey to the center of the the asynchronous world</h1>
+        <h1>Journey to the center of the asynchronous world</h1>
         <br />
         <h3>Maciej Szulik</h3>
-        <h3>soltysh @ <i class="fa-twitter"></i>&nbsp;<i class="fa-github"></i>&nbsp;
-          <i class="fa-bitbucket"></i>&nbsp;<i class="fa-google"></i></h3>
         <p>Szczyrk, 2014</p>
 
         <aside class="notes">
           Since the release of Python 3.4 in March this year (2014-03-17), or
           I could even say, way before that date, one of the hottest and most frequently
           mentioned topics is the asynchronous processing introduced in asyncio module.
-          This presentation on the other hand will not cover the module itself,
+          This presentation on the other hand will NOT cover the module itself,
           but I'll try to show you some of the core concepts and inner workings
           of the asyncio module.
         </aside>
       </section>
 
       <section data-background="img/movie_poster.jpg">
+
+        <aside class="notes">
+          The story involves German professor Otto Lidenbrock who believes there
+          are volcanic tubes going toward the centre of the Earth. He, his nephew Axel,
+          and their guide Hans descend into the Icelandic volcano Snæfellsjökull,
+          encountering many adventures, including prehistoric animals and natural
+          hazards, before eventually coming to the surface again in southern Italy,
+          at the Stromboli volcano.
+        </aside>
       </section>
 
       <section>
@@ -55,14 +62,15 @@
         <p>Generators</p>
         <p>Coroutines</p>
         <p>Context managers</p>
-        <p>Asynchronous processing</p>
         <p><code>asyncio</code> basics</p>
         <p>Q &amp; A</p>
       </section>
 
       <section>
         <h2>About me</h2>
-        <p>Programming &gt;10 years</p>
+        <p>soltysh @ <i class="fa-twitter"></i>&nbsp;<i class="fa-github"></i>&nbsp;
+          <i class="fa-bitbucket"></i>&nbsp;<i class="fa-google"></i></p>
+        <p>Programming ~10 years</p>
         <p>C/C++, Java, JavaScript, Ruby, Bash, Go</p>
       </section>
 
@@ -99,6 +107,10 @@ next(c)
 next(c)
 next(c) # throws StopIteration exception
         </code></pre>
+
+        <aside class="notes">
+          generator1.py
+        </aside>
       </section>
 
       <section data-background="img/yield.jpg">
@@ -108,21 +120,15 @@ next(c) # throws StopIteration exception
         </h3>
 
         <aside class="notes">
-          <p>Iterator protocol states that An object can be iterated over with "for" if it implements
-          __iter__() or __getitem__(). And secondly an object can function as an iterator if it implements next().
+          <p>An object can be iterated over with "for" if it implements __iter__() or __getitem__().
+          And secondly an object can function as an iterator if it implements next().
           </p>
 
-          <p>The execution starts when one of the generator’s methods is called. The execution proceeds
-          then to the first yield expression, where it is suspended, returning the value.
-          Suspended means here that all local state is retained, including the current bindings of
-          local variables, the instruction pointer, and the internal evaluation stack.
-          When the execution is resumed by calling one of the generator’s methods, the function can
-           proceed exactly as if the yield expression was just another external call.
-           The value of the yield expression after resuming depends on the method which resumed the execution.
+          <p>Proceed to the first yield expression, where it is suspended, returning the value.
+            Suspended means here local state is retained (local variables, the instruction pointer,
+            and the internal evaluation stack).
           </p>
-          <p>Example usage includes: generate list values on the fly instead of returning lists,
-          iterator replacement. It's the best way to describe big or even infinite data streams, which
-          wouldn't fit in memory otherwise.</p>
+          <p>Examples: list values on the fly, iterator replacement, infinite data streams</p>
         </aside>
       </section>
 
@@ -140,6 +146,10 @@ c.send(43)        # sending values to generator
 c.send([1, 2, 3])
 c.send("Hello")
         </code></pre>
+
+        <aside class="notes">
+          generator2.py
+        </aside>
       </section>
 
       <section data-background="img/coroutines.png">
@@ -174,9 +184,16 @@ def yieldfrom(x, y):
     yield from y
         </code></pre>
         <pre class="fragment"><code class="python">
+a = [1, 2, 3]
+b = [4, 5, 6]
 for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
     print(i, ' ')
         </code></pre>
+
+        <aside class="notes">
+          <p>yieldfrom.py</p>
+          <p>You can think of this as iterating over and doing yield on each value.
+        </aside>
       </section>
 
       <section>
@@ -197,17 +214,17 @@ def returnyield(x):
     yield x
     return "Hi there"
         </code></pre>
-        <h3 class="fragment">
+        <h3>
           <i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;
         </h3>
 
         <aside class="notes">
+          <p>yieldfrom.py</p>
           <p>The before mentioned PEP-380 also introduced this enhancement, question: what does this
           piece of code return?</p>
           <p>Answer: the return statement is passed as value to the StopIteration exception.</p>
         </aside>
       </section>
-
 
       <section>
         <pre><code class="python">
@@ -257,13 +274,17 @@ class tempdir(object):
 with tempdir() as dirname:
     print(dirname, os.path.isdir(dirname))
         </code></pre>
+
+        <aside class="notes">
+          contextmanager2.py
+        </aside>
       </section>
 
       <section>
         <h3>
           Context managers - <code>with</code> - <a href="http://legacy.python.org/dev/peps/pep-0343/">PEP-343</a>
         </h3>
-        <img class="fragment" src="img/context_managers.jpg" />
+        <img src="img/context_managers.jpg" />
 
         <aside class="notes">
           The idea is to simplify repetitive operations, that an be unified.
@@ -315,6 +336,10 @@ def tempdir():
     finally:
         shutil.rmtree(dirname)
         </code></pre>
+
+        <aside class="notes">
+          contextmanager2.py
+        </aside>
       </section>
 
       <section>
@@ -430,8 +455,9 @@ def recursive(pool, n):
         </code></pre>
 
         <aside class="notes">
-          Let's create some sort of weird, recursive function that will call ourself but beforehand
-          it'll print the argument passed in.
+          <p>task1.py</p>
+          <p>Let's create some sort of weird, recursive function that will call ourself but beforehand
+          it'll print the argument passed in.</p>
         </aside>
       </section>
 
@@ -450,14 +476,6 @@ class Task(Future):                     # <-----
     def _wakeup(self, fut):
         result = fut.result()
         self.step(result)
-        </code></pre>
-        <pre class="fragment"><code class="python">
-def patch_future(cls):
-    def __iter__(self):
-        if not self.done():
-            yield self
-        return self.result()
-    cls.__iter__ = __iter__
         </code></pre>
       </section>
 
@@ -478,6 +496,20 @@ t = Task(do_calc(pool, 2, 3))
 t.step()
 print("Got ", t.result())
         </code></pre>
+
+        <pre class="fragment"><code class="python">
+def patch_future(cls):
+    def __iter__(self):
+        if not self.done():
+            yield self
+        return self.result()
+    cls.__iter__ = __iter__
+        </code></pre>
+
+        <aside class="notes">
+          <p>task2.py</p>
+          <p>Future object is not iterable, so we'd have to somehow force it to be.</p>
+        </aside>
       </section>
 
       <section>
@@ -506,6 +538,10 @@ class Task(futures.Future):
         except Exception as exc:
             self._step(None, exc)
         </code></pre>
+
+        <aside class="notes">
+          asyncio/tasks.py file
+        </aside>
       </section>
 
       <section>
