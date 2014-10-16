@@ -13,6 +13,8 @@
   <style type="text/css">
     code{white-space: pre;}
     .reveal i{font-family: 'FontAwesome'; font-style: normal;}
+    .side-by-side {box-sizing: border-box;display: flex;}
+    .side-by-side .box {width: 50%;}
   </style>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/theme/simple.css" id="theme">
   <link rel="stylesheet" media="print" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" />
@@ -368,7 +370,8 @@ fut.result()
         <aside class="notes">
           <p>~30 mins</p>
           <p>Prior to asyncio when writing asynchronous code of any sort you'd write a super complicated
-          function and put it into some sort of executor.
+          function and put it into some sort of an executor, in our case we create ThreadPoolExecutor.
+          Obviously we're using threads here, but you can easily exchange in with ProcessPoolExecutor.
         </aside>
       </section>
 
@@ -389,7 +392,8 @@ fut.add_done_callback(handle_result)
         </code></pre>
 
         <aside class="notes">
-          If you want to get notified of when the task finishes you'd add some callback function.
+          What you can do more with that simple example is create a notification when our super
+          complicated task is over. To do so you'd have to add some callback function.
         </aside>
       </section>
 
@@ -433,15 +437,19 @@ def recursive(pool, n):
 
       <section>
         <pre><code class="python">
-class Task(Future):                     # <--
+class Task(Future):                     # <-----
     def __init__(self, gen):
-        super().__init__()              # <--
+        super().__init__()              # <-----
         self._gen = gen
     def step(self, value=None):
         try:
-            ...
+            fut = self._gen.send(value)
+            fut.add_done_callback(self._wakeup)
         except StopIteration as exc:
-            self.set_result(exc.value)  # <--
+            self.set_result(exc.value)  # <-----
+    def _wakeup(self, fut):
+        result = fut.result()
+        self.step(result)
         </code></pre>
         <pre class="fragment"><code class="python">
 def patch_future(cls):
@@ -496,13 +504,22 @@ class Task(futures.Future):
         try:
             value = future.result()
         except Exception as exc:
-            # This may also be a cancellation.
             self._step(None, exc)
         </code></pre>
       </section>
 
       <section>
-        <img src="img/pythoncookbook.jpg" />
+        <div class="side-by-side">
+          <div class="box">
+            <h3>David Beazley</h3><br />
+            <a href="http://www.dabeaz.com/generators/">Generator Tricks for Systems Programmers</a><br /><br />
+            <a href="http://www.dabeaz.com/coroutines/">A Curious Course on Coroutines and Concurrency</a><br /><br />
+            <a href="http://www.dabeaz.com/finalgenerator/">Generators: The Final Frontier</a><br /><br />
+          </div>
+          <div class="box">
+            <img src="img/pythoncookbook.jpg" />
+          </div>
+        </div>
       </section>
 
       <section>
