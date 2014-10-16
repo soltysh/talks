@@ -109,6 +109,8 @@ next(c) # throws StopIteration exception
 
         <aside class="notes">
           generator1.py
+          Python 3.4 required!
+          yield feeds the iteration
         </aside>
       </section>
 
@@ -145,6 +147,7 @@ c.send("Hello")
 
         <aside class="notes">
           generator2.py
+          The advance to yield is super important
         </aside>
       </section>
 
@@ -197,10 +200,8 @@ for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
         <img class="fragment" src="img/delegation.jpg" />
 
         <aside class="notes">
-          Prior to this delegation there was no option to reuse code with generator inside other generator.
-          That was changed in PEP-380 to allow factoring out these bits of code into separate functions.
-          All this changes were made to simplify writing asynchronous code, so basically these are
-          foundations for asyncio.
+          Chaining iterables by delegation.
+          Simplify writing asynchronous code, so basically these are foundations for asyncio.
         </aside>
       </section>
 
@@ -215,10 +216,9 @@ def returnyield(x):
         </h3>
 
         <aside class="notes">
-          <p>yieldfrom.py</p>
-          <p>The before mentioned PEP-380 also introduced this enhancement, question: what does this
-          piece of code return?</p>
-          <p>Answer: the return statement is passed as value to the StopIteration exception.</p>
+          yieldfrom.py
+          This is allowed only in python 3, syntax error in python 2
+          Yield only for iteration only, is it?
         </aside>
       </section>
 
@@ -390,7 +390,7 @@ fut.result()
 
         <aside class="notes">
           <p>~30 mins</p>
-          <p>Prior to asyncio when writing asynchronous code of any sort you'd write a super complicated
+          Prior to asyncio when writing asynchronous code of any sort you'd write a super complicated
           function and put it into some sort of an executor, in our case we create ThreadPoolExecutor.
           or ProcessPoolExecutor.
         </aside>
@@ -415,6 +415,7 @@ fut.add_done_callback(handle_result)
         <aside class="notes">
           What you can do more with that simple example is create a notification when our super
           complicated task is over. To do so you'd have to add some callback function.
+          The problem here is that errors/exceptions are thrown up until reaching the result.
         </aside>
       </section>
 
@@ -437,9 +438,27 @@ class Task:
         </code></pre>
 
         <aside class="notes">
+          Task - generator supervisor.
           Let's then go one step further in our simplifications and write a class that will handle
-          for us all the boilerplate we needed to write on the previous slide. Let's use it then.
+          for us all the boilerplate we needed to write on the previous slide.
         </aside>
+      </section>
+
+      <section>
+        <pre><code class="python">
+def executor(x, y):
+    print("I'm going to sleep for a while...")
+    time.sleep(10)
+    return x + y
+        </code></pre>
+        <pre class="fragment"><code class="python">
+def do_exec(pool, x, y):
+    result = yield pool.submit(executor, x, y)
+    print("Got: ", result)
+        </code></pre>
+        <pre class="fragment"><code class="python">
+Task(do_exec(pool, 1, 2)).step()
+        </code></pre>
       </section>
 
       <section>
