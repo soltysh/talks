@@ -35,12 +35,11 @@
         <p>Szczyrk, 2014</p>
 
         <aside class="notes">
-          Since the release of Python 3.4 in March this year (2014-03-17), or
-          I could even say, way before that date, one of the hottest and most frequently
-          mentioned topics is the asynchronous processing introduced in asyncio module.
-          This presentation on the other hand will NOT cover the module itself,
-          but I'll try to show you some of the core concepts and inner workings
-          of the asyncio module.
+          Asyncio - hottest topic,
+          Python 3.4 released in March '14
+          Guido email about Tulip November '13
+          Not cover the asyncio module
+          Present core concepts and inner workings of asyncio
         </aside>
       </section>
 
@@ -49,9 +48,9 @@
         <aside class="notes">
           The story involves German professor Otto Lidenbrock who believes there
           are volcanic tubes going toward the centre of the Earth. He, his nephew Axel,
-          and their guide Hans descend into the Icelandic volcano Snæfellsjökull,
-          encountering many adventures, including prehistoric animals and natural
-          hazards, before eventually coming to the surface again in southern Italy,
+          and their guide Hans descend into the Icelandic volcano, encountering
+          many adventures, including prehistoric animals and natural hazards,
+          before eventually coming to the surface again in southern Italy,
           at the Stromboli volcano.
         </aside>
       </section>
@@ -120,15 +119,12 @@ next(c) # throws StopIteration exception
         </h3>
 
         <aside class="notes">
-          <p>An object can be iterated over with "for" if it implements __iter__() or __getitem__().
-          And secondly an object can function as an iterator if it implements next().
-          </p>
-
-          <p>Proceed to the first yield expression, where it is suspended, returning the value.
-            Suspended means here local state is retained (local variables, the instruction pointer,
-            and the internal evaluation stack).
-          </p>
-          <p>Examples: list values on the fly, iterator replacement, infinite data streams</p>
+          iterate over with "for" if implements __iter__() or __getitem__()
+          secondly an object can function as an iterator if it implements next().
+          Proceed to the first yield expression, where it suspends, returning the value.
+          Suspended means here local state is retained (local variables, the instruction pointer,
+          and the internal evaluation stack).
+          Examples: list values on the fly, iterator replacement, infinite data streams
         </aside>
       </section>
 
@@ -159,12 +155,12 @@ c.send("Hello")
         </span>
 
         <aside class="notes">
-          Coroutines are computer program components that allow multiple entry points for suspending
-          and resuming execution at certain locations.
-          What then needed to be done with Python is to extend current generator implementation with
-          ability to send values into the generator. This in turn allows performing asynchronous
-          operations without needing to write the entire application as a series of callbacks, and
-          without requiring the use of resource-intensive threads for programs that need hundreds or
+          Coroutines are computer program components that allow multiple entry
+          points for suspending and resuming execution at certain locations.
+          Extend current generator implementation with ability to send values
+          into the generator. Needed for asynchronous operations without writing
+          the entire application as a series of callbacks, and without requiring
+          the use of resource-intensive threads for programs that need hundreds or
           even thousands of co-operatively multitasking pseudothreads.
         </aside>
       </section>
@@ -287,7 +283,7 @@ with tempdir() as dirname:
         <img src="img/context_managers.jpg" />
 
         <aside class="notes">
-          The idea is to simplify repetitive operations, that an be unified.
+          simplify repetitive operations
         </aside>
       </section>
 
@@ -308,7 +304,7 @@ class tempdir(object):
         </code></pre>
 
         <aside class="notes">
-          Although this piece of code is not that hard to write, but in a way it's cumbersome to write.
+          Although this piece of code is not that hard to write, but in a way it's cumbersome.
           Isn't there a better and simpler solution?
         </aside>
       </section>
@@ -396,7 +392,7 @@ fut.result()
           <p>~30 mins</p>
           <p>Prior to asyncio when writing asynchronous code of any sort you'd write a super complicated
           function and put it into some sort of an executor, in our case we create ThreadPoolExecutor.
-          Obviously we're using threads here, but you can easily exchange in with ProcessPoolExecutor.
+          or ProcessPoolExecutor.
         </aside>
       </section>
 
