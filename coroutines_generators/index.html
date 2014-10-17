@@ -61,14 +61,12 @@
         <p>Generators</p>
         <p>Coroutines</p>
         <p>Context managers</p>
-        <p><code>asyncio</code> basics</p>
+        <p><code>asyncio</code> concepts</p>
         <p>Q &amp; A</p>
       </section>
 
       <section>
-        <h2>About me</h2>
-        <p>soltysh @ <i class="fa-twitter"></i>&nbsp;<i class="fa-github"></i>&nbsp;
-          <i class="fa-bitbucket"></i>&nbsp;<i class="fa-google"></i></p>
+        <h3>@soltysh</h3>
         <p>Programming ~10 years</p>
         <p>C/C++, Java, JavaScript, Ruby, Bash, Go</p>
       </section>
@@ -84,7 +82,7 @@
 
         <aside class="notes">
           <p>~5 mins</p>
-          <p>OpnShift supports multiple languages, right?</p>
+          <p>OpenShift supports multiple languages, right?</p>
         </aside>
       </section>
 
@@ -115,7 +113,7 @@ next(c) # throws StopIteration exception
       </section>
 
       <section data-background="img/yield.jpg">
-        <h3 class="fragment">
+        <h3>
           <p>Iterator protocol - <a href="http://legacy.python.org/dev/peps/pep-0234/">PEP-234</a></p>
           <p>Generators - <code>yield</code> - <a href="http://legacy.python.org/dev/peps/pep-0255/">PEP-255</a></p>
         </h3>
@@ -152,24 +150,22 @@ c.send("Hello")
       </section>
 
       <section data-background="img/coroutines.png">
-        <span class="fragment">
-          <h2>Coroutines</h2>
-          <h3>generators on steroids - <a href="http://legacy.python.org/dev/peps/pep-0342/">PEP-342</a></h3>
-        </span>
+        <h2>Coroutines</h2>
+        <h3>generators on steroids<h3>
+        <h3><a href="http://legacy.python.org/dev/peps/pep-0342/">PEP-342</a></h3>
 
         <aside class="notes">
-          Coroutines are computer program components that allow multiple entry
-          points for suspending and resuming execution at certain locations.
-          Extend current generator implementation with ability to send values
-          into the generator. Needed for asynchronous operations without writing
-          the entire application as a series of callbacks, and without requiring
-          the use of resource-intensive threads for programs that need hundreds or
-          even thousands of co-operatively multitasking pseudothreads.
+          Coroutines are program components that allow multiple entry
+          points for suspending and resuming execution.
+          Added to python ability to send values into the generator.
+          Needed for asynchronous operations without writing the entire application
+          as a series of callbacks, and without requiring the use of threads for
+          programs that need hundreds or even thousands of multitasking pseudothreads.
         </aside>
       </section>
 
       <section>
-        <h3>Coroutine methods</h3>
+        <h3>Generator methods</h3>
         <p><code>next()</code> - advance code to the <code>yield</code> and emit a value</p>
         <p><code>send()</code> - sends a value to the <code>yield</code>, making it produce a value</p>
         <p><code>close()</code> - inform the generator that it should finish its work</p>
@@ -185,6 +181,10 @@ def yieldfrom(x, y):
         <pre class="fragment"><code class="python">
 a = [1, 2, 3]
 b = [4, 5, 6]
+for i in yieldfrom(a, b):
+    print(i, ' ')
+        </code></pre>
+        <pre class="fragment"><code class="python">
 for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
     print(i, ' ')
         </code></pre>
@@ -196,8 +196,8 @@ for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
       </section>
 
       <section>
-        <h3>Delegating to subgenerator (<a href="http://legacy.python.org/dev/peps/pep-0380/">PEP-380</a>)</h3>
-        <img class="fragment" src="img/delegation.jpg" />
+        <h3>Delegating to subgenerator - <a href="http://legacy.python.org/dev/peps/pep-0380/">PEP-380</a></h3>
+        <img src="img/delegation.jpg" />
 
         <aside class="notes">
           Chaining iterables by delegation.
@@ -216,7 +216,7 @@ def returnyield(x):
         </h3>
 
         <aside class="notes">
-          yieldfrom.py
+          generator3.py
           This is allowed only in python 3, syntax error in python 2
           Yield only for iteration only, is it?
         </aside>
@@ -246,33 +246,22 @@ file = open()
 file.close()
         </code></pre>
         <pre><code class="python">
-class tempdir(object):
-
-    def __enter__(self):
-        self.dirname = tempfile.mkdtemp()
-        return self.dirname
-
-    def __exit__(self, exc, val, tb):
-        shutil.rmtree(self.dirname)
-        </code></pre>
-      </section>
-
-      <section>
-        <pre><code class="python">
-class tempdir(object):
-    def __enter__(self):
-        self.dirname = tempfile.mkdtemp()
-        return self.dirname
-    def __exit__(self, exc, val, tb):
-        shutil.rmtree(self.dirname)
-        </code></pre>
-        <pre><code class="python">
 with tempdir() as dirname:
     print(dirname, os.path.isdir(dirname))
         </code></pre>
+        <pre class="fragment"><code class="python">
+class tempdir(object):
+
+    def __enter__(self):
+        self.dirname = tempfile.mkdtemp()
+        return self.dirname
+
+    def __exit__(self, exc, val, tb):
+        shutil.rmtree(self.dirname)
+        </code></pre>
 
         <aside class="notes">
-          contextmanager2.py
+          contextmanager1.py
         </aside>
       </section>
 
@@ -296,9 +285,11 @@ with tempdir() as dirname:
       <section>
         <pre><code class="python">
 class tempdir(object):
+
     def __enter__(self):
         self.dirname = tempfile.mkdtemp()
         return self.dirname
+
     def __exit__(self, exc, val, tb):
         shutil.rmtree(self.dirname)
         </code></pre>
@@ -312,6 +303,7 @@ class tempdir(object):
       <section>
         <pre><code class="python">
 <strike>class tempdir(object):</strike>
+
     <strike>def __enter__(self):</strike>
         self.dirname = tempfile.mkdtemp()
         <strike>return</strike> yield self.dirname
@@ -413,6 +405,7 @@ fut.add_done_callback(handle_result)
         </code></pre>
 
         <aside class="notes">
+          task3.py
           What you can do more with that simple example is create a notification when our super
           complicated task is over. To do so you'd have to add some callback function.
           The problem here is that errors/exceptions are thrown up until reaching the result.
@@ -424,14 +417,16 @@ fut.add_done_callback(handle_result)
 class Task:
     def __init__(self, gen):
         self._gen = gen
-
+        </code></pre>
+        <pre class="fragment"><code class="python">
     def step(self, value=None):
         try:
             fut = self._gen.send(value)
             fut.add_done_callback(self._wakeup)
         except StopIteration as exc:
             pass
-
+        </code></pre>
+        <pre class="fragment"><code class="python">
     def _wakeup(self, fut):
         result = fut.result()
         self.step(result)
@@ -440,7 +435,7 @@ class Task:
         <aside class="notes">
           Task - generator supervisor.
           Let's then go one step further in our simplifications and write a class that will handle
-          for us all the boilerplate we needed to write on the previous slide.
+          for us asll the boilerplate we needed to write on the previous slide.
         </aside>
       </section>
 
@@ -496,18 +491,18 @@ class Task(Future):                     # <-----
 
       <section>
         <pre><code class="python">
-def calc(x, y):
+def executor(x, y):
     print("I'm going to sleep for a while...")
     time.sleep(10)
     return x + y
 
-def do_calc(pool, x, y):
-    result = yield from pool.submit(calc, x, y)
+def do_exec(pool, x, y):
+    result = yield from pool.submit(executor, x, y)
     return result
         </code></pre>
         <pre class="fragment"><code class="python">
 pool = ProcessPoolExecutor(8)
-t = Task(do_calc(pool, 2, 3))
+t = Task(do_exec(pool, 2, 3))
 t.step()
 print("Got ", t.result())
         </code></pre>
@@ -576,6 +571,7 @@ class Task(futures.Future):
       <section>
         <h1><i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i></h1>
         <br /><br /><br /><br />
+        <h3>Thank you</h3>
         <h3>Maciej Szulik</h3>
         <h3>soltysh @ <i class="fa-twitter"></i>&nbsp;<i class="fa-github"></i>&nbsp;
           <i class="fa-bitbucket"></i>&nbsp;<i class="fa-google"></i></h3>
