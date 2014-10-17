@@ -109,6 +109,7 @@ next(c) # throws StopIteration exception
           generator1.py
           Python 3.4 required!
           yield feeds the iteration
+          yield turn function into generator
         </aside>
       </section>
 
@@ -119,11 +120,10 @@ next(c) # throws StopIteration exception
         </h3>
 
         <aside class="notes">
-          iterate over with "for" if implements __iter__() or __getitem__()
-          secondly an object can function as an iterator if it implements next().
-          Proceed to the first yield expression, where it suspends, returning the value.
-          Suspended means here local state is retained (local variables, the instruction pointer,
-          and the internal evaluation stack).
+          "for" if implements __iter__() with __next__() or __getitem__()
+          yield expression suspends, returning the value
+          Suspended means local state is retained (local variables, instruction pointer,
+          internal evaluation stack).
           Examples: list values on the fly, iterator replacement, infinite data streams
         </aside>
       </section>
@@ -146,6 +146,7 @@ c.send("Hello")
         <aside class="notes">
           generator2.py
           The advance to yield is super important
+          yield is more than just iteration
         </aside>
       </section>
 
@@ -157,10 +158,10 @@ c.send("Hello")
         <aside class="notes">
           Coroutines are program components that allow multiple entry
           points for suspending and resuming execution.
-          Added to python ability to send values into the generator.
-          Needed for asynchronous operations without writing the entire application
-          as a series of callbacks, and without requiring the use of threads for
-          programs that need hundreds or even thousands of multitasking pseudothreads.
+          Adds to python ability to send values into the generator.
+          For asynchronous operations without series of callbacks, and without
+          the use of threads for programs that need hundreds or even thousands
+          of multitasking pseudothreads.
         </aside>
       </section>
 
@@ -196,7 +197,7 @@ for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
       </section>
 
       <section>
-        <h3>Delegating to subgenerator - <a href="http://legacy.python.org/dev/peps/pep-0380/">PEP-380</a></h3>
+        <h3>Delegating to a subgenerator - <a href="http://legacy.python.org/dev/peps/pep-0380/">PEP-380</a></h3>
         <img src="img/delegation.jpg" />
 
         <aside class="notes">
@@ -211,7 +212,7 @@ def returnyield(x):
     yield x
     return "Hi there"
         </code></pre>
-        <h3>
+        <h3 class="fragment">
           <i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;
         </h3>
 
