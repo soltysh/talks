@@ -35,14 +35,14 @@ class Task(Future):
         # this little trick will allow us to run to the next yield
         self.step(result)
 
-def calc(x, y):
+def executor(x, y):
     """Very complex calculation."""
     print("I'm going to sleep for a while...")
     time.sleep(10)
     return x + y
 
-def do_calc(pool, x, y):
-    result = yield from pool.submit(calc, x, y)
+def do_exec(pool, x, y):
+    result = yield from pool.submit(executor, x, y)
     return result
 
 
@@ -51,6 +51,6 @@ if __name__ == '__main__':
     pool = ProcessPoolExecutor(8)
 
     # run calculation and print the result
-    t = Task(do_calc(pool, 2, 3))
+    t = Task(do_exec(pool, 2, 3))
     t.step()
     print("Got ", t.result())

@@ -35,12 +35,11 @@
         <p>Szczyrk, 2014</p>
 
         <aside class="notes">
-          Since the release of Python 3.4 in March this year (2014-03-17), or
-          I could even say, way before that date, one of the hottest and most frequently
-          mentioned topics is the asynchronous processing introduced in asyncio module.
-          This presentation on the other hand will NOT cover the module itself,
-          but I'll try to show you some of the core concepts and inner workings
-          of the asyncio module.
+          Asyncio - hottest topic,
+          Python 3.4 released in March '14
+          Guido email about Tulip November '13
+          Not cover the asyncio module
+          Present core concepts and inner workings of asyncio
         </aside>
       </section>
 
@@ -49,9 +48,9 @@
         <aside class="notes">
           The story involves German professor Otto Lidenbrock who believes there
           are volcanic tubes going toward the centre of the Earth. He, his nephew Axel,
-          and their guide Hans descend into the Icelandic volcano Snæfellsjökull,
-          encountering many adventures, including prehistoric animals and natural
-          hazards, before eventually coming to the surface again in southern Italy,
+          and their guide Hans descend into the Icelandic volcano, encountering
+          many adventures, including prehistoric animals and natural hazards,
+          before eventually coming to the surface again in southern Italy,
           at the Stromboli volcano.
         </aside>
       </section>
@@ -62,14 +61,12 @@
         <p>Generators</p>
         <p>Coroutines</p>
         <p>Context managers</p>
-        <p><code>asyncio</code> basics</p>
+        <p><code>asyncio</code> concepts</p>
         <p>Q &amp; A</p>
       </section>
 
       <section>
-        <h2>About me</h2>
-        <p>soltysh @ <i class="fa-twitter"></i>&nbsp;<i class="fa-github"></i>&nbsp;
-          <i class="fa-bitbucket"></i>&nbsp;<i class="fa-google"></i></p>
+        <h3>@soltysh</h3>
         <p>Programming ~10 years</p>
         <p>C/C++, Java, JavaScript, Ruby, Bash, Go</p>
       </section>
@@ -85,7 +82,7 @@
 
         <aside class="notes">
           <p>~5 mins</p>
-          <p>OpnShift supports multiple languages, right?</p>
+          <p>OpenShift supports multiple languages, right?</p>
         </aside>
       </section>
 
@@ -110,25 +107,24 @@ next(c) # throws StopIteration exception
 
         <aside class="notes">
           generator1.py
+          Python 3.4 required!
+          yield feeds the iteration
+          yield turn function into generator
         </aside>
       </section>
 
       <section data-background="img/yield.jpg">
-        <h3 class="fragment">
+        <h3>
           <p>Iterator protocol - <a href="http://legacy.python.org/dev/peps/pep-0234/">PEP-234</a></p>
           <p>Generators - <code>yield</code> - <a href="http://legacy.python.org/dev/peps/pep-0255/">PEP-255</a></p>
         </h3>
 
         <aside class="notes">
-          <p>An object can be iterated over with "for" if it implements __iter__() or __getitem__().
-          And secondly an object can function as an iterator if it implements next().
-          </p>
-
-          <p>Proceed to the first yield expression, where it is suspended, returning the value.
-            Suspended means here local state is retained (local variables, the instruction pointer,
-            and the internal evaluation stack).
-          </p>
-          <p>Examples: list values on the fly, iterator replacement, infinite data streams</p>
+          "for" if implements __iter__() with __next__() or __getitem__()
+          yield expression suspends, returning the value
+          Suspended means local state is retained (local variables, instruction pointer,
+          internal evaluation stack).
+          Examples: list values on the fly, iterator replacement, infinite data streams
         </aside>
       </section>
 
@@ -149,28 +145,28 @@ c.send("Hello")
 
         <aside class="notes">
           generator2.py
+          The advance to yield is super important
+          yield is more than just iteration
         </aside>
       </section>
 
       <section data-background="img/coroutines.png">
-        <span class="fragment">
-          <h2>Coroutines</h2>
-          <h3>generators on steroids - <a href="http://legacy.python.org/dev/peps/pep-0342/">PEP-342</a></h3>
-        </span>
+        <h2>Coroutines</h2>
+        <h3>generators on steroids<h3>
+        <h3><a href="http://legacy.python.org/dev/peps/pep-0342/">PEP-342</a></h3>
 
         <aside class="notes">
-          Coroutines are computer program components that allow multiple entry points for suspending
-          and resuming execution at certain locations.
-          What then needed to be done with Python is to extend current generator implementation with
-          ability to send values into the generator. This in turn allows performing asynchronous
-          operations without needing to write the entire application as a series of callbacks, and
-          without requiring the use of resource-intensive threads for programs that need hundreds or
-          even thousands of co-operatively multitasking pseudothreads.
+          Coroutines are program components that allow multiple entry
+          points for suspending and resuming execution.
+          Adds to python ability to send values into the generator.
+          For asynchronous operations without series of callbacks, and without
+          the use of threads for programs that need hundreds or even thousands
+          of multitasking pseudothreads.
         </aside>
       </section>
 
       <section>
-        <h3>Coroutine methods</h3>
+        <h3>Generator methods</h3>
         <p><code>next()</code> - advance code to the <code>yield</code> and emit a value</p>
         <p><code>send()</code> - sends a value to the <code>yield</code>, making it produce a value</p>
         <p><code>close()</code> - inform the generator that it should finish its work</p>
@@ -186,6 +182,10 @@ def yieldfrom(x, y):
         <pre class="fragment"><code class="python">
 a = [1, 2, 3]
 b = [4, 5, 6]
+for i in yieldfrom(a, b):
+    print(i, ' ')
+        </code></pre>
+        <pre class="fragment"><code class="python">
 for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
     print(i, ' ')
         </code></pre>
@@ -197,14 +197,12 @@ for i in yieldfrom(yieldfrom(a, b), yieldfrom(b, a)):
       </section>
 
       <section>
-        <h3>Delegating to subgenerator (<a href="http://legacy.python.org/dev/peps/pep-0380/">PEP-380</a>)</h3>
-        <img class="fragment" src="img/delegation.jpg" />
+        <h3>Delegating to a subgenerator - <a href="http://legacy.python.org/dev/peps/pep-0380/">PEP-380</a></h3>
+        <img src="img/delegation.jpg" />
 
         <aside class="notes">
-          Prior to this delegation there was no option to reuse code with generator inside other generator.
-          That was changed in PEP-380 to allow factoring out these bits of code into separate functions.
-          All this changes were made to simplify writing asynchronous code, so basically these are
-          foundations for asyncio.
+          Chaining iterables by delegation.
+          Simplify writing asynchronous code, so basically these are foundations for asyncio.
         </aside>
       </section>
 
@@ -214,15 +212,14 @@ def returnyield(x):
     yield x
     return "Hi there"
         </code></pre>
-        <h3>
+        <h3 class="fragment">
           <i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;
         </h3>
 
         <aside class="notes">
-          <p>yieldfrom.py</p>
-          <p>The before mentioned PEP-380 also introduced this enhancement, question: what does this
-          piece of code return?</p>
-          <p>Answer: the return statement is passed as value to the StopIteration exception.</p>
+          generator3.py
+          This is allowed only in python 3, syntax error in python 2
+          Yield only for iteration only, is it?
         </aside>
       </section>
 
@@ -250,33 +247,22 @@ file = open()
 file.close()
         </code></pre>
         <pre><code class="python">
-class tempdir(object):
-
-    def __enter__(self):
-        self.dirname = tempfile.mkdtemp()
-        return self.dirname
-
-    def __exit__(self, exc, val, tb):
-        shutil.rmtree(self.dirname)
-        </code></pre>
-      </section>
-
-      <section>
-        <pre><code class="python">
-class tempdir(object):
-    def __enter__(self):
-        self.dirname = tempfile.mkdtemp()
-        return self.dirname
-    def __exit__(self, exc, val, tb):
-        shutil.rmtree(self.dirname)
-        </code></pre>
-        <pre><code class="python">
 with tempdir() as dirname:
     print(dirname, os.path.isdir(dirname))
         </code></pre>
+        <pre class="fragment"><code class="python">
+class tempdir(object):
+
+    def __enter__(self):
+        self.dirname = tempfile.mkdtemp()
+        return self.dirname
+
+    def __exit__(self, exc, val, tb):
+        shutil.rmtree(self.dirname)
+        </code></pre>
 
         <aside class="notes">
-          contextmanager2.py
+          contextmanager1.py
         </aside>
       </section>
 
@@ -287,7 +273,7 @@ with tempdir() as dirname:
         <img src="img/context_managers.jpg" />
 
         <aside class="notes">
-          The idea is to simplify repetitive operations, that an be unified.
+          simplify repetitive operations
         </aside>
       </section>
 
@@ -300,15 +286,17 @@ with tempdir() as dirname:
       <section>
         <pre><code class="python">
 class tempdir(object):
+
     def __enter__(self):
         self.dirname = tempfile.mkdtemp()
         return self.dirname
+
     def __exit__(self, exc, val, tb):
         shutil.rmtree(self.dirname)
         </code></pre>
 
         <aside class="notes">
-          Although this piece of code is not that hard to write, but in a way it's cumbersome to write.
+          Although this piece of code is not that hard to write, but in a way it's cumbersome.
           Isn't there a better and simpler solution?
         </aside>
       </section>
@@ -316,6 +304,7 @@ class tempdir(object):
       <section>
         <pre><code class="python">
 <strike>class tempdir(object):</strike>
+
     <strike>def __enter__(self):</strike>
         self.dirname = tempfile.mkdtemp()
         <strike>return</strike> yield self.dirname
@@ -394,9 +383,9 @@ fut.result()
 
         <aside class="notes">
           <p>~30 mins</p>
-          <p>Prior to asyncio when writing asynchronous code of any sort you'd write a super complicated
+          Prior to asyncio when writing asynchronous code of any sort you'd write a super complicated
           function and put it into some sort of an executor, in our case we create ThreadPoolExecutor.
-          Obviously we're using threads here, but you can easily exchange in with ProcessPoolExecutor.
+          or ProcessPoolExecutor.
         </aside>
       </section>
 
@@ -417,8 +406,10 @@ fut.add_done_callback(handle_result)
         </code></pre>
 
         <aside class="notes">
+          task3.py
           What you can do more with that simple example is create a notification when our super
           complicated task is over. To do so you'd have to add some callback function.
+          The problem here is that errors/exceptions are thrown up until reaching the result.
         </aside>
       </section>
 
@@ -427,23 +418,43 @@ fut.add_done_callback(handle_result)
 class Task:
     def __init__(self, gen):
         self._gen = gen
-
+        </code></pre>
+        <pre class="fragment"><code class="python">
     def step(self, value=None):
         try:
             fut = self._gen.send(value)
             fut.add_done_callback(self._wakeup)
         except StopIteration as exc:
             pass
-
+        </code></pre>
+        <pre class="fragment"><code class="python">
     def _wakeup(self, fut):
         result = fut.result()
         self.step(result)
         </code></pre>
 
         <aside class="notes">
+          Task - generator supervisor.
           Let's then go one step further in our simplifications and write a class that will handle
-          for us all the boilerplate we needed to write on the previous slide. Let's use it then.
+          for us asll the boilerplate we needed to write on the previous slide.
         </aside>
+      </section>
+
+      <section>
+        <pre><code class="python">
+def executor(x, y):
+    print("I'm going to sleep for a while...")
+    time.sleep(10)
+    return x + y
+        </code></pre>
+        <pre class="fragment"><code class="python">
+def do_exec(pool, x, y):
+    result = yield pool.submit(executor, x, y)
+    print("Got: ", result)
+        </code></pre>
+        <pre class="fragment"><code class="python">
+Task(do_exec(pool, 1, 2)).step()
+        </code></pre>
       </section>
 
       <section>
@@ -481,18 +492,18 @@ class Task(Future):                     # <-----
 
       <section>
         <pre><code class="python">
-def calc(x, y):
+def executor(x, y):
     print("I'm going to sleep for a while...")
     time.sleep(10)
     return x + y
 
-def do_calc(pool, x, y):
-    result = yield from pool.submit(calc, x, y)
+def do_exec(pool, x, y):
+    result = yield from pool.submit(executor, x, y)
     return result
         </code></pre>
         <pre class="fragment"><code class="python">
 pool = ProcessPoolExecutor(8)
-t = Task(do_calc(pool, 2, 3))
+t = Task(do_exec(pool, 2, 3))
 t.step()
 print("Got ", t.result())
         </code></pre>
@@ -561,6 +572,7 @@ class Task(futures.Future):
       <section>
         <h1><i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i></h1>
         <br /><br /><br /><br />
+        <h3>Thank you</h3>
         <h3>Maciej Szulik</h3>
         <h3>soltysh @ <i class="fa-twitter"></i>&nbsp;<i class="fa-github"></i>&nbsp;
           <i class="fa-bitbucket"></i>&nbsp;<i class="fa-google"></i></h3>

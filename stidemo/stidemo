@@ -8,7 +8,7 @@ info() {
 }
 
 cmd() {
-    echo -ne "\nmaszulik@redhat:source-to-image$ "
+    echo -ne "\nsoltysh@dionysos:source-to-image$ "
     sleep $short_interval
     echo -ne "$@\n"
     $@
@@ -16,7 +16,7 @@ cmd() {
 }
 
 bgcmd() {
-    echo -ne "\nmaszulik@redhat:source-to-image$ "
+    echo -ne "\nsoltysh@dionysos:source-to-image$ "
     sleep $short_interval
     echo -ne "$@ &\n"
     $@ &
@@ -29,20 +29,20 @@ sleep 20
 info "The sample application used during this demo is available at https://github.com/soltysh/wsgi-example."
 info "The application directory structure is as follows:"
 
-cmd "tree -a /home/maszulik/workspace/wsgi-example"
+cmd "tree -a /home/soltysh/workspace/wsgi-example"
 
 info "The application itself consists of just two files:"
 info "requirements.txt - where usually python applications specify required libraries, I just put there gunicorn:"
-cmd "cat /home/maszulik/workspace/wsgi-example/requirements.txt"
+cmd "cat /home/soltysh/workspace/wsgi-example/requirements.txt"
 info "wsgi.py - contains extremely simple WSGI application, but this can be replaced with any WSGI complaint application, eg. Django app:"
-cmd "cat /home/maszulik/workspace/wsgi-example/wsgi.py"
+cmd "cat /home/soltysh/workspace/wsgi-example/wsgi.py"
 
 info "For demo purposes I've chosen some random image from docker hub with gunicorn, that is devoto13/gunicorn."
 info "For STI to work properly with that image, I had to create STI scripts, I wrote:"
 info "assemble - which is responsible for downloading the requirements and placing the artifacts in appropriate places"
-cmd "cat /home/maszulik/workspace/wsgi-example/.sti/bin/assemble"
+cmd "cat /home/soltysh/workspace/wsgi-example/.sti/bin/assemble"
 info "run - which is responsible for running the application, in our case it runs gunicorn server"
-cmd "cat /home/maszulik/workspace/wsgi-example/.sti/bin/run"
+cmd "cat /home/soltysh/workspace/wsgi-example/.sti/bin/run"
 
 info "Having all those in place, we can run the build. I'll increase the logging level so that you can observe the steps taken during the build process:"
 cmd "sti build https://github.com/soltysh/wsgi-example devoto13/gunicorn wsgi-example --loglevel=2"
