@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>Ujarzmić pingwina</title>
+  <meta name="author" content="Maciej Szulik">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/css/reveal.min.css"/>
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/css/theme/black.min.css" id="theme">
+
+  <style type="text/css">
+    .reveal pre {box-shadow: none;}
+    .side-by-side {box-sizing: border-box;display: flex;}
+    .side-by-side .box {width: 50%;}
+  </style>
+
+  <!--[if lt IE 9]>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <h1>Ujarzmić pingwina</h1>
+        <br />
+        <h3>Hackerspace Silesia</h3>
+        <p>Katowice, 2015</p>
+      </section>
+
+      <section>
+        <h2>Plan zajęć</h2>
+        <p>Wprowadzenie do Open Source i systemu Linux</p>
+        <p>Pierwsze kroki w Linuksie</p>
+
+      </section>
+
+      <section>
+        <div class="side-by-side">
+          <div class="box"><small><pre>
+From: torvalds@klaava.Helsinki.FI (Linus Benedict Torvalds)
+Newsgroups: comp.os.minix
+Subject: What would you like to see most in minix?
+Summary: small poll for my new operating system
+Message-ID: &lt;1991Aug25.205708.9541@klaava.Helsinki.FI&gt;
+Date: 25 Aug 91 20:57:08 GMT
+Organization: University of Helsinki
+
+Hello everybody out there using minix –
+
+I’m doing a (free) operating system (just a hobby, won’t be
+big and professional like gnu) for 386(486) AT clones. This
+has been brewing since april, and is starting to get ready.
+I’d like any feedback on things people like/dislike in minix,
+as my OS resembles it somewhat (same physical layout of the
+file-system (due to practical reasons) among other things).
+
+I’ve currently ported bash(1.08) and gcc(1.40), and things
+seem to work. This implies that I’ll get something practical
+within a few months, and I’d like to know what features most
+people would want. Any suggestions are welcome, but I won’t
+promise I’ll implement them :-)
+
+Linus (torvalds@kruuna.helsinki.fi)
+
+PS. Yes – it’s free of any minix code, and it has a
+multi-threaded fs. It is NOT protable (uses 386 task
+switching etc), and it probably never will support anything
+other than AT-harddisks, as that’s all I have :-(.
+      </pre></small></div>
+      <div class="box">
+        <img src="img/Linus_Torvalds.jpg" />
+      </div>
+      </section>
+
+      <section>
+        <div class="side-by-side">
+          <div class="box">
+            <img src="img/ubuntu.png" />
+          </div>
+          <div class="box">
+            <img src="img/redhat.jpg" />
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <img src="img/tux.png" />
+      </section>
+
+    </div>
+  </div>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/lib/js/head.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/js/reveal.min.js"></script>
+
+  <script>
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'none',
+      });
+    </script>
+  </body>
+</html>
