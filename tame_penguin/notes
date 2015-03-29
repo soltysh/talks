@@ -1,12 +1,25 @@
 1. Wprowadzenie do open source i systemu Linux (15 min)
-    - Co to jest Open Source?
-    - Co to jest Linux?
-    - Po co powstał Linux?
-    - Jak zmieniał się Linux w czasie.
 
-2. Ankieta dot. używanych systemów operacyjnych (5 min)
+- Co to jest Open Source?
+http://opensource.com/resources/what-open-source
 
-3. Pierwszy rzut oka uczestników na system (10 min)
+- Co to jest i po co powstał Linux?
+http://www.gcflearnfree.org/computerbasics/2
+http://en.wikipedia.org/wiki/Operating_system
+http://en.wikipedia.org/wiki/Linux
+
+- Jak zmieniał się Linux w czasie.
+https://www.apertus.org/sites/default/files/linux20.jpg
+
+- Różne środowiska graficzne.
+KDE, Gnome, XFCE, Unity, etc.
+
+- Ankieta dot. używanych systemów operacyjnych
+
+
+2. Android (15 min)
+
+3. Pierwszy rzut oka uczestników na system (15 min)
 
 4. Dyskysja na temat zauważalnych różnic w stosunku do znanych uczestnikom
    systemów operacyjnych (10 min)
@@ -14,27 +27,22 @@
 5. Podstawowe operacji na plikach (20 min)
     - przeglądanie folderów/plików
     - otwieranie plików
-    - tworzenie plikóœ
+    - tworzenie plików
     - kopiowanie/usuwanie plików
 
-6. Przeglądanie internetu (20 min)
+6. Przeglądanie internetu (10 min)
+    - wikipedia (?)
 
-7. Wprowadzenie do pakietu LibreOffice (40 min)
+7. Wprowadzenie do pakietu LibreOffice (15 min)
     - tworzenie dokumentów tekstowych
     - tworzenie arkuszy kalkulacyjnych
     - tworzenie prezentacji
 
 8. Instalowanie aplikacji (30 min)
+    - Minecraft
 
 9. Wolne wnioski (30 min)
 
-
-Krótsze LibreOffice - 15 min
-Wikipedia
-Android
-Instalowanie Minecrafta
-
-w ramach 1 pokazać wiele różnych środowisk graficznych
-
-zadania do wykonania
-
+TODO:
+- zadania do wykonania na zajęciach
+- środowiska graficzne
