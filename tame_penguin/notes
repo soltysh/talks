@@ -1,15 +1,45 @@
 1. Wprowadzenie do open source i systemu Linux (15 min)
 
-- Co to jest Open Source?
-http://opensource.com/resources/what-open-source
+(3)
+Open source w dosłownym tłumaczeniu na język polski to otwarty kod, czyli
+coś co jest publicznie dostępne. Pomimo iż, oryginalna nazw odnosi się do
+oprogramowania, obecnie open source definiuje styl życia. Stąd też mamy open
+source'owe projekty, prodkuty lub inicjatywy, czyli coś co podkreśla otwartą
+wymianę, dzielenie się wiedzą, wolny dostęp, przeźroczystość. Oprogramowanie
+open source to oprogramowanie którego kod źródłowy, jest dostępny dla każdego
+w celu modyfikacji i ulepszania. Kod źródłowy to ta część oprogramowania,
+której większość użytkowników nigdy nie widzi. To słowa, którymi programista
+definiuje zachowanie programu w taki sposób aby był on zrozumiały dla komputera.
+W niektórych programach kod źródłowy nie może być dowolnie modyfikowany przez
+dowolnego użytkownika z niego korzystającego, tylko właściciel (twórca) ma
+wyłączny do niego dostęp. Microsoft Windows, Microsoft Office, duża część
+gier (ale nie wszystkie) są przykładami oprogramowania własnościowego.
+Przykładami oprogramowania open source jest właśnie Linux.
 
-- Co to jest i po co powstał Linux?
-http://www.gcflearnfree.org/computerbasics/2
-http://en.wikipedia.org/wiki/Operating_system
-http://en.wikipedia.org/wiki/Linux
+(4)
+Linux to, podobnie jak Microsoft Windows, system operacyjny. Jest to najważniejsze
+oprogramowanie, które działa na komputerze. Jest odpowiedzialny za zarządzanie
+pamięcią, procesami, całym sprzętem i zainstalowanym oprogramowaniem. Innymi
+słowy to system operacyjny decyduje, które oprogramowanie i kiedy ma dostęp do
+dysku, ekranu, klawiatury itd. Dzieli dostęp do wspomnianych zasobów w taki
+sposób aby każdy program otrzymał tyle zasobów ile potrzebuje do poprawnego
+działania.
+Pierwsza wersja Linuxa została wydana 5 października 1991 roku przez Linusa
+Torvaldsa. Od jego imienia pochodzi też nazwa samego systemu - Linux.
+Oryginalnie Linux powstał tylko na domowe komputery (x86) lecz z czasem został
+dostosowany do wielu różnych platform. Obecnie jest to główny system operacyjny
+na wszystkich serwerach oraz superkomputerach. Oraz ostatnimi czasy również na
+urządzeniach mobilnych, głównie za sprawą Androida, który również bazuje na
+Linuxie.
 
-- Jak zmieniał się Linux w czasie.
-https://www.apertus.org/sites/default/files/linux20.jpg
+(5)
+Jak zmieniał się w czasie
+
+(6) (7)
+Różne dystrybucje
+
+(8)
+Android
 
 - Różne środowiska graficzne.
 KDE, Gnome, XFCE, Unity, etc.
