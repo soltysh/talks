@@ -33,18 +33,54 @@ urządzeniach mobilnych, głównie za sprawą Androida, który również bazuje 
 Linuxie.
 
 (5)
-Jak zmieniał się w czasie
+Krótka historia Linuksa przedstawia się następująco. W 1992 roku Linus postanawia
+udostępnić Linuxa na pierwszej wolnej licencji GPL. Ten krok jest uważany za jeden
+z milowych kroków w rozwoju tej platformy. Kolejne istotne wydarzenia to:
+- rok 1994 kiedy wydany zostaje pierwsza wersja Red Hat Linux ze wsparciem;
+- rok 1996 kiedy to oficjalną maskotką Linuxa zostaje pingwin;
+- rok 1998 kiedy to giganci rynku technicznego zaczynają oficjalnie wspierać Linuxa;
+- rok 2005 Linus Torvalds pojawia się na okładce magazynu Bussinessweek;
+- rok 2007 kiedy powstaje The Linux Foundation która odtąd stoi na czele Linuxa;
+- rok 2008 kiedy to powstaje pierwsza wersja Adnroida;
+- rok 2010 kiedy to Android staje się najpopularniejszą platformą na rynku mobilnym;
 
-(6) (7)
-Różne dystrybucje
+W chwili obecnej Linux jest obecny w wielu branżach począwszy od informatyki,
+poprzez telekomunikację, bankomaty, a skończywszy na urządzeniach mobilnych,
+telewizorach itd.
+
+(6)
+W miarę jak coraz więcej osób interesowało się Linuxem zrodziła się potrzeba
+ułatwienia procesu jego instalacji. W tym celu zaczęto przygotowywać dystrubucje,
+które to zawierały jądro systemu oraz aplikacje towarzyszące np. przeglądarka,
+pakiet biurowy, gry itp. W chwili obecnej do dyspozycji jest bardzo szeroki
+wachlarz dystrybucji a najlpopularniejsze z nich to:
+- redhat
+- fedora
+- debian
+- ubuntu
+- open suse
+- linux mint
+itd.
+
+(7)
+Zrozumiałym się stało takż, że wraz z popularyzacją samego Linuxa jego logo też
+zdobywało coraz większe grono fanów, które to dopasowywało je do wielu postaci
+z filmów, bajek oraz życia codziennego.
 
 (8)
-Android
+Na koniec nie można pominąć Androida, który bazując na systemie Linux wdarł się
+do naszych domów poprzez urządzenia mobilne - smartfony i tablety ale nie tylko.
+Obecnie znajduje on również w telewizorach, samochodach oraz zegarkach itd.
+Jego popularność jest tak ogromna w dzisiejszych czasach, że można śmiało
+stwierdzić, iż ilość urządzeń z zainstalowanym Androidem jest większa niż liczba
+komputerów z zainstalowanym systemem Windows.
 
-- Różne środowiska graficzne.
-KDE, Gnome, XFCE, Unity, etc.
+(9)
+Różne środowiska graficzne.
+Prezentacja: KDE, Gnome, XFCE, Unity, etc.
 
-- Ankieta dot. używanych systemów operacyjnych
+(10)
+Ankieta dot. używanych systemów operacyjnych
 
 
 2. Android (15 min)
