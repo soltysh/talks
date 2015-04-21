@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>JBoss on OpenShift</title>
+  <meta name="author" content="Maciej Szulik">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/css/reveal.min.css"/>
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/css/theme/night.min.css" id="theme">
+
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/lib/css/zenburn.min.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/css/print/pdf.min.css' : 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/css/print/paper.min.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+
+  <!-- Customizations -->
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" />
+  <style type="text/css">
+    code{white-space: pre;}
+    .reveal i{font-family: 'FontAwesome'; font-style: normal;}
+    .reveal section img {border: none;}
+    .side-by-side {box-sizing: border-box;display: flex;}
+    .side-by-side .box {width: 50%;}
+  </style>
+
+  <!--[if lt IE 9]>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <h1>JBoss on OpenShift</h1>
+        <br />
+        <h3>Maciej Szulik</h3>
+        <p>Warsaw, 2015</p>
+      </section>
+
+      <section>
+        <h2>TOC</h2>
+        <p>About me</p>
+        <p>OpenShift v2</p>
+        <p>Demo</p>
+        <p>OpenShift v3</p>
+        <p>Demo</p>
+        <p>Q &amp; A</p>
+      </section>
+
+      <section>
+        <h3>@soltysh</h3>
+        <p>Programming ~10 years</p>
+        <p>C/C++, Java, JavaScript, Ruby, Bash, Go</p>
+      </section>
+
+      <section>
+        <img src="img/openshift.png" />
+      </section>
+
+      <section style="text-align: left; margin-left: 40%;">
+        <i class="fa-check-square-o"></i>&nbsp;Multi-language<br />
+        <i class="fa-check-square-o"></i>&nbsp;Auto-scaling<br />
+        <i class="fa-check-square-o"></i>&nbsp;Self-service<br />
+        <i class="fa-check-square-o"></i>&nbsp;Open Source<br />
+        <i class="fa-check-square-o"></i>&nbsp;Enterprise-grade<br />
+        <i class="fa-check-square-o"></i>&nbsp;Secure<br />
+        <i class="fa-check-square-o"></i>&nbsp;Built on Red Hat<br />
+      </section>
+
+      <section>
+        <h3>Flow</h3>
+        <img src="img/flow.png" />
+        <p>Code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Deploy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Run</p>
+      </section>
+
+      <section>
+        <h3>Flow</h3>
+        <img src="img/flow2.png" />
+      </section>
+
+      <section>
+        <h3>Numbers</h3>
+        <p><b>22</b> web cartridges (jboss, wildfly, etc.)</p>
+        <p><b>12</b> addon cartridges (jenkins, cron, mysql, etc.)</p>
+        <p><b>1M+</b> applications in Online</p>
+      </section>
+
+      <section data-background="img/openshift-background.png">
+        <h2>Demo Time!</h2>
+      </section>
+
+      <section>
+        <img src="img/openshift.png" />
+      </section>
+
+      <section>
+        <p>Network components wired together</p>
+        <!-- SOA, Microservices -->
+        <p>Ease of building, deploying and managing</p>
+        <p>Image based deployments (Docker)</p>
+        <p>Declarative application description</p>
+        <p>Easily provision new resources</p>
+        <p>Reduce operational complexity</p>
+      </section>
+
+      <section>
+        <div class="side-by-side">
+          <div class="box">
+            <img src="img/docker.png">
+          </div>
+          <div class="box">
+            <img src="img/kubernetes.png">
+          </div>
+      </section>
+
+      <section data-background="img/docker-background.png">
+        section about docker
+      </section>
+
+      <section data-background="img/kubernetes-background.png">
+        section about k8s
+      </section>
+
+      <section data-background="img/openshift-background.png">
+        section about openshift
+      </section>
+
+      <section data-background="img/openshift-background.png">
+        <h2>Demo Time!</h2>
+      </section>
+
+      <section>
+        <a href="https://github.com/openshift/origin-server">https://github.com/openshift/origin-server</a><br />
+        <img src="img/qr-origin-server.png" /><br />
+        <a href="https://github.com/openshift/origin">https://github.com/openshift/origin</a><br />
+        <img src="img/qr-origin.png" />
+      </section>
+
+      <section>
+        <h1><i class="fa-question"></i>&nbsp;<i class="fa-question"></i>&nbsp;<i class="fa-question"></i></h1>
+        <br /><br /><br /><br />
+        <h3>Thank you</h3>
+        <h3>Maciej Szulik</h3>
+        <h3>soltysh @ <i class="fa-twitter"></i>&nbsp;<i class="fa-github"></i>&nbsp;
+          <i class="fa-bitbucket"></i>&nbsp;<i class="fa-google"></i></h3>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/lib/js/head.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/js/reveal.min.js"></script>
+
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      transition: 'none',
+      dependencies: [
+        { src: 'http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      ]
+    });
+  </script>
+  </body>
+</html>
