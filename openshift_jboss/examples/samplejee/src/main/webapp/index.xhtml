@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <meta charset="utf-8" />
+</h:head>
+<h:body>
+    <h1>List:</h1>
+    <div>
+        <h:dataTable value="#{employeeBean.employeeList}" var="e">
+                <h:column>
+                    <f:facet name="header">Id</f:facet>
+                    #{e.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    #{e.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Surname</f:facet>
+                    #{e.surname}
+                </h:column>
+        </h:dataTable>
+    </div>
+    <h1>New:</h1>
+    <div>
+        <h:form>
+            <h:messages />
+
+            <h:outputLabel for="name" value="Name:" />
+            <h:inputText label="name" id="name" value="#{employeeBean.employee.name}" required="true">
+                <f:validateLength minimum="5" />
+            </h:inputText>
+            <br />
+
+            <h:outputLabel for="surname" value="Surname:" />
+            <h:inputText label="surname" id="surname" value="#{employeeBean.employee.surname}" required="true">
+                <f:validateLength minimum="5" />
+            </h:inputText>
+            <br />
+
+            <h:commandButton id="create" value="Register" action="#{employeeBean.register}" ajax="false" />
+        </h:form>
+    </div>
+</h:body>
+</html>
+
