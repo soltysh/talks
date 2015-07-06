@@ -1,30 +1,39 @@
 Microservices on OpenShift v3
 -----------------------
 
-According to wikipedia (??? try microservices.io) microservices (in computing
-of course ;)) "is a software architecture style, in which complex applications
-are composed of small, independent processes communicating with each other using
-language-agnostic APIs. These services are small, highly decoupled and focus on
-doing a small task." That definition sounds very promising and makes you think
-about miscroservices architecture as something very easy. Is it really that
-simple to create such services? If you think about each of the separately then
-I'd say yes, but what about that moment when your project grows into more than
-5 or more tasks? What about deploying them into tens, hundreds or thousands of
-instances? Can you imagine world where doing such complex task will be as easy as
-pressing one button (or invoking one CLI command for CLI nerds ;)). If that sounds
-interesting to you come join me and I'll show you the amazing features and possibilities
-the brand new OpenShift v3 has to offer. I don't like talking too much about how
-it was done so major part of my presentation will be a live demo where you'll
-be able to see how easy it is to run OpenShift by yourself and leverage its
-features to simplify your development and operational processes.
+According to the Internet, microservices (in computing of course ;)) "is a software
+architecture style, in which complex applications are composed of small, independent
+processes communicating with each other using language-agnostic APIs. These services
+are small, highly decoupled and focus on doing a small task." (https://en.wikipedia.org/wiki/Microservices)
+That definition sounds very promising and makes you think about miscroservices
+architecture as something very easy. But is it really that simple to create such
+services? If you think about each of the pieces separately then maybe the answer
+is "yes", but what about that moment when your project grows into more than 5 tasks?
+What about deploying them into tens, hundreds or thousands of instances? What about
+rolling out a new release of a single component or even dozens of them?
 
+You can see that the problem becomes very complex, very quickly. But now can you
+imagine a world where doing such complex tasks will be as easy as pressing one
+button (or invoking one command for CLI nerds ;))? If that sounds interesting to
+you, come join me and I'll show you the amazing features and possibilities the
+brand new OpenShift v3 has to offer.
+
+I don't like talking too much about ideas; I prefer live action. This means the
+major part of my presentation will be live demo where you'll be able to see how
+easy it is to run OpenShift by yourself and leverage its features to simplify your
+processes making both your development and operational team happy.
+
+Still not impressed? Checkout this demo of ours https://youtu.be/FAJsx1HxsuM?t=2279
+and don't hesitate!
 
 Abstract:
 1. What are miscroservices (5 min)
-  * Developmen
-  * Deployment
+  * Definition
+  * Development of microservices
+  * Deployment of microservices
 1. OpenShift v3 (15 min)
-  * Architecture (Docker + Kubernetes)
-  * Workflow
+  * Docker - what is and how to use it (1 min)
+  * Kubernetes - architecture (4 min)
+  * OpenShift v3 - architecture (8 min)
+  * Sample workflow (2 min)
 1. Live demo (10 min)
-
