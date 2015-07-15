@@ -1,10 +1,14 @@
 Microservices on OpenShift v3
 -----------------------
 
-According to the Internet, microservices (in computing of course ;)) "is a software
-architecture style, in which complex applications are composed of small, independent
-processes communicating with each other using language-agnostic APIs. These services
-are small, highly decoupled and focus on doing a small task." (https://en.wikipedia.org/wiki/Microservices)
+According to Martin Fowler, microservices "is an approach to developing a single
+application as a suite of small services, each running in its own process and
+communicating with lightweight mechanisms, often an HTTP resource API. These
+services are built around business capabilities and independently deployable by
+fully automated deployment machinery. There is a bare minimum of centralized
+management of these services, which may be written in different programming
+languages and use different data storage technologies."
+(http://martinfowler.com/articles/microservices.html)
 That definition sounds very promising and makes you think about miscroservices
 architecture as something very easy. But is it really that simple to create such
 services? If you think about each of the pieces separately then maybe the answer
