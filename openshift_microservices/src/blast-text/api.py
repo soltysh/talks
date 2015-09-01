@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_restful import Resource, Api
 
@@ -21,4 +23,4 @@ class BlastText(Resource):
 api.add_resource(BlastText, '/blast/api/v1.0/text/<string:text>')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=os.getenv('BLAST_DEBUG')=='True')
