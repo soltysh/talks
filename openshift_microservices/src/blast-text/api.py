@@ -3,7 +3,7 @@ import os
 from flask import Flask
 from flask_restful import Resource, Api
 
-from mongo import Mongo
+from db import Mongo
 
 app = Flask(__name__)
 api = Api(app)
