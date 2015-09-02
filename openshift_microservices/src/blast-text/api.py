@@ -16,7 +16,7 @@ class BlastText(Resource):
     def get(self, text):
         items = []
         for obj in self._db.get(text):
-            items.append({'id': str(obj['_id']), 'text': obj['text']})
+            items.append({'id': str(obj['_id']), 'url': obj['url'], 'text': obj['text']})
         return {'items': items}
 
 
