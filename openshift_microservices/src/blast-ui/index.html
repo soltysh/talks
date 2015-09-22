@@ -1,13 +1,36 @@
-<!DOCTYPE <!DOCTYPE html>
-<html ng-app="blast-ui">
+<!DOCTYPE html>
+<html lang="en" ng-app="blast-ui">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>The Blast</title>
+
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/app.css" />
+
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
   </head>
-  <body>
 
+  <body ng-controller="BlastUIController as blastCtrl">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-brand">The Blast</div>
+        <form name="searchForm" class="navbar-form" ng-submit="blastCtrl.search()" novalidate>
+          <input placeholder="text" class="form-control" type="text">
+          <button class="btn btn-success" type="submit">search</button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div ng-repeat="text in blastCtrl.texts">
+          <a ng-href="{{text.url}}">{{text.url}}</a>
+          <p>{{text.text}}</p>
+      </div>
+    </div>
   </body>
 </html>
