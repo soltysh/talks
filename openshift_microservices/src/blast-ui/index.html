@@ -19,18 +19,32 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-brand">The Blast</div>
-        <form name="searchForm" class="navbar-form" ng-submit="blastCtrl.search()" novalidate>
-          <input placeholder="text" class="form-control" type="text">
+        <form name="searchForm" class="navbar-form" novalidate ng-submit="searchForm.$valid && blastCtrl.search()">
+          <input placeholder="text" class="form-control" required autofocus ng-model="blastCtrl.searchText" type="text" />
           <button class="btn btn-success" type="submit">search</button>
         </form>
       </div>
     </nav>
 
     <div class="container">
-      <div ng-repeat="text in blastCtrl.texts">
-          <a ng-href="{{text.url}}">{{text.url}}</a>
-          <p>{{text.text}}</p>
+
+      <div ng-repeat="text in blastCtrl.texts" class="col-md-4">
+        <a ng-href="{{text.url}}">{{text.url}}</a>
+        <p>{{text.text}}</p>
       </div>
+
+      <div ng-repeat="image in blastCtrl.images" class="col-md-4">
+        <img ng-src="data:image/png;base64,{{image.image}}"></img>
+      </div>
+
+      <div ng-repeat="video in blastCtrl.videos" class="col-md-4">
+        <a ng-href="{{video.url}}">{{video.url}}</a>
+      </div>
+
+      <div ng-show="blastCtrl.noResults()">
+        Sorry, no results.
+      </div>
+
     </div>
   </body>
 </html>
