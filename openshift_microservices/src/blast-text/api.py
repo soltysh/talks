@@ -21,7 +21,7 @@ class BlastText(Resource):
         items = []
         for obj in self._db.get(text):
             items.append({'id': str(obj['_id']), 'url': obj['url'], 'text': obj['text']})
-        return {'items': items}
+        return items
 
 
 api.add_resource(BlastText, '/blast/api/v1.0/text/<string:text>')

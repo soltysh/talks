@@ -21,7 +21,7 @@ class BlastVideo(Resource):
         items = []
         for obj in self._db.get(tag):
             items.append({'url': obj.decode('utf-8')})
-        return {'items': items}
+        return items
 
 
 api.add_resource(BlastVideo, '/blast/api/v1.0/video/<string:tag>')
