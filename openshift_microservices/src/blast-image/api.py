@@ -20,8 +20,8 @@ class BlastImage(Resource):
     def get(self, tag):
         items = []
         for obj in self._db.get(tag):
-            items.append({'tag': obj['tag'], 'image': obj['image'].decode('utf-8')})
-        return {'items': items}
+            items.append({'tag': obj['tag'], 'image': obj['image']})
+        return items
 
 
 api.add_resource(BlastImage, '/blast/api/v1.0/image/<string:tag>')
