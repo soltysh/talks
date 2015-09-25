@@ -1,0 +1,103 @@
+  kind: Template
+  apiVersion: v1
+  metadata:
+    name: openshift-microservices
+    annotations:
+      description: This example shows how to create application containing multiple micoroservices in openshift origin v3
+      iconClass: icon-python
+  labels:
+    template: openshift-microservices-template
+  objects:
+    #
+    # blast-image build configuration
+    #
+    - kind: BuildConfig
+      apiVersion: v1
+      metadata:
+        name: blast-image
+        labels:
+          name: blast-image
+      spec:
+        triggers:
+          - type: GitHub
+            github:
+              secret: secret101
+          - type: Generic
+            generic:
+              secret: secret101
+          - type: ImageChange
+          - type: ConfigChange
+        source:
+          type: Git
+          git:
+            uri: https://github.com/soltysh/talks.git
+            contextDir: openshift_microservices/src/blast-image
+        strategy:
+          type: Source
+          sourceStrategy:
+            from:
+              kind: ImageStreamTag
+              name: python:latest
+              namespace: openshift
+        output:
+          to:
+            kind: ImageStreamTag
+            name: blast-image:latest
+    #
+    # blast-image image stream configuration
+    #
+    - kind: "ImageStream"
+      apiVersion: "v1"
+      metadata:
+        name: "blast-image"
+    #
+    # blast-image deployment configuration
+    #
+    - kind: DeploymentConfig
+      apiVersion: v1
+      metadata:
+        name: blast-image
+      spec:
+        strategy:
+          type: Rolling
+        triggers:
+          - type: ImageChange
+            imageChangeParams:
+              automatic: true
+              containerNames:
+                - blast-image
+              from:
+                kind: ImageStreamTag
+                name: blast-image:latest
+          - type: ConfigChange
+        replicas: 1
+        selector:
+          name: blast-image
+        template:
+          metadata:
+            labels:
+              name: blast-image
+          spec:
+            containers:
+              - name: blast-image
+                image: blast-image
+                ports:
+                  - containerPort: 8080
+                    protocol: TCP
+                imagePullPolicy: IfNotPresent
+            restartPolicy: Always
+    #
+    # blast-image service configuration
+    #
+    - kind: Service
+      apiVersion: v1
+      metadata:
+        name: blast-image
+      spec:
+        ports:
+          - name: web
+            protocol: TCP
+            port: 8080
+            targetPort: 8080
+        selector:
+          name: blast-image
