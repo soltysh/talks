@@ -151,6 +151,151 @@ objects:
           targetPort: 5432
       selector:
         name: blast-image-db
+  #
+  # blast-text build configuration
+  #
+  - kind: BuildConfig
+    apiVersion: v1
+    metadata:
+      name: blast-text
+      labels:
+        name: blast-text
+    spec:
+      triggers:
+        - type: GitHub
+          github:
+            secret: secret101
+        - type: Generic
+          generic:
+            secret: secret101
+        - type: ImageChange
+        - type: ConfigChange
+      source:
+        type: Git
+        git:
+          uri: https://github.com/soltysh/talks.git
+          contextDir: openshift_microservices/src/blast-text
+      strategy:
+        type: Source
+        sourceStrategy:
+          from:
+            kind: ImageStreamTag
+            name: python:latest
+            namespace: openshift
+      output:
+        to:
+          kind: ImageStreamTag
+          name: blast-text:latest
+  #
+  # blast-text image stream configuration
+  #
+  - kind: ImageStream
+    apiVersion: v1
+    metadata:
+      name: blast-text
+  #
+  # blast-text deployment configuration
+  #
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: blast-text
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - blast-text
+            from:
+              kind: ImageStreamTag
+              name: blast-text:latest
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        name: blast-text
+      template:
+        metadata:
+          labels:
+            name: blast-text
+        spec:
+          containers:
+            - name: blast-text
+              image: blast-text
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Always
+  #
+  # blast-text service configuration
+  #
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: blast-text
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+      selector:
+        name: blast-text
+  #
+  # blast-text backend deployment configuration
+  #
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: blast-text-db
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        name: blast-text-db
+      template:
+        metadata:
+          labels:
+            name: blast-text-db
+        spec:
+          containers:
+            - name: blast-text-db
+              image: openshift/mongodb-24-centos7:latest
+              ports:
+                - containerPort: 27017
+                  protocol: TCP
+              env:
+                - name: MONGODB_USER
+                  value: "${MONGODB_USER}"
+                - name: MONGODB_PASSWORD
+                  value: "${MONGODB_PASSWORD}"
+                - name: MONGODB_DATABASE
+                  value: blast_text
+                - name: MONGODB_ADMIN
+                  value: "${MONGODB_ADMIN}"
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Always
+  #
+  # blast-text backend service configuration
+  #
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: blast-text-db
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 27017
+          targetPort: 27017
+      selector:
+        name: blast-text-db
 parameters:
   - name: POSTGRESQL_USER
     description: postgresql database username
@@ -161,4 +306,19 @@ parameters:
     description: posgresql database password
     generate: expression
     from: "[A-Z0-9]{9}"
+    required: true
+  - name: MONGODB_USER
+    description: mongodb database username
+    generate: expression
+    from: "user[A-Z0-9]{4}"
+    required: true
+  - name: MONGODB_PASSWORD
+    description: mongodb database password
+    generate: expression
+    from: "[A-Z0-9]{9}"
+    required: true
+  - name: MONGODB_ADMIN
+    description: mongodb database admin
+    generate: expression
+    from: "admin[A-Z0-9]{4}"
     required: true
