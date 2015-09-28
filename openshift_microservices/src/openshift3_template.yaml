@@ -296,6 +296,235 @@ objects:
           targetPort: 27017
       selector:
         name: blast-text-db
+  #
+  # blast-video build configuration
+  #
+  - kind: BuildConfig
+    apiVersion: v1
+    metadata:
+      name: blast-video
+      labels:
+        name: blast-video
+    spec:
+      triggers:
+        - type: GitHub
+          github:
+            secret: secret101
+        - type: Generic
+          generic:
+            secret: secret101
+        - type: ImageChange
+        - type: ConfigChange
+      source:
+        type: Git
+        git:
+          uri: https://github.com/soltysh/talks.git
+          contextDir: openshift_microservices/src/blast-video
+      strategy:
+        type: Source
+        sourceStrategy:
+          from:
+            kind: ImageStreamTag
+            name: python:latest
+            namespace: openshift
+      output:
+        to:
+          kind: ImageStreamTag
+          name: blast-video:latest
+  #
+  # blast-video image stream configuration
+  #
+  - kind: ImageStream
+    apiVersion: v1
+    metadata:
+      name: blast-video
+  #
+  # blast-video deployment configuration
+  #
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: blast-video
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - blast-video
+            from:
+              kind: ImageStreamTag
+              name: blast-video:latest
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        name: blast-video
+      template:
+        metadata:
+          labels:
+            name: blast-video
+        spec:
+          containers:
+            - name: blast-video
+              image: blast-video
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Always
+  #
+  # blast-video service configuration
+  #
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: blast-video
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+      selector:
+        name: blast-video
+  #
+  # blast-video backend deployment configuration
+  #
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: blast-video-db
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        name: blast-video-db
+      template:
+        metadata:
+          labels:
+            name: blast-video-db
+        spec:
+          containers:
+            - name: blast-video-db
+              image: redis:latest
+              ports:
+                - containerPort: 6379
+                  protocol: TCP
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Always
+  #
+  # blast-video backend service configuration
+  #
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: blast-video-db
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 6379
+          targetPort: 6379
+      selector:
+        name: blast-video-db
+  #
+  # blast-ui build configuration
+  #
+  - kind: BuildConfig
+    apiVersion: v1
+    metadata:
+      name: blast-ui
+      labels:
+        name: blast-ui
+    spec:
+      triggers:
+        - type: GitHub
+          github:
+            secret: secret101
+        - type: Generic
+          generic:
+            secret: secret101
+        - type: ImageChange
+        - type: ConfigChange
+      source:
+        type: Git
+        git:
+          uri: https://github.com/soltysh/talks.git
+          contextDir: openshift_microservices/src/blast-ui
+      strategy:
+        type: Source
+        sourceStrategy:
+          from:
+            kind: DockerImage
+            name: soltysh/lighttpd-centos7
+            namespace: openshift
+      output:
+        to:
+          kind: ImageStreamTag
+          name: blast-ui:latest
+  #
+  # blast-ui image stream configuration
+  #
+  - kind: ImageStream
+    apiVersion: v1
+    metadata:
+      name: blast-ui
+  #
+  # blast-ui deployment configuration
+  #
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: blast-ui
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - blast-ui
+            from:
+              kind: ImageStreamTag
+              name: blast-ui:latest
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        name: blast-ui
+      template:
+        metadata:
+          labels:
+            name: blast-ui
+        spec:
+          containers:
+            - name: blast-ui
+              image: blast-ui
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Always
+  #
+  # blast-video service configuration
+  #
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: blast-ui
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+      selector:
+        name: blast-video
 parameters:
   - name: POSTGRESQL_USER
     description: postgresql database username
