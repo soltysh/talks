@@ -5,7 +5,6 @@ import psycopg2
 class PostgreSQL():
 
     def __init__(self, username, password, host, port):
-        print("setting up connection to ", username, password, host, port)
         self._conn = psycopg2.connect(user=username, password=password, \
             host=host, port=port, database='blast_image')
 
