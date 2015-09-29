@@ -472,14 +472,13 @@ objects:
         type: Git
         git:
           uri: https://github.com/soltysh/talks.git
-          contextDir: openshift_microservices/src/blast-ui
+        contextDir: openshift_microservices/src/blast-ui
       strategy:
         type: Source
         sourceStrategy:
           from:
             kind: DockerImage
             name: soltysh/lighttpd-centos7
-            namespace: openshift
       output:
         to:
           kind: ImageStreamTag
