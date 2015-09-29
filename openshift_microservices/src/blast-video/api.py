@@ -15,7 +15,11 @@ api.decorators = [cors.crossdomain(
 class BlastVideo(Resource):
 
     def __init__(self):
-        self._db = Redis('localhost', '6379')
+        if 'BLAST_VIDEO_DB_SERVICE_HOST' in os.environ:
+            self._db = Redis(os.environ['BLAST_VIDEO_DB_SERVICE_HOST'], \
+                os.environ['BLAST_VIDEO_DB_SERVICE_PORT'])
+        else:
+            self._db = Redis('localhost', '6379')
 
     def get(self, tag):
         items = []
