@@ -15,7 +15,13 @@ api.decorators = [cors.crossdomain(
 class BlastText(Resource):
 
     def __init__(self):
-        self._db = Mongo('user', 'password', 'localhost', '27017')
+        if 'BLAST_TEXT_DB_SERVICE_HOST' in os.environ:
+            self._db = Mongo(os.environ['MONGODB_USER'], \
+                os.environ['MONGODB_PASSWORD'], \
+                os.environ['BLAST_VIDEO_DB_SERVICE_HOST'], \
+                os.environ['BLAST_VIDEO_DB_SERVICE_PORT'])
+        else:
+            self._db = Mongo('user', 'password', 'localhost', '27017')
 
     def get(self, text):
         items = []

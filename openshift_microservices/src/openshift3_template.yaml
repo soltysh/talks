@@ -181,7 +181,7 @@ objects:
         type: Git
         git:
           uri: https://github.com/soltysh/talks.git
-          contextDir: openshift_microservices/src/blast-text
+        contextDir: openshift_microservices/src/blast-text
       strategy:
         type: Source
         sourceStrategy:
@@ -234,6 +234,13 @@ objects:
               ports:
                 - containerPort: 8080
                   protocol: TCP
+              env:
+                - name: MONGODB_USER
+                  value: "${MONGODB_USER}"
+                - name: MONGODB_PASSWORD
+                  value: "${MONGODB_PASSWORD}"
+                - name: APP_MODULE
+                  value: api:app
               imagePullPolicy: IfNotPresent
           restartPolicy: Always
   #
