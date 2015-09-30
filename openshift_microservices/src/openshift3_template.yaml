@@ -291,8 +291,8 @@ objects:
                   value: "${MONGODB_PASSWORD}"
                 - name: MONGODB_DATABASE
                   value: blast_text
-                - name: MONGODB_ADMIN
-                  value: "${MONGODB_ADMIN}"
+                - name: MONGODB_ADMIN_PASSWORD
+                  value: "${MONGODB_ADMIN_PASSWORD}"
               imagePullPolicy: IfNotPresent
           restartPolicy: Always
   #
@@ -562,8 +562,8 @@ parameters:
     generate: expression
     from: "[A-Z0-9]{9}"
     required: true
-  - name: MONGODB_ADMIN
-    description: mongodb database admin
+  - name: MONGODB_ADMIN_PASSWORD
+    description: mongodb database admin password
     generate: expression
-    from: "admin[A-Z0-9]{4}"
+    from: "[A-Z0-9]{9}"
     required: true
