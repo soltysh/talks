@@ -18,8 +18,8 @@ class BlastText(Resource):
         if 'BLAST_TEXT_DB_SERVICE_HOST' in os.environ:
             self._db = Mongo(os.environ['MONGODB_USER'], \
                 os.environ['MONGODB_PASSWORD'], \
-                os.environ['BLAST_VIDEO_DB_SERVICE_HOST'], \
-                os.environ['BLAST_VIDEO_DB_SERVICE_PORT'])
+                os.environ['BLAST_TEXT_DB_SERVICE_HOST'], \
+                os.environ['BLAST_TEXT_DB_SERVICE_PORT'])
         else:
             self._db = Mongo('user', 'password', 'localhost', '27017')
 
