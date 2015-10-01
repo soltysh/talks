@@ -16,15 +16,17 @@ class BlastVideo(Resource):
 
     def __init__(self):
         if 'BLAST_VIDEO_DB_SERVICE_HOST' in os.environ:
-            self._db = Redis(os.environ['BLAST_VIDEO_DB_SERVICE_HOST'], \
+            self._db = Mongo(os.environ['MONGODB_USER'], \
+                os.environ['MONGODB_PASSWORD'], \
+                os.environ['BLAST_VIDEO_DB_SERVICE_HOST'], \
                 os.environ['BLAST_VIDEO_DB_SERVICE_PORT'])
         else:
-            self._db = Redis('localhost', '6379')
+            self._db = Mongo('user', 'password', 'localhost', '27017')
 
     def get(self, tag):
         items = []
         for obj in self._db.get(tag):
-            items.append({'url': obj.decode('utf-8')})
+            items.append({'id': str(obj['_id']), 'url': obj['url'], 'title': obj['title']})
         return items
 
 

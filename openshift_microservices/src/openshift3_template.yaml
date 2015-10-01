@@ -387,6 +387,10 @@ objects:
                 - containerPort: 8080
                   protocol: TCP
               env:
+                - name: MONGODB_USER
+                  value: "${MONGODB2_USER}"
+                - name: MONGODB_PASSWORD
+                  value: "${MONGODB2_PASSWORD}"
                 - name: APP_MODULE
                   value: api:app
               imagePullPolicy: IfNotPresent
@@ -428,10 +432,19 @@ objects:
         spec:
           containers:
             - name: blast-video-db
-              image: redis:latest
+              image: openshift/mongodb-24-centos7:latest
               ports:
-                - containerPort: 6379
+                - containerPort: 27017
                   protocol: TCP
+              env:
+                - name: MONGODB_USER
+                  value: "${MONGODB2_USER}"
+                - name: MONGODB_PASSWORD
+                  value: "${MONGODB2_PASSWORD}"
+                - name: MONGODB_DATABASE
+                  value: blast_video
+                - name: MONGODB_ADMIN_PASSWORD
+                  value: "${MONGODB2_ADMIN_PASSWORD}"
               imagePullPolicy: IfNotPresent
           restartPolicy: Always
   #
@@ -445,8 +458,8 @@ objects:
       ports:
         - name: web
           protocol: TCP
-          port: 6379
-          targetPort: 6379
+          port: 27017
+          targetPort: 27017
       selector:
         name: blast-video-db
   #
@@ -563,6 +576,21 @@ parameters:
     from: "[A-Z0-9]{9}"
     required: true
   - name: MONGODB_ADMIN_PASSWORD
+    description: mongodb database admin password
+    generate: expression
+    from: "[A-Z0-9]{9}"
+    required: true
+  - name: MONGODB2_USER
+    description: mongodb database username
+    generate: expression
+    from: "user[A-Z0-9]{4}"
+    required: true
+  - name: MONGODB2_PASSWORD
+    description: mongodb database password
+    generate: expression
+    from: "[A-Z0-9]{9}"
+    required: true
+  - name: MONGODB2_ADMIN_PASSWORD
     description: mongodb database admin password
     generate: expression
     from: "[A-Z0-9]{9}"
