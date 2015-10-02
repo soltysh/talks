@@ -60,6 +60,20 @@ objects:
     spec:
       strategy:
         type: Rolling
+        rollingParams:
+          pre:
+            failurePolicy: Abort
+            execNewPod:
+              containerName: blast-text
+              command:
+              - container-entrypoint
+              - python
+              - initdb.py
+              env:
+                - name: MONGODB_USER
+                  value: "${MONGODB_USER}"
+                - name: MONGODB_PASSWORD
+                  value: "${MONGODB_PASSWORD}"
       triggers:
         - type: ImageChange
           imageChangeParams:
