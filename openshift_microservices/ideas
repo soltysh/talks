@@ -1,2 +1,22 @@
 Caveats:
 - running images as random user, NON ROOT!
+
+Available info about Microservices:
+- Speeding up Development Microservices Architectures What's Next by Adrian Cockcroft
+- State of the Art in Microservices by Adrian Cockcroft
+- Martin Fowler doc about microservice
+- Microservices & you - Practical introduction by Steven Pousty, Grant Shipley
+- Domain Driven Design book by Eric Evans
+
+Quick recap:
+- from monolithic app to microservices
+- microservices are technology agnostic, use it with whatever you feel comfortable now
+- miscroservices definition: loosely coupled application with clear boundaries
+- clear boundaries infinite possibilities
+- independent sprint teams
+- it's not right for all applications
+
+Who's using microservices:
+- netflix
+- twitter
+-
