@@ -1,0 +1,181 @@
+kind: Template
+apiVersion: v1
+metadata:
+  name: openshift-microservices
+  annotations:
+    description: This example shows how to create application containing multiple micoroservices in openshift origin v3
+    iconClass: icon-python
+labels:
+  template: openshift-microservices-template
+objects:
+  #
+  # build configuration
+  #
+  - kind: BuildConfig
+    apiVersion: v1
+    metadata:
+      name: blast-video
+      labels:
+        name: blast-video
+    spec:
+      triggers:
+        - type: GitHub
+          github:
+            secret: secret101
+        - type: Generic
+          generic:
+            secret: secret101
+        - type: ImageChange
+        - type: ConfigChange
+      source:
+        type: Git
+        git:
+          uri: https://github.com/soltysh/talks.git
+        contextDir: openshift_microservices/src/blast-video
+      strategy:
+        type: Source
+        sourceStrategy:
+          from:
+            kind: ImageStreamTag
+            name: python:latest
+            namespace: openshift
+      output:
+        to:
+          kind: ImageStreamTag
+          name: blast-video:latest
+  #
+  # image stream configuration
+  #
+  - kind: ImageStream
+    apiVersion: v1
+    metadata:
+      name: blast-video
+  #
+  # deployment configuration
+  #
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: blast-video
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - blast-video
+            from:
+              kind: ImageStreamTag
+              name: blast-video:latest
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        name: blast-video
+      template:
+        metadata:
+          labels:
+            name: blast-video
+        spec:
+          containers:
+            - name: blast-video
+              image: blast-video
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              env:
+                - name: MONGODB_USER
+                  value: "${MONGODB_USER}"
+                - name: MONGODB_PASSWORD
+                  value: "${MONGODB_PASSWORD}"
+                - name: APP_MODULE
+                  value: api:app
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Always
+  #
+  # service configuration
+  #
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: blast-video
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+      selector:
+        name: blast-video
+  #
+  # backend deployment configuration
+  #
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: blast-video-db
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        name: blast-video-db
+      template:
+        metadata:
+          labels:
+            name: blast-video-db
+        spec:
+          containers:
+            - name: blast-video-db
+              image: openshift/mongodb-24-centos7:latest
+              ports:
+                - containerPort: 27017
+                  protocol: TCP
+              env:
+                - name: MONGODB_USER
+                  value: "${MONGODB_USER}"
+                - name: MONGODB_PASSWORD
+                  value: "${MONGODB_PASSWORD}"
+                - name: MONGODB_DATABASE
+                  value: blast_video
+                - name: MONGODB_ADMIN_PASSWORD
+                  value: "${MONGODB_ADMIN_PASSWORD}"
+              imagePullPolicy: IfNotPresent
+          restartPolicy: Always
+  #
+  # backend service configuration
+  #
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: blast-video-db
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 27017
+          targetPort: 27017
+      selector:
+        name: blast-video-db
+#
+# template parameters generation configuration
+#
+parameters:
+  - name: MONGODB_USER
+    description: mongodb database username
+    generate: expression
+    from: "user[A-Z0-9]{4}"
+    required: true
+  - name: MONGODB_PASSWORD
+    description: mongodb database password
+    generate: expression
+    from: "[A-Z0-9]{9}"
+    required: true
+  - name: MONGODB_ADMIN_PASSWORD
+    description: mongodb database admin password
+    generate: expression
+    from: "[A-Z0-9]{9}"
+    required: true
