@@ -60,6 +60,20 @@ objects:
     spec:
       strategy:
         type: Rolling
+        rollingParams:
+          pre:
+            failurePolicy: Abort
+            execNewPod:
+              containerName: blast-text
+              command:
+              - container-entrypoint
+              - python
+              - initdb.py
+              env:
+                - name: POSTGRESQL_USER
+                  value: "${POSTGRESQL_USER}"
+                - name: POSTGRESQL_PASSWORD
+                  value: "${POSTGRESQL_PASSWORD}"
       triggers:
         - type: ImageChange
           imageChangeParams:
