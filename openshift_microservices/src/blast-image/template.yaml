@@ -64,7 +64,7 @@ objects:
           pre:
             failurePolicy: Abort
             execNewPod:
-              containerName: blast-text
+              containerName: blast-image
               command:
               - container-entrypoint
               - python
@@ -121,6 +121,17 @@ objects:
           port: 8080
           targetPort: 8080
       selector:
+        name: blast-image
+  #
+  # route configuration
+  #
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      name: blast-image
+    spec:
+      to:
+        kind: Service
         name: blast-image
   #
   # backend deployment configuration

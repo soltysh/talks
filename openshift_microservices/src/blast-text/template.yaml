@@ -123,6 +123,17 @@ objects:
       selector:
         name: blast-text
   #
+  # route configuration
+  #
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      name: blast-text
+    spec:
+      to:
+        kind: Service
+        name: blast-text
+  #
   # backend deployment configuration
   #
   - kind: DeploymentConfig
