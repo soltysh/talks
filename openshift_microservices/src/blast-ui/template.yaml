@@ -100,3 +100,14 @@ objects:
           targetPort: 8080
       selector:
         name: blast-video
+  #
+  # route configuration
+  #
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      name: blast-video
+    spec:
+      to:
+        kind: Service
+        name: blast-video
