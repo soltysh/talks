@@ -10,6 +10,10 @@
 
         var store = this;
         this.search = function() {
+            store.texts = {};
+            store.images = {};
+            store.videos = {};
+
             textURL = 'http://blast-text.test.svc.cluster.local:8080/blast/api/v1.0/text/' + encodeURIComponent(store.searchText);
             $http.get(textURL).success(function(data){
                 store.texts = data;
