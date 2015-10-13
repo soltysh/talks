@@ -106,7 +106,7 @@ objects:
   - kind: Route
     apiVersion: v1
     metadata:
-      name: blast-video
+      name: blast-ui
     spec:
       to:
         kind: Service
