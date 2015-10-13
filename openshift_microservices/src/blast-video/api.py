@@ -4,7 +4,7 @@ from flask import Flask
 from flask_restful import Resource, Api
 from flask.ext.restful.utils import cors
 
-from db import Redis
+from db import Mongo
 
 app = Flask(__name__)
 api = Api(app)

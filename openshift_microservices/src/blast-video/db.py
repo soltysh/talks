@@ -1,9 +1,9 @@
 from pymongo import MongoClient
 
-class Redis():
+class Mongo():
 
     def __init__(self, username, password, host, port):
-        self._client = MongoClient('mongodb://{}:{}@{}:{}/blast_text'.format(username, password, host, port))
+        self._client = MongoClient('mongodb://{}:{}@{}:{}/blast_video'.format(username, password, host, port))
 
     def get(self, text):
         result = []
