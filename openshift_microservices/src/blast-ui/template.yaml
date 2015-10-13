@@ -99,7 +99,7 @@ objects:
           port: 8080
           targetPort: 8080
       selector:
-        name: blast-video
+        name: blast-ui
   #
   # route configuration
   #
@@ -110,4 +110,4 @@ objects:
     spec:
       to:
         kind: Service
-        name: blast-video
+        name: blast-ui
