@@ -14,17 +14,17 @@
             store.images = {};
             store.videos = {};
 
-            textURL = 'http://blast-text.test.svc.cluster.local:8080/blast/api/v1.0/text/' + encodeURIComponent(store.searchText);
+            textURL = 'http://blast-text-test.router.default.svc.cluster.local/blast/api/v1.0/text/' + encodeURIComponent(store.searchText);
             $http.get(textURL).success(function(data){
                 store.texts = data;
             });
 
-            imagesURL = 'http://blast-image.test.svc.cluster.local:8080/blast/api/v1.0/image/' + encodeURIComponent(store.searchText);
+            imagesURL = 'http://blast-image-test.router.default.svc.cluster.local/blast/api/v1.0/image/' + encodeURIComponent(store.searchText);
             $http.get(imagesURL).success(function(data){
                 store.images = data;
             });
 
-            videosURL = 'http://blast-video.test.svc.cluster.local:8080/blast/api/v1.0/video/' + encodeURIComponent(store.searchText);
+            videosURL = 'http://blast-video-test.router.default.svc.cluster.local/blast/api/v1.0/video/' + encodeURIComponent(store.searchText);
             $http.get(videosURL).success(function(data){
                 store.videos = data;
             });
