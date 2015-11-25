@@ -1,3 +1,27 @@
 How Java dev benefited from transiting to Go
 --------------------------------------------
 
+How many times, when writing yet another collection of getters and setters, you've
+dreamed about lightweight features available in dynamic languages? What if I tell
+you there's a language that combines the best of both worlds, the statical and
+dynamic typing? Offers ease of writing code, but with support for high-scale and
+additionally garbage collection? Have you ever wondered what all the fuss is about
+Go? Why top companies such as Google, Red Hat, Docker, CoreOS just to name a few,
+have chosen to go with Go for their products (see kubernetes, openshift, etc.)?
+If you answered yes to at least one of those questions, this presentation is for
+you. I'm going to share my experience from transiting from long-time Java developer
+to Go-dev in merely few days. It's that much effort needed to feel comfortable in
+the extensive Go-land. Once there, you'll be open to a language that is "expressive,
+concise, clean, efficient (...), fast, statically typed, compiled language that
+feels like a dynamically typed, interpreted language".
+
+In my talk I'm planning to cover following key areas to give you a better
+understanding of the power Golang provides:
+
+* General syntax
+* Data structures
+* Interfaces and OOP
+* Concurrency
+* Error handling
+* Reflection
+* Web development
