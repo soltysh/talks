@@ -1,5 +1,31 @@
-Microservices on OpenShift v3
------------------------
+# How to leverage containers to run microservices on scale
+
+
+## Description
+
+According to Martin Fowler, microservices "is an approach to developing a single
+application as a suite of small services". That definition sounds very promising,
+isn't it? Yet, is it really that simple; how fast you're be able to respond to
+changing requirements and the growth? During this presentation I'll show you how
+to migrate from virtualenv-based environments to fully automated, container-based
+PaaS solution.
+
+
+## Audience
+
+Developers interested in: automated CI/CD flows, containers. PaaS solutions
+supporting the former.
+
+
+## Objective
+
+Attendees leaving the room will know how to migrate from virtualenv-based deployments
+to container-based ones. How to introduce fully automated CI/CD flow by leveraging
+containers combined with 21st century cluster management hidden behind latest
+version of OpenShift.
+
+
+## Detailed abstract
 
 According to Martin Fowler, microservices "is an approach to developing a single
 application as a suite of small services, each running in its own process and
@@ -22,22 +48,35 @@ button (or invoking one command for CLI nerds ;))? If that sounds interesting to
 you, come join me and I'll show you the amazing features and possibilities the
 brand new OpenShift v3 has to offer.
 
-I don't like talking too much about ideas; I prefer live action. This means the
-major part of my presentation will be live demo where you'll be able to see how
-easy it is to run OpenShift by yourself and leverage its features to simplify your
-processes making both your development and operational team happy.
+I don't like just talking about ideas; I prefer live action. This means my
+presentation will end with a live demo, where you'll be able to see how easy it is
+to run OpenShift by yourself and leverage its features to simplify your processes
+making both your development and operational team happy.
+To add more to it, the presentation will have an accompanying repository with
+sample application shown during the live demo and detailed instructions how to
+run it on your own.
 
 Still not impressed? Checkout this demo of ours https://youtu.be/FAJsx1HxsuM?t=2279
 and don't hesitate!
 
-Abstract:
-1. What are miscroservices (5 min)
-  * Definition
-  * Development of microservices
-  * Deployment of microservices
-1. OpenShift v3 (15 min)
-  * Docker - what is and how to use it (1 min)
-  * Kubernetes - architecture (4 min)
-  * OpenShift v3 - architecture (8 min)
-  * Sample workflow (2 min)
-1. Live demo (10 min)
+
+## Outline:
+
+1. What are miscroservices
+  * Definition and main principals (2 min)
+  * Introducing sample application architecture (1 min)
+  * Current state for deploying microservices with Python (2 min)
+1. Containers
+  * Definition (2 min)
+  * How to migrate from virtualenv to containers (2 min)
+1. Cluster management
+  * Definition and why we need it (2 min)
+  * Architecture and key concepts (2 min)
+1. PaaS
+  * Definition (1 min)
+  * Introducing OpenShift v3
+    * Architecture (2 min)
+    * Key concepts (3 min)
+    * Sample workflow (4 min)
+1. Live demo (4 min)
+1. Q&A (3 min)
