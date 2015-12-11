@@ -1,0 +1,30 @@
+# Running batch jobs at a scale
+
+## Detailed abstract
+
+When you hear words such as Kubernetes or OpenShift you immediately start thinking
+about long running processes you can easily scale at will. Yet, there's a less known
+feature, which allows you to run anything from simple to highly-complicated batch
+jobs. I'm the author of the Job resource in both Kubernetes and OpenShift and
+during this presentation I will guide you through several techniques how to
+perform anything ranging from simple Pi calculations to rendering a movie.
+
+I don't like just talking about ideas; I prefer live action. This means my
+presentation will be filled with quite a few live demos that will present the
+covered ideas.
+
+
+## Outline
+
+1. What are batch jobs
+  * Definition and its purpose
+  * Possible usage areas
+1. Job resource in OpenShift/Kubernetes
+  * Definition
+  * Working with jobs
+  * First example: Pi number
+1. Job patterns
+  * Pattern 1
+  * Pattern 2
+  * Pattern 3
+1. Q&A
