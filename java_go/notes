@@ -42,3 +42,18 @@ http://www.cockroachlabs.com/blog/how-to-optimize-garbage-collection-in-go/
 https://github.com/golang/go/wiki
 http://features.slashdot.org/story/15/11/18/1748247/interviews-alan-donovan-and-brian-kernighan-answer-your-questions
 https://blog.golang.org/share-memory-by-communicating
+
+
+## Ideas
+
+dot Go 2015 - Rob Pike - Simplicity is Complicated:
+* Go is simple, because it hides complexity
+* Go has a small no of features, but the right features the creators (Pike & ? & ?)
+  agreed on
+* additional features complicate the language unnecessarily
+* clean procedural language designed for scalabale cloud software
+* easily readable for java/c programmers
+* simplest concurency available (goroutines, channels)
+* interfaces - just a set of methods, no data; adds dynamic typic into static language
+* packages - go get,
+* production ready web server in a few lines of code
