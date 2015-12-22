@@ -4,11 +4,10 @@
 ## Description
 
 According to Martin Fowler, microservices "is an approach to developing a single
-application as a suite of small services". That definition sounds very promising,
-isn't it? Yet, is it really that simple; how fast you're able to respond to fast
-changing requirements and the growth? During this presentation I'll show you how
-to migrate from virtualenv-based environments to fully automated, container-based
-PaaS solution.
+application as a suite of small services", that definition sounds very promising.
+Yet, is it really that simple; how fast you're able to respond to changing
+requirements and the growth? During this presentation I'll show how to migrate
+from virtualenv-based environments to fully automated, container-based PaaS.
 
 
 ## Audience
