@@ -5,7 +5,7 @@
 
 According to Martin Fowler, microservices "is an approach to developing a single
 application as a suite of small services". That definition sounds very promising,
-isn't it? Yet, is it really that simple; how fast you're be able to respond to
+isn't it? Yet, is it really that simple; how fast you're able to respond to fast
 changing requirements and the growth? During this presentation I'll show you how
 to migrate from virtualenv-based environments to fully automated, container-based
 PaaS solution.
@@ -21,7 +21,7 @@ supporting the former.
 
 Attendees leaving the room will know how to migrate from virtualenv-based deployments
 to container-based ones. How to introduce fully automated CI/CD flow by leveraging
-containers combined with 21st century cluster management hidden behind latest
+containers, combined with 21st century cluster management, hidden in the latest
 version of OpenShift.
 
 
@@ -35,7 +35,7 @@ fully automated deployment machinery. There is a bare minimum of centralized
 management of these services, which may be written in different programming
 languages and use different data storage technologies."
 (http://martinfowler.com/articles/microservices.html)
-That definition sounds very promising and makes you think about miscroservices
+That definition sounds very promising and makes you think about microservices
 architecture as something very easy. But is it really that simple to create such
 services? If you think about each of the pieces separately then maybe the answer
 is "yes", but what about that moment when your project grows into more than 5 tasks?
@@ -62,7 +62,7 @@ and don't hesitate!
 
 ## Outline:
 
-1. What are miscroservices
+1. What are microservices
   * Definition and main principals (2 min)
   * Introducing sample application architecture (1 min)
   * Current state for deploying microservices with Python (2 min)
