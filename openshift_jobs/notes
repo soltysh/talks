@@ -1,23 +1,23 @@
-# Running batch jobs at a scale
+# Getting the Jobs Done With OpenShift
 
 ## Detailed abstract
 
 When you hear words such as Kubernetes or OpenShift you immediately start thinking
-about long running processes you can easily scale at will. Yet, there's a less known
-feature, which allows you to run anything from simple to highly-complicated tasks.
-I'm the author of the Job resource in both Kubernetes and OpenShift, and
-during this presentation I will guide you through several techniques how to
-perform anything ranging from simple Pi calculations to rendering a movie.
-No matter if you're a data scientist running large scale calculations across
-several data centers or a hobby programmer running simple day-to-day tasks
-this presentation is to teach you how to efficiently use jobs either as-is or
-as a nice building block for something bigger. The latter I'll explore in a
-little more detail talking about future evolution of job resource in Kubernetes.
+about long running processes you can easily scale at will. However, the latest
+versions of OpenShift include a lesser known feature which allows you to run pretty
+much anything from simple tasks up to highly-complicated ones.
 
-I don't like just talking about ideas; I prefer live action. This means my
-presentation will be filled with quite a few live demos that will present the
-covered ideas.
+During this presentation, the author of the Job resource in Kubernetes and OpenShift
+will guide you through several techniques for performing anything ranging from simple
+Pi calculations to rendering a movie. No matter if you're a data scientist running
+large scale calculations across several data centers or a hobby programmer running
+simple day-to-day tasks, this presentation is to teach you how to efficiently use
+Kubernetes and OpenShift Jobs on their own or as the building blocks of something
+bigger.
 
+This presentation will feature a number of live demos to help illustrate the various
+ways that you can put Jobs to work. Don’t miss out on learning about one of the
+most powerful new features of OpenShift!
 
 ## Outline
 
@@ -28,6 +28,6 @@ covered ideas.
   * Definition
   * Working with jobs
   * First example: Pi number
-1. Job patterns
+1. Job patterns - live demo
 1. Future evolution
 1. Q&A
