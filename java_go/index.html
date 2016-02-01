@@ -73,10 +73,7 @@
         height: 92%;
         float: left;
       }
-      .left-column h2 {
-        color: #000;
-      }
-      div.left-column:nth-last-child(3) h3 {
+      .left-column h2:last-of-type, .left-column h3:last-child {
           color: #000;
       }
      .right-column {
@@ -84,111 +81,13 @@
         float: right;
         padding-top: 1em;
       }
+      textarea#source {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <textarea id="source">
-
-name: title
-layout: true
-class: center, middle, inverse
----
-# How a Java dev benefited
-# from transitioning to Go
-.footnote[Maciej Szulik, DevConf 2016]
----
-.pull-left[![gopher](img/gopher.png)]
-.pull-right[![duke](img/duke.png)]
-# vs
----
-
-layout: false
-.left-column[
-## Agenda
-]
-.right-column[
-1. Benefits from transition
-
-1. Java and Go comparison:
-
-   * General syntax
-
-   * Data structures
-
-   * Interfaces and OOP
-
-   * Concurrency
-
-   * Error handling
-
-   * Reflection
-
-   * Web development
-
-1. Summary
-]
----
-
-.left-column[
-## @soltysh
-]
-.right-column[
-## .awesome[.fa-twitter[] .fa-github[] .fa-google[] .fa-bitbucket[]]
-
-### +10 years of experience
-### C/C++ , Java , Go, Python
-### dev -> team lead
-### OpenShift
-]
-
-???
-Here goes the notes.
----
-
-.left-column[
-## Opinions
-### - Friend A
-]
-.right-column[
-```
-> don't switch
-> I miss debugging
-> and knowing my interfaces
-> and generics
-> and collections
-> and good logging frameworks
-> I miss machine-driven refactors that just
-  worked
-```
-]
---
-.left-column[
-### - Friend B
-]
-.right-column[
-```
-> i do think gofmt was a brilliant move
-> having to never think about those issues
-  has been awesome
-> there's plenty i miss about the JVM
-```
-]
---
-.left-column[
-### - Friend C
-]
-.right-column[
-```
-> i miss it
-> there's plenty i miss about the JVM
-* friend secretly loves java
-```
-]
---
-.right-column[
-.pull-right[![face](img/face.png)]
-]
-
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
@@ -196,6 +95,7 @@ Here goes the notes.
       var slideshow = remark.create({
         ratio: '4:3',
         slideNumberFormat: '',
+        sourceUrl: 'text.md',
       });
     </script>
   </body>

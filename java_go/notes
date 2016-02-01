@@ -39,6 +39,7 @@ your memory layout. With Go, you can combine things that would be separate
 allocations in other garbage collected languages.
 http://www.cockroachlabs.com/blog/how-to-optimize-garbage-collection-in-go/
 
+https://golang.org/doc/effective_go.html
 https://github.com/golang/go/wiki
 http://features.slashdot.org/story/15/11/18/1748247/interviews-alan-donovan-and-brian-kernighan-answer-your-questions
 https://blog.golang.org/share-memory-by-communicating
@@ -57,3 +58,7 @@ dot Go 2015 - Rob Pike - Simplicity is Complicated:
 * interfaces - just a set of methods, no data; adds dynamic typic into static language
 * packages - go get,
 * production ready web server in a few lines of code
+
+* finish with choosing the wrong platform http://www.paulgraham.com/startupmistakes.html
+
+core concept in Go’s type system: instead of designing our abstractions in terms of what kind of data our types can hold, we design our abstractions in terms of what actions our types can execute.
