@@ -23,21 +23,19 @@ layout: false
 
 1. Java and Go comparison:
 
-   * General syntax
+   * General Syntax
 
-   * Types & data structures
+   * Types & Data Structures
 
    * Interfaces and OOP
 
    * Concurrency
 
-   * Error handling
+   * Garbage Collection & Memory Management
 
    * Reflection
 
    * Web development
-
-   * garbage collection & memory management
 
 1. Summary
 ]
@@ -104,10 +102,9 @@ layout: false
 * types & data structures
 * interfaces and OOP
 * concurrency
-* error handling
+* garbage collection & memory management
 * reflection
 * web development
-* garbage collection & memory management
 ]
 
 
@@ -201,15 +198,17 @@ $ go run main.go
 ```go
 var age int = 35
 ```
-
 ```go
 var age int
 age = 35
 ```
-
 ```go
 age := 35
 _ = age
+```
+```go
+var myArray []string
+var myMap map[string]string
 ```
 ]
 
@@ -232,6 +231,30 @@ Unused variables are compilation error, the same applies to unused imports.
 There's one caveat with short variable declaration syntax, it's so handy that it's
 sometimes overused, leading to shadowing variables.
 
+
+---
+.left-column[
+## Comparison
+### - types
+]
+.right-column[
+```go
+type ByteSize float64
+
+const (
+    _           = iota
+    KB ByteSize = 1 << (10 * iota)
+    MB
+    GB
+    TB
+)
+```
+]
+
+???
+With iota it's super easy to create enumerated types.
+
+Arrays, Slices!!! append
 
 ---
 .left-column[
@@ -267,11 +290,20 @@ for i := 0; i < 10; i++ {
 }
 ```
 ```go
+for index, value := range myArray {
+  fmt.Printf("%d: %s\n", index, value)
+}
+```
+```go
 for key, value := range myMap {
     fmt.Printf("%s: %s\n", key, value)
 }
 ```
 ]
+
+???
+Iterating with foreach.
+No while, do-while.
 
 
 ---
@@ -281,5 +313,242 @@ for key, value := range myMap {
 ### - syntax
 ]
 .right-column[
+```go
+switch method {
+case "ping":
+  err = decodePing(req)
+case "push":
+  err = decodePush(req)
+default:
+  err = errors.New("Unknown method!")
+}
+```
+```go
+switch {
+case '0' <= c && c <= '9':
+    return c - '0'
+case 'a' <= c && c <= 'f':
+    return c - 'a' + 10
+case 'A' <= c && c <= 'F':
+    return c - 'A' + 10
+}
+```
+]
 
+???
+There's no automatic fall through like in Java, although such behavior can be
+enforced with fallthrough key word.
+
+
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+]
+.right-column[
+```go
+switch t := t.(type) {
+case bool:
+    fmt.Printf("boolean %t\n", t)
+case int:
+    fmt.Printf("integer %d\n", t)
+default:
+    fmt.Printf("unexpected type %T\n", t)
+}
+```
+]
+
+???
+Interesting construct - type switch.
+
+
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+### - data structures
+]
+.right-column[
+```go
+func List(s string) (Result, error) {
+    if err := Get(s); err != nil {
+        return nil, err
+    }
+    var res Result
+    for k, v := range(list(s)) {
+        res.Append(k, v)
+    }
+    return res
+}
+```
+```go
+func List(s string) (res Result, err error) {
+    if err = Get(s); err != nil {
+        return
+    }
+    for k, v := range(list(s)) {
+        res.Append(k, v)
+    }
+    return
+}
+```
+]
+
+???
+One of Go's coolest features, which I've been dying to see in Java, is that functions
+and methods can return multiple values.
+
+The return "parameters" of a Go function can be given names and used as regular
+variables, just like the incoming ones. When named, they are initialized to the
+zero values for their types when the function begins; if the function executes
+a return statement with no arguments, the current values of the result parameters
+are used as the returned values.
+
+This idiom is very frequently used to signal errors, ok etc. See opening file,
+getting element from map.
+
+
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+### - data structures
+]
+.right-column[
+```go
+type MyStruct struct {
+    Name  string
+    Value string
+}
+```
+```go
+x := new(MyStruct)
+var y MyStruct
+```
+```go
+z := make(map[string]string)
+```
+]
+
+???
+Go has two allocation primitives, the built-in functions new and make. new allocates
+memory, but it does not initialize the memory, it only zeros it, and returns pointer
+to newly allocated memory.
+Since the memory returned by new is zeroed, it's helpful to arrange your data
+structures that the zero value of each type can be used without further initialization.
+This means a user of the data structure can create one with new and get right to work.
+Unfortunately this isn't always true, in those cases a method for initializing structure
+is the recommended approach.
+
+Since I've mentioned memory allocation, let's quickly jump to the other function
+I've mentioned - make. It creates slices, maps, and channels only, and it returns
+an initialized (not zeroed) value of type T. The reason for the distinction is
+that these three types represent, under the covers, references to data structures
+that must be initialized before use.
+
+
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+### - data structures
+]
+.right-column[
+```go
+type MyInterface interface {
+    Set(string) error
+}
+```
+]
+
+???
+Interfaces in Go, unlike in Java, provide a way to specify only the behavior of
+an object. Additionally there's no need to explicitly specify which interfaces
+we satisfy, it's being done automatically at compile time.
+
+Since interfaces are implicit, it is very common to have very narrow, specialized
+interfaces with only one or two methods which are then implemented within single
+structure.
+
+
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+### - data structures
+### - interfaces
+]
+.right-column[
+```go
+type MyStruct struct {
+    Name  string
+    Value string
+}
+
+func (m *MyStruct) Set(newValue string) error {
+    if err := validate(newValue); err != nil {
+        return err
+    }
+    m.Value = newValue
+    return nil
+}
+
+func (m MyStruct) Get() string {
+    return m.Value
+}
+```
+]
+
+???
+Speaking of implementation.
+Difference between pointer vs. value receivers.
+
+
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+### - data structures
+### - interfaces
+### - concurrency
+]
+.right-column[
+]
+
+???
+channels
+goroutines
+
+
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+### - data structures
+### - interfaces
+### - concurrency
+### - gc & memory
+]
+.right-column[
+]
+
+
+---
+.left-column[
+## Links
+]
+.right-column[
+Effective Go:<br />
+https://golang.org/doc/effective_go.html
+
+
+50 Shades of Go:<br />
+http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/
 ]
