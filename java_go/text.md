@@ -47,8 +47,9 @@ layout: false
 ## .awesome[.fa-twitter[] .fa-github[] .fa-google[] .fa-bitbucket[]]
 
 ### +10 years of experience
-### C/C++ , Java , Go, Python
-### dev -> team lead
+### C/C++ -> Java
+### Java -> Go
+### Python
 ### OpenShift / Red Hat
 ]
 
@@ -84,7 +85,7 @@ layout: false
 ```
 > i miss it
 > there's plenty i miss about the JVM
-* engineer secretly loves java
+* personX secretly loves java
 ```
 ]
 
@@ -94,6 +95,8 @@ layout: false
 ![go on](img/goon.jpg)
 ]
 
+???
+Ask about Java experience.
 
 ---
 .left-column[
@@ -245,7 +248,7 @@ age := 35
 _ = age
 ```
 ```go
-var myArray []string
+var myArray [1]string
 var myMap map[string]string
 ```
 ]
@@ -281,9 +284,10 @@ const (
 )
 ```
 ```go
-var myArray []string
-myArray = append(myArray, "one")
-myArray = append(myArray, "two", "three", "four")
+var myArray [3]string
+myArray[0] = "one"
+myArray[1] = "two"
+myArray[2] = "three"
 ```
 ```go
 var slice []string = myArray[1:3]
@@ -447,6 +451,13 @@ func List(s string) (Result, error) {
     return res
 }
 ```
+]
+
+???
+Multiple return values.
+
+--
+.right-column[
 ```go
 func List(s string) (res Result, err error) {
     if err = Get(s); err != nil {
@@ -461,7 +472,6 @@ func List(s string) (res Result, err error) {
 ]
 
 ???
-Multiple return values.
 Named return values.
 
 
