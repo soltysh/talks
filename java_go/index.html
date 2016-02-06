@@ -22,7 +22,7 @@
       .remark-slide-content h3 { font-size: 1.6em; }
       .footnote {
         position: absolute;
-        bottom: 3em;
+        bottom: 2em;
       }
       li p { line-height: 1.25em; }
       .red { color: #fa0000; }
@@ -81,8 +81,20 @@
         float: right;
         padding-top: 1em;
       }
+      .center {
+        margin: auto;
+        width: 95%;
+      }
+      /* Hide source code of the presentation */
       textarea#source {
         display: none;
+      }
+      /* Make the slide number smaller */
+      .remark-slide-number {
+        font-size: 12px;
+      }
+      .small-code .remark-code {
+        font-size: 12px;
       }
     </style>
   </head>
@@ -94,7 +106,6 @@
     <script>
       var slideshow = remark.create({
         ratio: '4:3',
-        slideNumberFormat: '',
         sourceUrl: 'text.md',
       });
     </script>

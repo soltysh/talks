@@ -23,19 +23,17 @@ layout: false
 
 1. Java and Go comparison:
 
-   * General Syntax
+  * Types
 
-   * Types & Data Structures
+  * General Syntax
 
-   * Interfaces and OOP
+  * Data Structures
 
-   * Concurrency
+  * Interfaces
 
-   * Garbage Collection & Memory Management
+  * Concurrency
 
-   * Reflection
-
-   * Web development
+  * Testing
 
 1. Summary
 ]
@@ -51,7 +49,7 @@ layout: false
 ### +10 years of experience
 ### C/C++ , Java , Go, Python
 ### dev -> team lead
-### OpenShift
+### OpenShift / Red Hat
 ]
 
 
@@ -78,7 +76,6 @@ layout: false
 > i do think gofmt was a brilliant move
 > having to never think about those issues
   has been awesome
-> there's plenty i miss about the JVM
 ```
 ]
 
@@ -93,18 +90,25 @@ layout: false
 
 
 ---
+.center[
+![go on](img/goon.jpg)
+]
+
+
+---
 .left-column[
 ## Comparison
 ### - pros
 ]
 .right-column[
+* types
 * syntax
-* types & data structures
-* interfaces and OOP
+* data structures
+* interfaces
 * concurrency
-* garbage collection & memory management
-* reflection
-* web development
+* testing
+* garbage collection
+* memory management
 ]
 
 
@@ -115,14 +119,14 @@ layout: false
 ### - neutral
 ]
 .right-column[
+* types
 * syntax
-* types & data structures
-* interfaces and OOP
+* data structures
+* interfaces
 * concurrency
-* error handling
-* reflection
-* web development
-* garbage collection & memory management
+* testing
+* garbage collection
+* memory management
 <br /><br /><br />
 * code organization
 * error handling
@@ -137,21 +141,21 @@ layout: false
 ### - cons
 ]
 .right-column[
+* types
 * syntax
-* types & data structures
-* interfaces and OOP
+* data structures
+* interfaces
 * concurrency
-* error handling
-* reflection
-* web development
-* garbage collection & memory management
+* testing
+* garbage collection
+* memory management
 <br /><br /><br />
 * code organization
 * error handling
 <br /><br /><br />
+* dependencies management
 * debugger
 ]
-
 
 ---
 .left-column[
@@ -191,6 +195,40 @@ $ go run main.go
 
 ---
 .left-column[
+## Why
+]
+.right-column[
+*No major systems language has emerged in over a decade, but over that time the computing landscape has changed tremendously.*
+]
+
+--
+.right-column[
+Robert Griesemer, Rob Pike and Ken Thompson:
+
+* fast development
+
+* fast compilation
+
+* no type hierarchy
+
+* good GC & concurrency
+
+* multi-core machines
+]
+
+???
+- Increase the time need to develop new systems, to allow meeting current
+demands of market;.
+- Developer expects fast compilation times.
+- Go's type system has no hierarchy, and although it has static types
+the language attempts to make types feel lighter weight than, for example Java
+or other OO languages.
+- Go is fully garbage-collected and provides improved support for concurrent
+execution and communication.
+
+
+---
+.left-column[
 ## Comparison
 ### - types
 ]
@@ -213,21 +251,14 @@ var myMap map[string]string
 ]
 
 ???
-Go provides usually expected types, such as: boolean, numeric, string, array and
-maps. As a complementary to arrays there are also slices. A slice is a descriptor
-for a contiguous segment of an underlying array and provides access to a numbered
-sequence of elements from that array. Additionally go provides struct types allowing
-to define a sequence of fields, function types and an interface.
-
-Although language is statically types is does not require, like other statically
-types languages, to always define the type of a variable. The type can be
-determined at runtime upon assignment.
+Types: boolean, numeric, string, array and maps.
 
 Implicit conversion between types, even those predefined is not possible, iow.
 there's no possibility to implicitly convert int16 to int32.
 
 Unused variables are compilation error, the same applies to unused imports.
 
+No type definition in short variable declaration syntax.
 There's one caveat with short variable declaration syntax, it's so handy that it's
 sometimes overused, leading to shadowing variables.
 
@@ -249,12 +280,34 @@ const (
     TB
 )
 ```
+```go
+var myArray []string
+myArray = append(myArray, "one")
+myArray = append(myArray, "two", "three", "four")
+```
+```go
+var slice []string = myArray[1:3]
+// -> {"two", "three"}
+```
 ]
 
 ???
 With iota it's super easy to create enumerated types.
 
-Arrays, Slices!!! append
+As mentioned before, Go provides array similarly to Java. It is of fixed size,
+although when working with them, the idioms available in the language let you
+forget that fact.
+
+It's the slices are where all the action in Go happens. A slice is a data
+structure describing a contiguous section of an array stored separately from the
+slice variable itself. A slice is not an array. A slice describes a piece of an
+array. In the example we're creating a slice from first element inclusive through
+3, exclusive.
+One important difference is that Go passes function arguments as values, so if
+you pass the array and the function modifies it, it won't be visible outside
+the function unless you pass the address of the array or use the slice which
+provides direct access to array's underlying data, even though you're again
+passing copy of the slice.
 
 ---
 .left-column[
@@ -273,7 +326,19 @@ if err := check(file); err != nil {
     return err
 }
 ```
+```go
+if value, ok := myMap["key"]; !ok {
+    return "not found"
+}
+```
 ]
+
+???
+No requirement for having parenthesis around conditions, even with multiple
+conditions.
+Go requires curly braces for conditions as well as loops, even single liners.
+Use gofmt and forget about formatting.
+Go-based projects require gofmt before submitting PRs.
 
 
 ---
@@ -302,9 +367,8 @@ for key, value := range myMap {
 ]
 
 ???
-Iterating with foreach.
-No while, do-while.
-
+When iterating with for-each and you need to modify underlying data use
+index instead since Go will pass the value not a pointer.
 
 ---
 .left-column[
@@ -337,7 +401,7 @@ case 'A' <= c && c <= 'F':
 
 ???
 There's no automatic fall through like in Java, although such behavior can be
-enforced with fallthrough key word.
+enforced with fallthrough keyword.
 
 
 ---
@@ -360,7 +424,8 @@ default:
 ]
 
 ???
-Interesting construct - type switch.
+Interesting construct - type switch, used to discover the dynamic type of an
+interface variable. It uses type assertion construct.
 
 
 ---
@@ -368,7 +433,6 @@ Interesting construct - type switch.
 ## Comparison
 ### - types
 ### - syntax
-### - data structures
 ]
 .right-column[
 ```go
@@ -397,17 +461,41 @@ func List(s string) (res Result, err error) {
 ]
 
 ???
-One of Go's coolest features, which I've been dying to see in Java, is that functions
-and methods can return multiple values.
+Multiple return values.
+Named return values.
 
-The return "parameters" of a Go function can be given names and used as regular
-variables, just like the incoming ones. When named, they are initialized to the
-zero values for their types when the function begins; if the function executes
-a return statement with no arguments, the current values of the result parameters
-are used as the returned values.
 
-This idiom is very frequently used to signal errors, ok etc. See opening file,
-getting element from map.
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+]
+.right-column[
+```go
+List := func(s string) {Result, error) {
+    // body goes here...
+}
+```
+```go
+file, err := os.Open(path)
+if err != nil {
+    return err
+}
+defer file.Close()
+...
+// do something with the file
+...
+```
+]
+
+???
+
+Function literals, function types.
+
+Go's defer statement schedules a function call to be run immediately before the
+function executing the defer returns, regardless of which patch a function takes
+to return.
 
 
 ---
@@ -434,45 +522,12 @@ z := make(map[string]string)
 ]
 
 ???
-Go has two allocation primitives, the built-in functions new and make. new allocates
-memory, but it does not initialize the memory, it only zeros it, and returns pointer
-to newly allocated memory.
-Since the memory returned by new is zeroed, it's helpful to arrange your data
-structures that the zero value of each type can be used without further initialization.
-This means a user of the data structure can create one with new and get right to work.
-Unfortunately this isn't always true, in those cases a method for initializing structure
-is the recommended approach.
+new allocates memory, but it does not initialize the memory, it only zeros it,
+and returns pointer to newly allocated memory. In the cases where more initialization
+is needed use initialization method, unsurprisingly called New ;)
 
-Since I've mentioned memory allocation, let's quickly jump to the other function
-I've mentioned - make. It creates slices, maps, and channels only, and it returns
-an initialized (not zeroed) value of type T. The reason for the distinction is
-that these three types represent, under the covers, references to data structures
-that must be initialized before use.
-
-
----
-.left-column[
-## Comparison
-### - types
-### - syntax
-### - data structures
-]
-.right-column[
-```go
-type MyInterface interface {
-    Set(string) error
-}
-```
-]
-
-???
-Interfaces in Go, unlike in Java, provide a way to specify only the behavior of
-an object. Additionally there's no need to explicitly specify which interfaces
-we satisfy, it's being done automatically at compile time.
-
-Since interfaces are implicit, it is very common to have very narrow, specialized
-interfaces with only one or two methods which are then implemented within single
-structure.
+make creates slices, maps, and channels only, and it returns an initialized
+(not zeroed) value of given type. They need special initialization.
 
 
 ---
@@ -483,6 +538,16 @@ structure.
 ### - data structures
 ### - interfaces
 ]
+.right-column[
+
+```go
+type MyInterface interface {
+    Set(string) error
+}
+```
+]
+
+--
 .right-column[
 ```go
 type MyStruct struct {
@@ -505,8 +570,15 @@ func (m MyStruct) Get() string {
 ]
 
 ???
-Speaking of implementation.
-Difference between pointer vs. value receivers.
+Additionally there's no need to explicitly specify which interfaces
+we satisfy, it's being done automatically at compile time.
+
+Since interfaces are implicit, it is very common to have very narrow, specialized
+interfaces with only one or two methods which are then implemented within single
+structure.
+
+Pointer receivers - can modify underlying data.
+Value receivers - cannot modify underlying data.
 
 
 ---
@@ -519,11 +591,44 @@ Difference between pointer vs. value receivers.
 ### - concurrency
 ]
 .right-column[
+*Do not communicate by sharing memory; instead, share memory by communicating.*
 ]
 
 ???
-channels
-goroutines
+It is really hard and challenging to write properly functioning concurrent piece
+of software. Most often you end up struggling with shared access to a variable.
+Agreed? Go encourages a different approach, in which shared values are passed
+around on channels and, in fact, never actively shared by separate threads of
+execution. Only one goroutine has access to the value at any given time.
+Data races cannot occur, by design. The slogan:
+
+Goroutines is a new term, because the existing terms (threads, coroutines, processes,
+and so on) does not reflect accurately what they are.
+A goroutine is a function executing concurrently with other goroutines in the same
+address space. It is lightweight, costing little more than the allocation of stack
+space. And the stacks start small, so they are cheap, and grow by allocating (and
+freeing) heap storage as required.
+
+Goroutines are multiplexed onto multiple OS threads so if one should block, such
+as while waiting for I/O, others continue to run. Their design hides many of the
+complexities of thread creation and management.
+
+Prefix a function or method call with the go keyword to run the call in a new goroutine.
+When the call completes, the goroutine exits, silently. (The effect is similar to
+the Unix shell's & notation for running a command in the background.)
+One frequent mistake newcomers to Go make is, that the main program will not wait
+for the goroutines to finish, but it will exit when it reaches the end. There
+are a couple solutions to this problem, let me introduce you first the channels.
+
+--
+.right-column[
+```go
+go func () {
+    time.Sleep(200)
+    fmt.Println("Hello world!")
+}()
+```
+]
 
 
 ---
@@ -534,10 +639,181 @@ goroutines
 ### - data structures
 ### - interfaces
 ### - concurrency
-### - gc & memory
 ]
 .right-column[
+```go
+c1 := make(chan int)        // unbuffered channel
+```
+```go
+c2 := make(chan int, 10)    // buffered channel
+```
 ]
+
+???
+Like maps, channels are allocated with make, and the resulting value acts as a
+reference to an underlying data structure. Channels can be either buffered, the
+optional integer parameter specifies buffer size for the channel, or unbuffered.
+
+
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+### - data structures
+### - interfaces
+### - concurrency
+]
+.right-column[
+```go
+go func() {
+    time.Sleep(200)
+    fmt.Println("Hello world!")
+}()
+```
+```go
+c := make(chan int)      // create channel
+go func() {
+    time.Sleep(200)
+    fmt.Println("Hello world!")
+    c <- 1              // send a signal
+}()
+<-c                     // waiting for a signal
+```
+]
+
+
+---
+.left-column[
+## Comparison
+### - types
+### - syntax
+### - data structures
+### - interfaces
+### - concurrency
+### - testing
+]
+.right-column[
+```go
+import "testing"
+
+func TestMyStruct(t *testing.T) {
+    s := MyStruct{}
+    if err := s.Set("value"); err != nil {
+        t.Errorf("Unexpected error: %v", err)
+  }
+}
+```
+]
+
+???
+Built-in testing package.
+
+
+---
+.left-column[
+## Comparison
+### - dependencies management
+]
+.right-column[.small-code[
+```json
+{
+  "ImportPath": "github.com/openshift/origin",
+  "GoVersion": "go1.4.2",
+  "Packages": [
+    "./..."
+  ],
+  "Deps": [
+    ...
+    {
+      "ImportPath": "k8s.io/kubernetes/pkg/controller",
+      "Comment": "v1.2.0-alpha.4-851-g4a65fa1",
+      "Rev": "4a65fa1f35e98ae96785836d99bf4ec7712ab682"
+    },
+    {
+      "ImportPath": "k8s.io/kubernetes/pkg/conversion",
+      "Comment": "v1.2.0-alpha.4-851-g4a65fa1",
+      "Rev": "4a65fa1f35e98ae96785836d99bf4ec7712ab682"
+    },
+    {
+      "ImportPath": "k8s.io/kubernetes/pkg/credentialprovider",
+      "Comment": "v1.2.0-alpha.4-851-g4a65fa1",
+      "Rev": "4a65fa1f35e98ae96785836d99bf4ec7712ab682"
+    },
+    {
+      "ImportPath": "k8s.io/kubernetes/pkg/fieldpath",
+      "Comment": "v1.2.0-alpha.4-851-g4a65fa1",
+      "Rev": "4a65fa1f35e98ae96785836d99bf4ec7712ab682"
+    },
+    {
+      "ImportPath": "k8s.io/kubernetes/pkg/fields",
+      "Comment": "v1.2.0-alpha.4-851-g4a65fa1",
+      "Rev": "4a65fa1f35e98ae96785836d99bf4ec7712ab682"
+    },
+    {
+      "ImportPath": "k8s.io/kubernetes/pkg/healthz",
+      "Comment": "v1.2.0-alpha.4-851-g4a65fa1",
+      "Rev": "4a65fa1f35e98ae96785836d99bf4ec7712ab682"
+    },
+    ...
+  ]
+}
+```
+]]
+
+???
+Almost 1600 lines in openshift origin server code.
+
+---
+.left-column[
+## Comparison
+### - dependencies management
+### - debugger
+]
+.right-column[.small-code[
+https://github.com/derekparker/delve
+```bash
+$ dlv exec oc annotate job/pi foo=bar
+
+Type 'help' for list of commands.
+(dlv) b annotate.go:121
+Breakpoint 1 set at 0x4fa4d6 for k8s.io/kubernetes/pkg/kubectl/cmd...
+
+(dlv) c
+> k8s.io/kubernetes/pkg/kubectl/cmd.(*AnnotateOptions).Complete() ...
+
+(dlv) print namespace
+"test"
+
+(dlv) locals
+annotationArgs = []string len: 0, cap: 0, []
+b·2 = *struct k8s.io/kubernetes/pkg/kubectl/resource.Builder nil
+clientMapper·4 = (unreadable invalid interface type: clientMapper·4.tab...
+enforceNamespace = false
+mapper = (unreadable invalid interface type)
+mapper·2 = (unreadable invalid interface type: mapper·2.tab._type is nil)
+metAnnotaionArg = false
+namespace = "test"
+namespace·3 = (unreadable could not read string at 0x5 due to input/output ...
+s = "\x0f�\\$ ��\x00\x0f�>����������k���\x11���\x00dH� ...
+suffix·3 = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00 ...
+typer = k8s.io/kubernetes/pkg/runtime.ObjectTyper (unreadable unknown or ...
+typer·3 = (unreadable invalid interface type)
+
+(dlv) n
+> k8s.io/kubernetes/pkg/kubectl/cmd.(*AnnotateOptions). ... annotate.go:127
+
+(dlv)
+> k8s.io/kubernetes/pkg/kubectl/cmd.(*AnnotateOptions). ... annotate.go:128
+
+(dlv) c
+job "pi" annotated
+```
+]]
+
+???
+And although Derek Parker, the creator of delve is an awesome person it is
+really hard to debug Go programs.
 
 
 ---
@@ -545,9 +821,11 @@ goroutines
 ## Links
 ]
 .right-column[
+The Go Playground:<br />
+http://play.golang.org/
+
 Effective Go:<br />
 https://golang.org/doc/effective_go.html
-
 
 50 Shades of Go:<br />
 http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/
