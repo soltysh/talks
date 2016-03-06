@@ -4,9 +4,8 @@ MAINTAINER Maciej Szulik <soltysh@gmail.com>
 
 ENV HOME=/opt/home
 
-RUN rpm -Uvh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-stable.noarch.rpm && \
-    dnf upgrade -y --setopt=tsflags=nodocs && \
-    dnf install -y --setopt=tsflags=nodocs gcc python3-devel redhat-rpm-config ffmpeg ImageMagick && \
+RUN dnf upgrade -y --setopt=tsflags=nodocs && \
+    dnf install -y --setopt=tsflags=nodocs gcc python3-devel redhat-rpm-config ImageMagick && \
     dnf clean all -y && \
     pip3 install --upgrade pip && \
     mkdir -p $HOME && \
@@ -20,6 +19,7 @@ USER 1001
 
 RUN pyvenv $HOME/.venv && \
     source $HOME/.venv/bin/activate && \
-    pip install numpy moviepy
+    pip install numpy moviepy && \
+    python -c "from moviepy.editor import *"
 
 ENTRYPOINT source $HOME/.venv/bin/activate && python $HOME/run.py

@@ -14,7 +14,7 @@ scene = Scene(
 scene.render('/data/{2}.png', width=400, height=400, antialiasing=0.001)
 """
 
-for i in range(20):
+for i in range(1, 41):
     name = str(i).zfill(2)
     with open(name+".py", 'w') as f:
-        f.write(script.format(-4+(0.25*i), -3.75+(0.25*i), name))
+        f.write(script.format(-2+(0.1*i), -1.75+(0.1*i), name))
