@@ -19,7 +19,6 @@ USER 1001
 
 RUN pyvenv $HOME/.venv && \
     source $HOME/.venv/bin/activate && \
-    pip install numpy moviepy && \
-    python -c "from moviepy.editor import *"
+    pip install numpy moviepy
 
 ENTRYPOINT source $HOME/.venv/bin/activate && python $HOME/run.py
