@@ -1,6 +1,9 @@
 #!/bin/bash -e
 
 echo "Setting up data..."
+sudo mkdir -p /tmp/data
+sudo chmod 777 /tmp/data
+
 mkdir -p tmp
 python3 generate.py
 pushd tmp
@@ -29,5 +32,9 @@ done
 sleep 3
 
 echo "Setting up the job..."
-sed -i 's|BROKER_URL|'${broker_url}'|g' render.yaml
-kubectl create -f render.yaml
+sed 's|BROKER_URL|'${broker_url}'|g' render.yaml > render.yaml.tmp
+kubectl create -f render.yaml.tmp
+rm render.yaml.tmp
+
+pushd /tmp/data
+python3 -m http.server 2222 &>/dev/null &
