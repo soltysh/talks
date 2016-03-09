@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: render
 spec:
-  completions: 40
+  completions: 8
   template:
     metadata:
       name: render
