@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+mkdir -p tmp
+python3 generate.py
+pushd tmp
+python3 -m http.server 1111 &>/dev/null &
+
 kubectl create -f rabbitmq.yaml
 while true; do
     kubectl get pods|grep rabbitmq|grep Running
@@ -13,7 +18,7 @@ broker_ip=$(kubectl get svc/rabbitmq-service --template '{{.spec.clusterIP}}')
 broker_url=amqp://guest:guest@$broker_ip:5672
 amqp-declare-queue --url=${broker_url} -q renderer -d
 for i in {1..40}; do
-    amqp-publish --url=${broker_url} -r renderer -p -b "http://192.168.121.118:8000/$(printf %02d.py $i)"
+    amqp-publish --url=${broker_url} -r renderer -p -b "http://192.168.121.118:1111/$(printf %02d.py $i)"
 done
 
 sed -i 's/BROKER_URL/${broker_url}/g' render.yaml
