@@ -3,8 +3,6 @@ kind: Job
 metadata:
   name: combine
 spec:
-  completions: 40
-  parallelism: 5
   template:
     metadata:
       name: combine
@@ -13,7 +11,7 @@ spec:
       - name: combine
         image: soltysh/movie
         volumeMounts:
-          name: data
+        - name: data
           mountPath: /data
       restartPolicy: Never
       volumes:

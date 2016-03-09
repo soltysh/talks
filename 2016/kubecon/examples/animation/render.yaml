@@ -4,7 +4,6 @@ metadata:
   name: render
 spec:
   completions: 40
-  parallelism: 5
   template:
     metadata:
       name: render
@@ -12,9 +11,11 @@ spec:
       containers:
       - name: render
         image: soltysh/render
-        command: amqp://guest:guest@172.17.0.1:5672
+        command:
+        - /run.sh
+        - BROKER_URL
         volumeMounts:
-          name: data
+        - name: data
           mountPath: /data
       restartPolicy: Never
       volumes:

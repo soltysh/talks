@@ -1,5 +1,3 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
-
 script = """
 from vapory import *
 
@@ -17,9 +15,5 @@ scene.render('/data/{2}.png', width=400, height=400, antialiasing=0.001)
 
 for i in range(1, 41):
     name = str(i).zfill(2)
-    with open(name+".py", 'w') as f:
+    with open("tmp/"+name+".py", 'w') as f:
         f.write(script.format(-2+(0.1*i), -1.95+(0.1*i), name))
-
-server_address = ('', 8000)
-httpd = HTTPServer(server_address, BaseHTTPRequestHandler)
-httpd.serve_forever()

@@ -10,9 +10,11 @@ spec:
       containers:
       - name: simple-render
         image: soltysh/render
-        command: amqp://guest:guest@172.17.0.1:5672
+        command:
+        - /run.sh
+        - http://192.168.121.118:8000/01.py
         volumeMounts:
-          name: data
+        - name: data
           mountPath: /data
       restartPolicy: Never
       volumes:
