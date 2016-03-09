@@ -17,6 +17,7 @@ while true; do
     fi
     sleep 1
 done
+sleep 3
 set -e
 
 broker_ip=$(kubectl get svc/rabbitmq-service --template '{{.spec.clusterIP}}')
@@ -25,6 +26,7 @@ amqp-declare-queue --url=${broker_url} -q renderer -d
 for i in {1..40}; do
     amqp-publish --url=${broker_url} -r renderer -p -b "http://192.168.121.118:1111/$(printf %02d.py $i)"
 done
+sleep 3
 
 echo "Setting up the job..."
 sed -i 's|BROKER_URL|'${broker_url}'|g' render.yaml
