@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: render
+spec:
+  completions: 40
+  parallelism: 5
+  template:
+    metadata:
+      name: render
+    spec:
+      containers:
+      - name: render
+        image: soltysh/render
+        command: amqp://guest:guest@172.17.0.1:5672
+        volumeMounts:
+          name: data
+          mountPath: /data
+      restartPolicy: Never
+      volumes:
+      - name: data
+        hostPath:
+          path: /tmp/data

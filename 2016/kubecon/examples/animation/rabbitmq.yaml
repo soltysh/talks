@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      component: rabbitmq
+    name: rabbitmq-service
+  spec:
+    ports:
+    - port: 5672
+    selector:
+      app: renderQueue
+      component: rabbitmq
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    labels:
+      component: rabbitmq
+    name: rabbitmq-controller
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          app: renderQueue
+          component: rabbitmq
+      spec:
+        containers:
+        - image: rabbitmq
+          name: rabbitmq
+          ports:
+          - containerPort: 5672

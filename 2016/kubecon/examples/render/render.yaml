@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: simple-render
+spec:
+  template:
+    metadata:
+      name: simple-render
+    spec:
+      containers:
+      - name: simple-render
+        image: soltysh/render
+        command: amqp://guest:guest@172.17.0.1:5672
+        volumeMounts:
+          name: data
+          mountPath: /data
+      restartPolicy: Never
+      volumes:
+      - name: data
+        hostPath:
+          path: /tmp/data
