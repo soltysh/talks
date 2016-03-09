@@ -15,12 +15,13 @@ layout: false
 .right-column[
 .center[
 # .awesome[.fa-twitter[] .fa-github[] .fa-google[] .fa-bitbucket[]]
-[maszulik@redhat.com]()
-]
 
-https://github.com/soltysh/talks/tree/master/2016/kubecon
+### [maszulik@redhat.com]()
 
-.center[
+### https://github.com/soltysh/talks/
+
+<br />
+<br />
 ![qr](img/qr.png)
 ]]
 
@@ -180,10 +181,14 @@ spec:
 ]
 .right-column[
 .center[
+
 # ~~Always~~
 # OnFailure
 # Never
 ]]
+
+???
+RestartPolicy only refers to restarts of the containers by the Kubelet on the same node.
 
 
 ---
@@ -214,8 +219,76 @@ spec:
 ```
 ]
 
+???
+Pod selector is optional, if needed look in the docs how to specify your own
+selector, but it's not the recommended way of doing stuff.
 
 ---
+.left-column[
+## Job
+### - api
+### - command
+### - restart policy
+### - pod selector?
+### - parallelism / completions
+]
+.right-column[
+### single jobs
+```
+.spec.completions: 1
+.spec.parallelism: 1
+```
+]
+
+--
+.right-column[
+### parallel job with a fixed completions count
+```
+.spec.completions: 8
+.spec.parallelism: 4
+```
+]
+
+--
+.right-column[
+### parallel job with a fixed completions count
+```
+.spec.completions: <unset>
+.spec.parallelism: 4
+```
+]
+
+
+---
+.left-column[
+## Use Cases
+]
+.right-column[
+
+# - data calculations
+# - image rendering
+# etc.
+]
+
+
+---
+## Rendering
+<br />
+<br />
+<br />
+![render](img/render.png)
+
+
+---
+name: title
+layout: true
+class: center, middle, inverse
+---
+# Render demo
+
+
+---
+layout: false
 .left-column[
 ## Future
 ]
@@ -225,17 +298,20 @@ spec:
 ## [scheduled jobs](http://releases.k8s.io/master/docs/proposals/scheduledjob.md) by @soltysh
 ]
 
+
 ---
 .left-column[
 ## Links
 ]
 .right-column[
+.center[
 ### soltysh @ .awesome[.fa-twitter[] .fa-github[] .fa-google[] .fa-bitbucket[]]
-[maszulik@redhat.com]()
+### [maszulik@redhat.com]()
 
+<br />
 
 http://releases.k8s.io/master/docs/proposals/job.md
 
 http://releases.k8s.io/master/docs/user-guide/jobs.md
 
-]
+]]
