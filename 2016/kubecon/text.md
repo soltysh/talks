@@ -9,21 +9,21 @@ class: center, middle, inverse
 
 ---
 layout: false
-.left-column[
-## @soltysh
-]
-.right-column[
 .center[
-# .awesome[.fa-twitter[] .fa-github[] .fa-google[] .fa-bitbucket[]]
-
+<br />
+## soltysh @ .awesome[.fa-twitter[] .fa-github[] .fa-google[] .fa-bitbucket[]]
 ### [maszulik@redhat.com]()
-
 ### https://github.com/soltysh/talks/
-
 <br />
 <br />
 ![qr](img/qr.png)
-]]
+]
+
+
+---
+<br />
+<br />
+![openshift](img/openshift.png)
 
 
 ---
@@ -251,7 +251,7 @@ selector, but it's not the recommended way of doing stuff.
 
 --
 .right-column[
-### parallel job with a fixed completions count
+### parallel job with a work queue
 ```
 .spec.completions: <unset>
 .spec.parallelism: 4
@@ -300,18 +300,27 @@ layout: false
 
 
 ---
+![commons](img/commons.png)
+<br />
+<br />
+.center[
+# http://commons.openshift.org/join
+]
+
+
+---
 .left-column[
 ## Links
 ]
 .right-column[
 .center[
-### soltysh @ .awesome[.fa-twitter[] .fa-github[] .fa-google[] .fa-bitbucket[]]
-### [maszulik@redhat.com]()
-
 <br />
-
+## soltysh @ .awesome[.fa-twitter[] .fa-github[] .fa-google[] .fa-bitbucket[]]
+## [maszulik@redhat.com]()
+<br />
+<br />
 http://releases.k8s.io/master/docs/proposals/job.md
-
+<br />
+<br />
 http://releases.k8s.io/master/docs/user-guide/jobs.md
-
 ]]
