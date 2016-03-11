@@ -34,6 +34,9 @@ class: center, middle, inverse
 # Job
 
 ???
+Borg has services and batch jobs. Kubernetes has long running resources
+(RC, RS, Deployments) and short running ones (Job).
+
 kubectl run hello --image=python:3.5.1 --restart=Never -- python -c 'print("Hello world!")'
 
 
@@ -61,6 +64,9 @@ spec:
       restartPolicy: Never
 ```
 ]
+
+???
+kubectl get job/hello -o yaml
 
 
 ---
@@ -91,6 +97,9 @@ spec:
       restartPolicy: Never
 ```
 ]
+
+???
+k8s 1.2 introduced batch/v1, please stop using extensions/v1beta1
 
 
 ---
@@ -124,6 +133,9 @@ spec:
       restartPolicy: Never
 ```
 ]
+
+???
+Define which command to run with the image
 
 
 ---
@@ -170,6 +182,10 @@ spec:
 # OnFailure
 # Never
 ]]
+
+???
+Always is for ReplicationControllers, ReplicaSets, Deployments.
+The remaining two is JUST for jobs or standalone pods.
 
 
 ---
