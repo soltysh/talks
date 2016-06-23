@@ -1,0 +1,81 @@
+# Colorful deployments
+
+
+## Description
+
+You have created your awesome application, deployed it for the very first time,
+now what? How you handle application updates, what are the possible approaches?
+Do you pick your deployment strategy by your favorite color, blue-green, canary,
+other? Yet, the decision is very simple, or I should rather say switching from
+one strategy to other is as simple as never before. During this presentation
+I will show you three different deployment strategies and how to apply those
+to sample python application.
+
+
+## Audience
+
+Developers interested in: automated CI/CD flows, containers. PaaS solutions supporting the former.
+
+
+## Objective
+
+Attendees leaving the room will learn about different deployments strategies. How
+to introduce fully automated CI/CD flow by leveraging  containers, combined with
+21st century cluster management, hidden in the latest version of OpenShift.
+
+
+## Detailed abstract
+
+In DevOps, we define Continuous Deployment (CD) as the process of automatically
+deploying your application based on certain conditions. Usually, those conditions
+require running tests, verifying if the new version of the application has
+deployed successfully and if it is working correctly. This may sound simple enough,
+but instrumenting this kind of process can be a big challenge.
+
+During this presentation we will start by reviewing three different deployment
+strategies: blue-green, canary and rollback. I'll demonstrate how each of them
+can be applied to a sample python application, pointing out differences, possible
+implementations, and pitfalls along the way.
+
+From that foundation, we will then see how simple it is to implement any or all
+of these three strategies in an application when we deploy it on the OpenShift
+Platform-as-a-Service system. We will also review how easy it is to switch from
+one deployment strategy to other on OpenShift. If time allows, we will talk about
+creating custom deployment strategies on OpenShift as well.
+
+We will finish our session with a live demo that showcases how easy it is to run
+all sorts of applications on top of OpenShift, leveraging its features to simplify
+deployment in ways that make both development and operations teams happy. After
+the session, you can play around with the accompanying code repository that we
+used in the demo, which includes instructions how to run it on your own.
+
+
+## Outline
+
+1. What is continuous deployment
+  * Definition and main principles (3 min)
+  * How it differs from Continuous Delivery (2 min)
+1. What are different deployment strategies (9 min)
+  * Blue-Green (3 min)
+  * Canary (3 min)
+  * Rollback (3 min)
+1. PaaS
+  * Definition (2 min)
+  * Introducing OpenShift v3
+     * Architecture (2 min)
+     * Key concepts (3 min)
+     * Sample app deployment (2 min)
+1. Live demo (7 min)
+1. Q&A (10 min)
+
+
+## Links
+
+http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/
+http://martinfowler.com/bliki/CanaryRelease.html
+http://martinfowler.com/bliki/BlueGreenDeployment.html
+http://www.informit.com/articles/article.aspx?p=1833567
+http://stackoverflow.com/questions/23746038/canary-release-strategy-vs-blue-green
+https://www.thoughtworks.com/insights/blog/implementing-blue-green-deployments-aws
+http://techblog.netflix.com/2013/08/deploying-netflix-api.html
+https://puppet.com/blog/continuous-delivery-vs-continuous-deployment-what-s-diff
