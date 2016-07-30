@@ -29,3 +29,25 @@ to pitch in.
   * questions
 
 1. Adam Miller on OSBS (30 min)
+
+
+## Requirements
+
+- Docker
+
+
+## Troubleshooting vagrant+virtualbox installation
+
+- Missing kernel
+
+`sudo dnf install kernel-devel`
+
+- VBox kernel module not loaded:
+
+`sudo /sbin/vboxconfig`
+
+
+## Hacking on origin
+
+- `sudo dnf copr enable jcajka/golang1.6`
+  `sudo dnf install git golang-1.6.3 make`
