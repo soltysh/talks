@@ -1,4 +1,4 @@
-# Colorful deployments
+ Colorful deployments
 
 
 ## Description
@@ -79,3 +79,10 @@ http://stackoverflow.com/questions/23746038/canary-release-strategy-vs-blue-gree
 https://www.thoughtworks.com/insights/blog/implementing-blue-green-deployments-aws
 http://techblog.netflix.com/2013/08/deploying-netflix-api.html
 https://puppet.com/blog/continuous-delivery-vs-continuous-deployment-what-s-diff
+
+
+## Ideas
+
+Deployment planning
+Deploy small, deploy frequent = easy rollback, easy to know what to fix
+Automatic scaling (HPA in OpenShift/k8s)
