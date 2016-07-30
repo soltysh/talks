@@ -1,0 +1,31 @@
+# OpenShift on Fedora
+
+## Description
+
+Do you want to run your containerized applications on an all-Fedora platform?
+Interested in deploying OpenShift on Fedora? Come help us make that a reality in
+this Origin-on-Fedora hackfest. We'll be working on troubleshooting and building
+an official Fedora Atomic Origin stack.
+
+This will include showing some of the deployment options for Origin on Fedora,
+as well as going over the current blockers and state of the project. Then we'll
+get to hacking. Bring a laptop, and your Ansible, Ops, and/or Docker knowledge
+to pitch in.
+
+
+## Outline
+
+1. Presentation (30 min)
+  * Introducing OpenShift v3 (15 min)
+  * How to bring cluster up (15 min)
+    * oc cluster up/down
+    * running containers manually
+    * getting and running binary
+    * building and running from source
+
+1. Hands on (60 min)
+  * oc cluster up (30 min)
+  * build python sample app (https://github.com/openshift/django-ex/) (30 min)
+  * questions
+
+1. Adam Miller on OSBS (30 min)
