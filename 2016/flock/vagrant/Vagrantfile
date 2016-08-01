@@ -1,0 +1,33 @@
+# Vagrantfile for origin dev environment
+#
+
+VAGRANTFILE_API_VERSION = "2"
+Vagrant.require_version ">= 1.7.2"
+
+HOSTNAME = "origin"
+
+Vagrant.configure(2) do |config|
+
+    config.vm.box = "fedora/23-cloud-base"
+    config.vm.box_check_update = false
+    config.vm.network "private_network", ip: "10.2.2.2"
+    config.ssh.insert_key = false
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+    config.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
+    if Vagrant::Util::Platform.windows?
+        config.vm.synced_folder "utils", "/utils"
+     else
+        config.vm.synced_folder "utils", "/utils", type: "rsync"
+    end
+
+    # It seems there is a bug in Vagrant that it does not properly manage hostname substtution and does not remove ipv6 names
+    config.vm.provision "shell", inline: "hostname #{HOSTNAME}", run: "always"
+    config.vm.provision "shell", inline: "sed -i.bak '/::1/d' /etc/hosts && echo '127.0.1.1 #{HOSTNAME}' >> /etc/hosts"
+
+    config.vm.provider "virtualbox" do |vb|
+        vb.memory = 6144
+        vb.cpus = 2
+        vb.name = "origin"
+    end
+
+end
