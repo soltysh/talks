@@ -1,39 +1,30 @@
 # Install OpenShift CLI
 
-The simples and easiest option to get OpenShift is to visit our GitHub release
+The simplest and easiest way to get OpenShift is to visit our GitHub release
 page at https://github.com/openshift/origin/releases/.
+
+
+# Vagrant box
+
+The included vagrant box already contains all the necessary elements to run
+all-in-one container, this includes:
+
+- oc binaries (from current master) with completions
+- docker images
+- go development tools
+- all the necessary configuration
 
 
 # Setting up cluster
 
 With the upcoming OpenShift Origin v1.3 we're introducing `oc cluster up/down`
-command, which allows easily setup the all-in-one container on a Docker host.
+command, which allows one to easily setup the all-in-one container on a Docker host.
 
 ```
 $ oc cluster up --public-hostname=10.2.2.2
 -- Checking OpenShift client ... OK
 -- Checking Docker client ... OK
--- Checking for existing OpenShift container ... OK
--- Checking for openshift/origin:v1.3.0-alpha.2 image ... OK
--- Checking Docker daemon configuration ... OK
--- Checking for available ports ... OK
--- Checking type of volume mount ...
-   Using nsenter mounter for OpenShift volumes
--- Checking Docker version ... OK
--- Creating host directories ... OK
--- Finding server IP ...
-   Using public hostname IP 10.2.2.2 as the host IP
-   Using 10.2.2.2 as the server IP
--- Starting OpenShift container ...
-   Creating initial OpenShift configuration
-   Starting OpenShift using container 'origin'
-   Waiting for API server to start listening
-   OpenShift server started
--- Installing registry ... OK
--- Installing router ... OK
--- Importing image streams ... OK
--- Importing templates ... OK
--- Login to server ... OK
+...
 -- Creating initial project "myproject" ... OK
 -- Server Information ...
    OpenShift server started.
@@ -48,14 +39,19 @@ $ oc cluster up --public-hostname=10.2.2.2
        oc login -u system:admin
 ```
 
-To verify currently logged in user:
+To verify the currently logged in user:
 
 ```
 $ oc whoami
 developer
 ```
 
+
 ### Troubleshooting
+
+`oc cluster up` command is trying to be very self-explanatory in suggesting
+what is wrong with it, the only problem you may encounter when setting up
+the cluster on your local machines is:
 
 ```
 Error: did not detect an --insecure-registry argument on the Docker daemon
@@ -66,12 +62,77 @@ Error: did not detect an --insecure-registry argument on the Docker daemon
 ```
 
 
+# OpenShift
+
+You can access your cluster either using the downloaded CLI or through web console.
+The former usually is in the following form:
+
+```
+oc <verb> <resource>
+```
+
+Where verb can be get, edit, delete, set, describe, etc. Resource is the
+object name you're trying to act upon, these will be `Pods`, `BuildConfigs`,
+`DeploymentConfigs`, `Routes`, `Services`, `Jobs`, etc.
+
+If the `oc` binary is not available on your workstation, you can alternatively
+substitute if with `openshift cli`.
+
+To access the web console visit https://10.2.2.2:8443/console/.
+
+
+# Projects
+
+Projects are a top level concept to help you organize your applications. Upon
+cluster start a default `myproject` was created for you. To get the list of
+all the projects you currently have access to run:
+
+```
+oc get projects
+```
+
+Creating a new project is done with:
+
+```
+oc new-project mynewproject
+```
+
+
 # Running a pod
+
+The smallest deployable unit in OpenShift is a Pod. A Pod is a group of one or
+more Docker containers deployed together and guaranteed to be on the same host.
+This means that although during our workshop we'll use only single container per
+Pod you can have more than one. A good example for multiple container Pod is
+a log analyzer or a monitoring container that should have direct access to the
+main container.
+
+All the resources in OpenShift are created using json or yaml definitions like
+this one:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello
+spec:
+  containers:
+  - name: hello
+    image: openshift/hello-openshift
+```
+
+But managing these definitions is challenging, sometimes. Especially for starters
+or occasional users, or generally a lot less user friendly. For this case we've
+created a set of handy commands that should help to get up to speed quickly and
+easily. Having said that let's create our first Pod:
 
 ```
 $ oc run hello --image=openshift/hello-openshift --restart=Never
 pod "hello" created
 ```
+
+This creates a `hello` Pod running `openshift/hello-openshift` image. This image
+serves a simple web server on port 8080 which displays Hello Openshift.
 
 ```
 $ oc get pods
@@ -91,16 +152,24 @@ You have no services, deployment configs, or build configs.
 Run 'oc new-app' to create an application.
 ```
 
+It's important to note that OpenShift v3 uses a declarative model where resources
+(here a Pod) bring themselves in line with a predefined state. At any point in
+time we can update the desired state of our resource by either uploading an updated
+definition of the resource to the server or directly editing it:
+
 ```
 $ oc edit pod/hello
 ```
+
+We can then verify if the changes we've introduced are applied by looking at
+the definition:
 
 ```
 $ oc get pod/hello -o yaml
 ```
 
-
-Current project's overview from the web interface:
+As mentioned in the beginning, all the operation we've done so far can be
+achieved from the web console:
 
 ![pod](img/pod.png)
 
@@ -269,15 +338,21 @@ django-ex   django-ex-myproject.10.2.2.2.xip.io             django-ex:8080-tcp  
 ![Overview](img/overview.png)
 
 
+# Running jobs
+
+
+# Hacking origin
+
+
 # Links
 
-https://github.com/openshift/origin/
-https://github.com/openshift/source-to-image/
-https://docs.openshift.org/latest/welcome/index.html
-https://github.com/sclorg/s2i-nodejs-container
-https://github.com/sclorg/s2i-perl-container
-https://github.com/sclorg/s2i-php-container
-https://github.com/sclorg/s2i-python-container
-https://github.com/sclorg/s2i-ruby-container
-https://blog.openshift.com/source-image-s2i-deep-dive-ben-parees-openshift-commons-briefing-43/
-https://blog.openshift.com/create-s2i-builder-image/
+- https://github.com/openshift/origin/
+- https://github.com/openshift/source-to-image/
+- https://docs.openshift.org/latest/welcome/index.html
+- https://github.com/sclorg/s2i-nodejs-container
+- https://github.com/sclorg/s2i-perl-container
+- https://github.com/sclorg/s2i-php-container
+- https://github.com/sclorg/s2i-python-container
+- https://github.com/sclorg/s2i-ruby-container
+- https://blog.openshift.com/source-image-s2i-deep-dive-ben-parees-openshift-commons-briefing-43/
+- https://blog.openshift.com/create-s2i-builder-image/

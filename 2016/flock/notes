@@ -31,9 +31,13 @@ to pitch in.
 1. Adam Miller on OSBS (30 min)
 
 
-## Requirements
+## Running vagrant
 
-- Docker
+```
+vagrant box add openshift3-origin openshift3-origin.box
+vagrant init openshift3-origin
+vagrant up
+```
 
 
 ## Troubleshooting vagrant+virtualbox installation
@@ -45,9 +49,3 @@ to pitch in.
 - VBox kernel module not loaded:
 
 `sudo /sbin/vboxconfig`
-
-
-## Hacking on origin
-
-- `sudo dnf copr enable jcajka/golang1.6`
-  `sudo dnf install git golang-1.6.3 make`
