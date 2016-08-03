@@ -1,7 +1,7 @@
 # Install OpenShift CLI
 
-The simplest and easiest way to get OpenShift is to visit our GitHub release
-page at https://github.com/openshift/origin/releases/.
+The simplest and easiest way to get OpenShift Origin binaries, is to visit our
+GitHub release page at https://github.com/openshift/origin/releases/.
 
 
 # Vagrant box
@@ -13,6 +13,8 @@ all-in-one container, this includes:
 - docker images
 - go development tools
 - all the necessary configuration
+
+Interested users are encouraged to check `vagrant/` directory in this repository.
 
 
 # Setting up cluster
@@ -39,19 +41,30 @@ $ oc cluster up --public-hostname=10.2.2.2
        oc login -u system:admin
 ```
 
-To verify the currently logged in user:
+*NOTE: The accompanying vagrant box is configured with `10.2.2.2` IP address. To make
+the web console accessible from the host we need to specify the `--public-hostname`
+flag, which tells the web console how to reach the cluster.*
+
+To verify the currently logged in user from the CLI:
 
 ```
 $ oc whoami
 developer
 ```
 
+To login to the web console visit https://10.2.2.2:8443/ and login using the
+credentials presented at console when spinning up the cluster.
+
+*NOTE: During spinning up the cluster new self-signed certificates are generated.
+Thus, you might expect a warning from your browser about the web console using
+insecure connection.*
+
 
 ### Troubleshooting
 
 `oc cluster up` command is trying to be very self-explanatory in suggesting
-what is wrong with it, the only problem you may encounter when setting up
-the cluster on your local machines is:
+what went wrong, the only problem you may encounter when setting up the cluster
+on your local machines is:
 
 ```
 Error: did not detect an --insecure-registry argument on the Docker daemon
@@ -61,11 +74,13 @@ Error: did not detect an --insecure-registry argument on the Docker daemon
         --insecure-registry 172.30.0.0/16
 ```
 
+But the provided vagrant box has already this handled for you.
+
 
 # OpenShift
 
-You can access your cluster either using the downloaded CLI or through web console.
-The former usually is in the following form:
+You can access your cluster either using the downloaded CLI or through the web
+console. The former usually is in the following form:
 
 ```
 oc <verb> <resource>
@@ -76,16 +91,14 @@ object name you're trying to act upon, these will be `Pods`, `BuildConfigs`,
 `DeploymentConfigs`, `Routes`, `Services`, `Jobs`, etc.
 
 If the `oc` binary is not available on your workstation, you can alternatively
-substitute if with `openshift cli`.
-
-To access the web console visit https://10.2.2.2:8443/console/.
+substitute it with `openshift cli`.
 
 
 # Projects
 
 Projects are a top level concept to help you organize your applications. Upon
-cluster start a default `myproject` was created for you. To get the list of
-all the projects you currently have access to run:
+cluster start a default `myproject` was created for you. To get the list of all
+the projects you currently have access to, run:
 
 ```
 oc get projects
@@ -94,7 +107,7 @@ oc get projects
 Creating a new project is done with:
 
 ```
-oc new-project mynewproject
+oc new-project <project name>
 ```
 
 
@@ -121,10 +134,10 @@ spec:
     image: openshift/hello-openshift
 ```
 
-But managing these definitions is challenging, sometimes. Especially for starters
-or occasional users, or generally a lot less user friendly. For this case we've
-created a set of handy commands that should help to get up to speed quickly and
-easily. Having said that let's create our first Pod:
+Managing these definitions is challenging, sometimes. Especially for starters,
+or occasional users, and generally not much user friendly. To address this concerns,
+we've created a set of handy commands that should help you to get up to speed quickly
+and easily. Having said that, let's create our first Pod:
 
 ```
 $ oc run hello --image=openshift/hello-openshift --restart=Never
@@ -132,7 +145,10 @@ pod "hello" created
 ```
 
 This creates a `hello` Pod running `openshift/hello-openshift` image. This image
-serves a simple web server on port 8080 which displays Hello Openshift.
+serves a simple web server on port 8080, which displays Hello Openshift. The `--restart`
+flag at the end tells the CLI to create a Pod, if omitted it'll create a DeploymentConfig
+instead, which we'll do in a minute. Before doing that, let's examine the created
+resource:
 
 ```
 $ oc get pods
@@ -140,7 +156,7 @@ NAME      READY     STATUS    RESTARTS   AGE
 hello     1/1       Running   0          2s
 ```
 
-To view status of the current project, iow. what resources are running:
+To view the overall status of the current project, iow. what resources are available:
 
 ```
 $ oc status
@@ -152,24 +168,38 @@ You have no services, deployment configs, or build configs.
 Run 'oc new-app' to create an application.
 ```
 
+or
+
+```
+$ oc get all
+NAME      READY     STATUS    RESTARTS   AGE
+hello     1/1       Running   0          9m
+```
+
 It's important to note that OpenShift v3 uses a declarative model where resources
 (here a Pod) bring themselves in line with a predefined state. At any point in
-time we can update the desired state of our resource by either uploading an updated
-definition of the resource to the server or directly editing it:
+time we can update the desired state of our resource either by uploading an updated
+definition of the resource to the server, or directly editing it:
 
 ```
 $ oc edit pod/hello
 ```
 
 We can then verify if the changes we've introduced are applied by looking at
-the definition:
+the Pod definition (json or yaml):
 
 ```
 $ oc get pod/hello -o yaml
 ```
 
-As mentioned in the beginning, all the operation we've done so far can be
-achieved from the web console:
+Alternatively, there's a human friendly, detailed output of any resource:
+
+```
+$ oc describe pod/hello
+```
+
+As mentioned in the beginning, all the operations we've done so far can be
+achieved from the web console, as well:
 
 ![pod](img/pod.png)
 
@@ -179,16 +209,21 @@ achieved from the web console:
 At any point in time you can remove *all* the resources in the project:
 
 ```
-oc delete all --all
+$ oc delete all --all
 ```
 
 
 # Running a Deployment
 
+Previously, we've used `oc run` to create a Pod, but it was mentioned that the
+same command can be used to create a DeploymentConfig:
+
 ```
 $ oc run hello --image=openshift/hello-openshift
 deploymentconfig "hello" created
 ```
+
+To verify current state of the project:
 
 ```
 $ oc status
@@ -199,6 +234,9 @@ dc/hello deploys docker.io/openshift/hello-openshift:latest
 
 1 warning identified, use 'oc status -v' to see details.
 ```
+
+The `oc status` command additionally verifies correctness of the resources in our
+project. Here, we see there's one warning to view it let's run the suggested command:
 
 ```
 $ oc status -v
@@ -214,20 +252,88 @@ Warnings:
 View details with 'oc describe <resource>/<name>' or list everything with 'oc get all'.
 ```
 
+Each DeploymentConfig should have (but it's not required) a set of user defined
+health checks, which tell the cluster how to verify if the created deployment is
+working correctly. There are three possible handlers for verification:
+
+- execute a specified command inside the container expecting success (exit code 0)
+- perform a tcp check against the container's IP address on a specified port expecting
+  the port is open
+- perform an HTTP Get against the container's IP address on a specified port and path
+  expecting successful response (http code greater than or equal to 200 and less than 400)
+
+using which, one can perform both liveness and readiness probes.
+
 ```
 oc set probe dc/hello --readiness --get-url=http://:8080/
 ```
 
+After setting the readiness probe we can verify if it was properly applied to our
+DeploymentConfig:
+
 ```
-oc get
+oc describe dc/hello
 ```
 
-Deployment overview from the web UI:
+Now, that our application is properly defined the remaining part is to actually
+expose it for outside consumers to use it. To do so we need to run twice `oc expose`
+command. First we need to expose the deployment internally:
+
+```
+$ oc expose dc/hello --port 8080
+service "hello" exposed
+```
+
+Now that the service, which allows accessing the pod inside the cluster needs
+further exposure, iow. we need to create a route which will make our application
+accessible from the outside world:
+
+```
+$ oc expose service/hello
+route "hello" exposed
+```
+
+Now we should be able to access our application from outside, let's first check
+what's the URL for our application:
+
+```
+$ oc get route/hello
+NAME      HOST/PORT                         PATH      SERVICE      TERMINATION   LABELS
+hello     hello-myproject.10.2.2.2.xip.io             hello:8080                 run=hello
+```
+
+We should be able to curl application:
+
+```
+$ curl hello-myproject.10.2.2.2.xip.io
+```
+
+Deployment overview from the web console:
 
 ![deployment](img/deployment.png)
 
 
 # Building your application (from CLI)
+
+OpenShift Origin allows three different types of builds:
+
+- Source-to-image (S2I) - builds reproducible Docker images from source code. S2I
+  produces ready-to-run images by injecting source code into a Docker container
+  (the builder image) and letting the container prepare that source code for execution.
+- Docker - builds Docker images from user provided Dockerfiles.
+- Custom - allows users to define the builder image which can produce all sorts
+  of artifacts. This is heavily used by OSBS team when building rpm packages.
+
+During spinning up the cluster you might have noticed there was a log informing:
+
+```
+-- Installing registry ... OK
+-- Importing image streams ... OK
+```
+
+The all-in-one cluster has a pre-installed docker registry you'll be using during
+building your applications, pushing to external registries is available, as well.
+Additionally, a set of pre-defined ImageStreams was also installed:
 
 ```
 $ oc get imagestream -n openshift
@@ -245,8 +351,28 @@ ruby         172.30.243.152:5000/openshift/ruby         2.2,2.3,latest + 1 more.
 wildfly      172.30.243.152:5000/openshift/wildfly      10.0,8.1,9.0 + 1 more...     7 minutes ago
 ```
 
+Most of them are the aforementioned S2I builder images, the remaining are database
+and CI images.
+
+Now, assume we have a Python/Ruby/NodeJS/PHP application available on github:
+
+- https://github.com/openshift/django-ex for Python
+- https://github.com/openshift/rails-ex for Ruby
+- https://github.com/openshift/nodejs-ex for NodeJS
+- https://github.com/openshift/cakephp-ex for PHP
+
+*NOTE: The vagrant box has pre-pulled latest available builder images, try to use
+those when invoking build to save time on pulling other images.*
+
+It was already mentioned before, that we've created a set of helpful commands to
+simplify creating resources inside the cluster. This time, we'll be using `oc new-app`
+which is responsible for creating your application from the provided arguments.
+The possible input arguments include source code repository, templates and/or images.
+
+Let's create a new python application, in that case:
+
 ```
-[vagrant@origin ~]$ oc new-app python:3.5~https://github.com/openshift/django-ex
+$ oc new-app python:3.5~https://github.com/openshift/django-ex
 --> Found image 6995879 (4 days old) in image stream "python" in project "openshift" under tag "3.5" for "python:3.5"
 
     Python 3.5
@@ -270,6 +396,21 @@ wildfly      172.30.243.152:5000/openshift/wildfly      10.0,8.1,9.0 + 1 more...
 --> Success
     Build scheduled, use 'oc logs -f bc/django-ex' to track its progress.
     Run 'oc status' to view your app.
+```
+
+As you see the command created a handful of resources, including:
+
+- BuildConfig, which is describing the build process of our application.
+- ImageStream, which defines the output docker registry for our newly built image.
+- DeploymentConfig, which is describing the deployment of our application.
+- Service, which is responsible for exposing our application.
+
+The last remaining element will be creating a Route, similarly to how we've done
+it last time:
+
+```
+$ oc expose service/django-ex
+route "django-ex" exposed
 ```
 
 ```
