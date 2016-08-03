@@ -506,8 +506,52 @@ of the newly deployed application of ours:
 
 # Running jobs
 
+OpenShift is not only meant to run long-running applications, currently it also
+allows running any kind of short-lived tasks, so called Jobs. The main difference
+between the two is that Job is meant to finish within specified amount of completions.
+By default this is one, so it parallelism, which allows to run the same task multiple
+times.
+
+```
+$ oc run job --image=centos/python-35-centos7 --generator=job/v1 --restart=Never -- python -c "import sys; sys.exit(0)"
+```
+
+We can verify the current job status:
+
+```
+$ oc describe job/job
+```
+
+or see the logs from the Pods running the Job with:
+
+```
+$ oc get pods -l job-name=job
+NAME        READY     STATUS      RESTARTS   AGE
+job-92ep4   0/1       Completed   0          1m
+
+$ oc logs pod/job-92ep4
+```
+
 
 # Hacking origin
+
+The vagrant box comes in with all the necessary tools installed to compile OpenShift
+Origin. Actually the version you were using throughout the entire workshop was
+compiled from a recent master. All is required is 6GB of memory (unfortunately since
+last kubernetes rebase), so you need to reboot your machine and update the memory
+requirement or add following code in your `Vagrantfile` and `vagrant reload` it.
+
+```
+    config.vm.provider "virtualbox" do |vb|
+        # more memory is needed for compilation, since recent k8s rebase
+        vb.memory = 6144
+    end
+```
+
+After that is handled go to `$HOME/go/src/github.com/openshift/origin/` and while
+in there just invoke `make` to rebuild the binary. The pre-compiled binaries were
+copied to `$HOME/bin` directory, so make sure to remove those to pick up the newest
+compiled ones instead.
 
 
 # Links
