@@ -331,7 +331,7 @@ During spinning up the cluster you might have noticed there was a log informing:
 -- Importing image streams ... OK
 ```
 
-The all-in-one cluster has a pre-installed docker registry you'll be using during
+The all-in-one cluster has a pre-installed docker registry you'll be using when
 building your applications, pushing to external registries is available, as well.
 Additionally, a set of pre-defined ImageStreams was also installed:
 
@@ -354,12 +354,13 @@ wildfly      172.30.243.152:5000/openshift/wildfly      10.0,8.1,9.0 + 1 more...
 Most of them are the aforementioned S2I builder images, the remaining are database
 and CI images.
 
-Now, assume we have a Python/Ruby/NodeJS/PHP application available on github:
+Now, assume we have a Python/Ruby/NodeJS/PHP/Perl application available on github:
 
 - https://github.com/openshift/django-ex for Python
 - https://github.com/openshift/rails-ex for Ruby
 - https://github.com/openshift/nodejs-ex for NodeJS
 - https://github.com/openshift/cakephp-ex for PHP
+- https://github.com/openshift/dancer-ex for Perl
 
 *NOTE: The vagrant box has pre-pulled latest available builder images, try to use
 those when invoking build to save time on pulling other images.*
@@ -369,7 +370,7 @@ simplify creating resources inside the cluster. This time, we'll be using `oc ne
 which is responsible for creating your application from the provided arguments.
 The possible input arguments include source code repository, templates and/or images.
 
-Let's create a new python application, in that case:
+Let's create a new python application:
 
 ```
 $ oc new-app python:3.5~https://github.com/openshift/django-ex
@@ -406,12 +407,14 @@ As you see the command created a handful of resources, including:
 - Service, which is responsible for exposing our application.
 
 The last remaining element will be creating a Route, similarly to how we've done
-it last time:
+that last time:
 
 ```
 $ oc expose service/django-ex
 route "django-ex" exposed
 ```
+
+Our application is being build, in the mean time let's check the current status:
 
 ```
 $ oc status
@@ -426,17 +429,22 @@ svc/django-ex - 172.30.109.61:8080
 1 warning identified, use 'oc status -v' to see details.
 ```
 
-*NOTE* The same warning about missing rediness check.
+You've probably noticed the same warning about missing readiness check, which we
+need to specify manually, again:
 
 ```
-oc set probe dc/hello --readiness --get-url=http://:8080/
+oc set probe dc/django-ex --readiness --get-url=http://:8080/
 ```
+
+Let's check how does the build progress is going:
 
 ```
 $ oc get build
 NAME          TYPE      FROM          STATUS     STARTED         DURATION
 django-ex-1   Source    Git@fa3c4f3   Complete   4 minutes ago   1m34s
 ```
+
+With the build name in mind we can examine the build logs:
 
 ```
 $ oc logs build/django-ex-1
@@ -451,31 +459,48 @@ Pushing image 172.30.243.152:5000/myproject/django-ex:latest ...
 Push successful
 ```
 
-```
-$ oc get service
-NAME        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-django-ex   172.30.109.61   <none>        8080/TCP   7m
-```
+When the build is done our application should be currently by now (or is being
+deployed at the moment).
 
 ```
-$ oc expose service/django-ex
-route "django-ex" exposed
-```
-
-```
-$ oc get route
-NAME        HOST/PORT                             PATH      SERVICE              TERMINATION   LABELS
-django-ex   django-ex-myproject.10.2.2.2.xip.io             django-ex:8080-tcp                 app=django-ex
+oc get deploy
 ```
 
 
 # Building your application from web UI:
 
+As mentioned several time already, we are able to go through the same process
+using the web console. Here are the steps to do so:
+
+List of available projects, that is displayed after logging in into the web console:
+
 ![Projects list](img/projects.png)
+
+Upon picking the project we should see project overview page, since we don't have
+any resources created it'll present us with a welcoming "Add to project" button.
+
 ![Add to project](img/addtoproject.png)
+
+We'll use that to create our first OpenShift application. Doing so, will direct us
+to a page where we pick the language of the application we can deploy.
+
 ![Catalog](img/catalog.png)
+
+We've picked python:latest image and now it asks us about the name of the application
+and the source code URL, you can either use one of the "Try it" examples I've pointed
+you before or provide the source of your own application. I'm again going with
+python application:
+
 ![New Python application](img/django.png)
+
+From this point you can play around and see the resources created during the application
+bootstrap. One of the interesting things is definitely build logs:
+
 ![Build log](img/buildlog.png)
+
+Finally, when our application was successfully built we should have a nice overview
+of the newly deployed application of ours:
+
 ![Overview](img/overview.png)
 
 
