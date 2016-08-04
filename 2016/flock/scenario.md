@@ -614,6 +614,8 @@ compiled ones instead.
 
 # Links
 
+- https://www.openshift.com/devpreview/
+- https://www.openshift.org/vm/
 - https://github.com/openshift/origin/
 - https://github.com/openshift/source-to-image/
 - https://docs.openshift.org/latest/welcome/index.html
