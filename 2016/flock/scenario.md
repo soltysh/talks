@@ -17,6 +17,24 @@ all-in-one container, this includes:
 Interested users are encouraged to check `vagrant/` directory in this repository.
 
 
+# Setting up vagrant box
+
+To spin up the vagrant machine import the provided `openshift3-origin.box` or build
+one yourself using `vagrant/release/release.sh` script:
+
+```
+$ vagrant box add --name openshift3-origin openshift3-origin.box
+$ vagrant init openshift3-origin
+$ vagrant up
+```
+
+At this point you should have the vagrant box running you can log into it using:
+
+```
+$ vagrant ssh
+```
+
+
 # Setting up cluster
 
 With the upcoming OpenShift Origin v1.3 we're introducing `oc cluster up/down`
@@ -531,6 +549,48 @@ job-92ep4   0/1       Completed   0          1m
 
 $ oc logs pod/job-92ep4
 ```
+
+
+# Debugging applications
+
+You've already saw the `oc logs` command we've used to view Build logs, but this
+command can be easily used to access any Pod logs. Generally, all the debugging
+commands you'll see in this section are run against a single Pod, because of Pod
+being the smallest deployable unit in Origin. Having said that here's a bunch of
+useful commands (others can be easily "guessed" from the auto-completion).
+
+Get a list of pods:
+
+```
+$ oc get pods
+```
+
+View the logs:
+
+```
+$ oc logs pod/<name>
+```
+
+Execute command in a pod:
+
+```
+$ oc exec <name> -- <command>
+```
+
+Connect to a pod:
+
+```
+$ oc rsh <name>
+```
+
+*NOTE: If a Pod is build of multiple containers, there's a `-c` argument to specify
+which container in a Pod to connect to.*
+
+The last command (`oc rsh`) is smart enough to actually work with other resources
+than just Pods. It works with Deployments, Replication Controllers, Jobs, etc.
+It works in such a way that it looks for the *first* running Pod and connects to it.
+
+*NOTE: You can get a full list of supported commands running `oc help`.*
 
 
 # Hacking origin
