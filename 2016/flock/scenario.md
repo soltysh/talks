@@ -19,7 +19,7 @@ Interested users are encouraged to check `vagrant/` directory in this repository
 
 # Setting up vagrant box
 
-To spin up the vagrant machine import the provided `openshift3-origin.box` or build
+To spin up the vagrant machine, import the provided `openshift3-origin.box`, or build
 one yourself using `vagrant/release/release.sh` script:
 
 ```
@@ -28,7 +28,7 @@ $ vagrant init openshift3-origin
 $ vagrant up
 ```
 
-At this point you should have the vagrant box running you can log into it using:
+At this point you should have the vagrant box running, and you can log into it using:
 
 ```
 $ vagrant ssh
@@ -70,8 +70,8 @@ $ oc whoami
 developer
 ```
 
-To login to the web console visit https://10.2.2.2:8443/ and login using the
-credentials presented at console when spinning up the cluster.
+To login to the web console visit https://10.2.2.2:8443/ and use the credentials
+presented when spinning up the cluster.
 
 *NOTE: During spinning up the cluster new self-signed certificates are generated.
 Thus, you might expect a warning from your browser about the web console using
@@ -82,7 +82,7 @@ insecure connection.*
 
 `oc cluster up` command is trying to be very self-explanatory in suggesting
 what went wrong, the only problem you may encounter when setting up the cluster
-on your local machines is:
+on your local machines is, but the provided box has this already handled for you.
 
 ```
 Error: did not detect an --insecure-registry argument on the Docker daemon
@@ -92,13 +92,11 @@ Error: did not detect an --insecure-registry argument on the Docker daemon
         --insecure-registry 172.30.0.0/16
 ```
 
-But the provided vagrant box has already this handled for you.
-
 
 # OpenShift
 
-You can access your cluster either using the downloaded CLI or through the web
-console. The former usually is in the following form:
+You can access your cluster either using the downloaded CLI, or through the web
+console. The CLI commands are usually in the following form:
 
 ```
 oc <verb> <resource>
@@ -108,8 +106,8 @@ Where verb can be get, edit, delete, set, describe, etc. Resource is the
 object name you're trying to act upon, these will be `Pods`, `BuildConfigs`,
 `DeploymentConfigs`, `Routes`, `Services`, `Jobs`, etc.
 
-If the `oc` binary is not available on your workstation, you can alternatively
-substitute it with `openshift cli`.
+*NOTE: If the `oc` binary is not available on your workstation, you can alternatively
+substitute it with `openshift cli`.*
 
 
 # Projects
@@ -131,11 +129,11 @@ oc new-project <project name>
 
 # Running a pod
 
-The smallest deployable unit in OpenShift is a Pod. A Pod is a group of one or
+The smallest deployable unit in OpenShift is a Pod. A Pod is a group of one, or
 more Docker containers deployed together and guaranteed to be on the same host.
 This means that although during our workshop we'll use only single container per
 Pod you can have more than one. A good example for multiple container Pod is
-a log analyzer or a monitoring container that should have direct access to the
+a log analyzer, or a monitoring container that should have direct access to the
 main container.
 
 All the resources in OpenShift are created using json or yaml definitions like
@@ -154,7 +152,7 @@ spec:
 
 Managing these definitions is challenging, sometimes. Especially for starters,
 or occasional users, and generally not much user friendly. To address this concerns,
-we've created a set of handy commands that should help you to get up to speed quickly
+we've created a set of handy commands that should help you to get up to speed quickly,
 and easily. Having said that, let's create our first Pod:
 
 ```
@@ -270,7 +268,7 @@ Warnings:
 View details with 'oc describe <resource>/<name>' or list everything with 'oc get all'.
 ```
 
-Each DeploymentConfig should have (but it's not required) a set of user defined
+Each DeploymentConfig should have (but it's not required) a set of user-defined
 health checks, which tell the cluster how to verify if the created deployment is
 working correctly. There are three possible handlers for verification:
 
@@ -294,7 +292,7 @@ oc describe dc/hello
 ```
 
 Now, that our application is properly defined the remaining part is to actually
-expose it for outside consumers to use it. To do so we need to run twice `oc expose`
+expose it to outside consumers to use it. To do so we need to run twice `oc expose`
 command. First we need to expose the deployment internally:
 
 ```
