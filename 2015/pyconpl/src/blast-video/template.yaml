@@ -98,6 +98,11 @@ objects:
               ports:
                 - containerPort: 8080
                   protocol: TCP
+              readinessProbe:
+                httpGet:
+                  path: /blast/api/v1.0/video/x
+                  port: 8080
+                  scheme: HTTP
               env:
                 - name: MONGODB_USER
                   value: "${MONGODB_USER}"

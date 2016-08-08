@@ -98,6 +98,11 @@ objects:
               ports:
                 - containerPort: 8080
                   protocol: TCP
+              readinessProbe:
+                httpGet:
+                  path: /blast/api/v1.0/image/x
+                  port: 8080
+                  scheme: HTTP
               env:
                 - name: POSTGRESQL_USER
                   value: "${POSTGRESQL_USER}"
