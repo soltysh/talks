@@ -31,7 +31,7 @@ objects:
         type: Git
         git:
           uri: https://github.com/soltysh/talks.git
-        contextDir: openshift_microservices/src/blast-text
+        contextDir: 2015/pyconpl/src/blast-text
       strategy:
         type: Source
         sourceStrategy:
