@@ -52,34 +52,45 @@ used in the demo, which includes instructions how to run it on your own.
 
 ## Outline
 
-1. What is continuous deployment
-  * Definition and main principles (3 min)
-  * How it differs from Continuous Delivery (2 min)
-1. What are different deployment strategies (9 min)
-  * Blue-Green (3 min)
-  * Canary (3 min)
-  * Rollback (3 min)
-1. PaaS
-  * Definition (2 min)
-  * Introducing OpenShift v3
-     * Architecture (2 min)
-     * Key concepts (3 min)
-     * Sample app deployment (2 min)
-1. Live demo (7 min)
-1. Q&A (10 min)
+1. What is CI/CD
+  * Continuous Integration
+  * Continuous Delivery vs Continuous Deployment
+1. Continuous Deployment
+  * Low-Risk Deployments Are Incremental
+  * Release overhead reduces opportunity to iterate
+  * Decouple Deployment and Release (?)
+  * Optimize for Resilience
+1. Deployment planning
+1. Deployment strategies
+  * Blue-Green
+  * Canary release
+1. Rollback
+1. Automatic scaling
+1. Live demo on OpenShift
+  * Sample application architecture
+  * Blue-Green deployment
+  * Canary release
+  * Rollback
+1. Q&A
 
 
 ## Links
 
-http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/
-http://martinfowler.com/bliki/CanaryRelease.html
-http://martinfowler.com/bliki/BlueGreenDeployment.html
-http://www.informit.com/articles/article.aspx?p=1833567
-http://stackoverflow.com/questions/23746038/canary-release-strategy-vs-blue-green
-https://www.thoughtworks.com/insights/blog/implementing-blue-green-deployments-aws
-http://techblog.netflix.com/2013/08/deploying-netflix-api.html
-https://puppet.com/blog/continuous-delivery-vs-continuous-deployment-what-s-diff
 
+https://github.com/openshift/origin/blob/master/examples/deployment/README.md
+https://htmlpreview.github.io/?https://github.com/redhat-helloworld-msa/helloworld-msa/blob/master/readme.html
+
+http://martinfowler.com/bliki/BlueGreenDeployment.html
+https://www.thoughtworks.com/insights/blog/implementing-blue-green-deployments-aws
+https://medium.com/aws-activate-startup-blog/upgrades-without-tears-part-1-introduction-to-blue-green-deployment-on-aws-e5bcf90eb60b#.t1jxylpdt
+
+https://blog.openshift.com/openshift-3-demo-part-11-ab-deployments/
+
+http://martinfowler.com/bliki/CanaryRelease.html
+http://stackoverflow.com/questions/23746038/canary-release-strategy-vs-blue-green
+
+http://docs.octopusdeploy.com/display/OD/Rolling+deployments
+http://about.getset.com/developer-blog/2014/10/29/anatomy-of-a-rolling-deploy
 
 ## Ideas
 
