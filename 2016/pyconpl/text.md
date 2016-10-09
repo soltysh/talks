@@ -384,3 +384,29 @@ and with a bit of thoughtfulness.
 
 A/B (quite frequently mistaken with Blue-Green deployments) testing is about
 measuring functionality in the app (usually UI).
+
+
+---
+name: title
+layout: true
+class: center
+---
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+.maximage[
+![closing](img/closing.png)
+]
+
+
+---
+name: title
+layout: true
+class: center
+---
+.maximage[
+![book](img/book.jpg)
+]
