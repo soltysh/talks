@@ -133,16 +133,6 @@ System should work effectively in degraded mode.
 
 
 ---
-.left-column[
-### Continuous deployment
-#### - why
-]
-.right-column[.maximage[
-![flow](img/ci-cd-flow.png)
-]]
-
-
----
 name: title
 layout: true
 class: center, inverse
