@@ -148,7 +148,7 @@ class: center, inverse
 layout: false
 .left-column[
 ### Blue-Green
-#### - reqs
+#### - requirements
 ]
 .right-column[
 ## Twin environments
@@ -162,7 +162,7 @@ layout: false
 ---
 .left-column[
 ### Blue-Green
-#### - reqs
+#### - requirements
 #### - process
 ]
 .right-column[.maximage[
@@ -176,7 +176,7 @@ layout: false
 ---
 .left-column[
 ### Blue-Green
-#### - reqs
+#### - requirements
 #### - process
 ]
 .right-column[.maximage[
@@ -190,7 +190,7 @@ layout: false
 ---
 .left-column[
 ### Blue-Green
-#### - reqs
+#### - requirements
 #### - process
 #### - pros/cons
 ]
@@ -231,7 +231,7 @@ class: center, inverse
 layout: false
 .left-column[
 ### Canary
-#### - reqs
+#### - requirements
 ]
 .right-column[
 ## Feature toggle
@@ -245,7 +245,7 @@ layout: false
 ---
 .left-column[
 ### Canary
-#### - reqs
+#### - requirements
 #### - process
 ]
 .right-column[.maximage[
@@ -259,7 +259,7 @@ layout: false
 ---
 .left-column[
 ### Canary
-#### - reqs
+#### - requirements
 #### - process
 #### - pros/cons
 ]
@@ -286,9 +286,22 @@ layout: false
 
 
 ---
+name: title
+layout: true
+class: center, inverse
+---
+<br />
+<br />
+<br />
+# .canary[Canary]
+# Demo
+
+
+---
+layout: false
 .left-column[
 ### Rolling
-#### - reqs
+#### - requirements
 ]
 .right-column[
 ## N+1 instances
@@ -302,7 +315,7 @@ layout: false
 ---
 .left-column[
 ### Rolling
-#### - reqs
+#### - requirements
 #### - process
 ]
 .right-column[
@@ -320,7 +333,7 @@ layout: false
 ---
 .left-column[
 ### Rolling
-#### - reqs
+#### - requirements
 #### - process
 #### - pros/cons
 ]
@@ -333,7 +346,7 @@ layout: false
 .pull-right[
 .red[Cons]
 <hr />
-### Instance reqs
+### Instance requirements
 ### Lost transactions
 ### Log-off users
 ]
