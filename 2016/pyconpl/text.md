@@ -59,7 +59,7 @@ sense to you.
 ]]
 
 ???
-We've covered the orange prerequisites, now this is where the our party begins.
+We've covered the initial prerequisite - CI, now this is where the our party begins.
 But before that, there's still one thing I'd like to clear out before we move on.
 
 Continuous delivery or deployment? If you search the web for CI/CD acronym the
@@ -92,6 +92,7 @@ As a confirmation, here's a tweet from Martin Fowler.
 #### - why
 ]
 .right-column[
+<br />
 ## Deliver more features
 ## Repeatability
 ## Minimize downtime
@@ -151,12 +152,14 @@ layout: false
 #### - requirements
 ]
 .right-column[
+<br />
 ## Twin environments
 ## Routing
+## N-1 compatibility
 ]
 
 ???
--
+Before talking about blue-green deployment let's cover the ground work.
 
 
 ---
@@ -170,7 +173,8 @@ layout: false
 ]]
 
 ???
--
+Blue is the currently running version of the software that is currently serving
+the traffic. Green is the new version being rolled and tested concurrently.
 
 
 ---
@@ -184,10 +188,24 @@ layout: false
 ]]
 
 ???
--
+Once all the tests (either automatic, manual and whatnot) pass we can switch
+the traffic to the new version.
 
 
 ---
+name: title
+layout: true
+class: center, inverse
+---
+<br />
+<br />
+<br />
+# .blue[Blue]-.green[Green]
+# Demo
+
+
+---
+layout: false
 .left-column[
 ### Blue-Green
 #### - requirements
@@ -208,38 +226,31 @@ layout: false
 <hr />
 ### Data migrations
 ### Lost transactions
+### N-1 compatibility
 ]
 ]
 
 ???
--
+Close to zero downtime, only the timeout needed to switch from blue to green.
+Invisible to users
+Tests in prod, since the two environments.
+Easy rollback, just switch the load balancer back to blue.
 
 
 ---
-name: title
-layout: true
-class: center, inverse
----
-<br />
-<br />
-<br />
-# .blue[Blue]-.green[Green]
-# Demo
-
-
----
-layout: false
 .left-column[
 ### Canary
 #### - requirements
 ]
 .right-column[
+<br />
 ## Feature toggle
-## Multi-version support
+## N-1 compatibility
 ]
 
 ???
--
+Feature toggle used at facebook - Gatekeeper
+
 
 
 ---
@@ -257,6 +268,19 @@ layout: false
 
 
 ---
+name: title
+layout: true
+class: center, inverse
+---
+<br />
+<br />
+<br />
+# .canary[Canary]
+# Demo
+
+
+---
+layout: false
 .left-column[
 ### Canary
 #### - requirements
@@ -278,6 +302,7 @@ layout: false
 ### Data migrations
 ### Multiple versions
 ### Mobile/Desktop
+### N-1 compatibility
 ]
 ]
 
@@ -286,26 +311,14 @@ layout: false
 
 
 ---
-name: title
-layout: true
-class: center, inverse
----
-<br />
-<br />
-<br />
-# .canary[Canary]
-# Demo
-
-
----
-layout: false
 .left-column[
 ### Rolling
 #### - requirements
 ]
 .right-column[
+<br />
 ## N+1 instances
-## Multi-version support
+## N-1 compatibility
 ]
 
 ???
@@ -331,32 +344,6 @@ layout: false
 
 
 ---
-.left-column[
-### Rolling
-#### - requirements
-#### - process
-#### - pros/cons
-]
-.right-column[
-.pull-left[
-.green[Pros]
-<hr />
-### Incremental roll-out
-]
-.pull-right[
-.red[Cons]
-<hr />
-### Instance requirements
-### Lost transactions
-### Log-off users
-]
-]
-
-???
--
-
-
----
 name: title
 layout: true
 class: center, inverse
@@ -371,14 +358,42 @@ class: center, inverse
 ---
 layout: false
 .left-column[
+### Rolling
+#### - requirements
+#### - process
+#### - pros/cons
+]
+.right-column[
+.pull-left[
+.green[Pros]
+<hr />
+### Incremental roll-out
+### Gradual verification
+]
+.pull-right[
+.red[Cons]
+<hr />
+### N+1 instances
+### Lost transactions
+### Log-off users
+]
+]
+
+???
+-
+
+
+---
+.left-column[
 ### Continuous deployment
 #### - why
 #### - strategies
 #### - takeaways
 ]
 .right-column[
+<br />
 ## No silver bullet
-## Cluster responsibility, not application
+## Cross-team effort
 ]
 
 ???
