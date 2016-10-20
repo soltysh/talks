@@ -1,0 +1,57 @@
+# Colorful deployments
+
+## Description
+
+You have created your awesome application, deployed it for the very first time,
+now what? How you handle application updates, what are the possible approaches?
+Do you pick your deployment strategy by your favorite color, blue-green, canary,
+other? Yet, the decision is very simple, or I should rather say switching from
+one strategy to other is as simple as never before. During this presentation
+I will show you three different deployment strategies and how to apply those
+to a sample application.
+
+
+## Audience
+
+Developers interested in: automated CI/CD flows, containers. PaaS solutions supporting the former.
+
+
+## Objective
+
+Attendees leaving the room will learn about different deployments strategies. How
+to introduce fully automated CI/CD flow by leveraging  containers, combined with
+21st century cluster management, hidden in the latest version of OpenShift.
+
+
+## Detailed abstract
+
+In DevOps, we define Continuous Deployment (CD) as the process of automatically
+deploying your application based on certain conditions. Usually, those conditions
+require running tests, verifying if the new version of the application has
+deployed successfully and if it is working correctly. This may sound simple enough,
+but instrumenting this kind of process can be a big challenge.
+
+During this presentation I will start by shortly defining what CI/CD is, and the
+benefits of using them. My main focus will be on three different deployment strategies:
+blue-green, canary and rollback. Each of which, will be discussed in details,
+covering the flow, the benefits and possible problems. I will be closing each section
+with a live demo that showcases the flow, and how easy it is to implement it using
+containers and built-in features of OpenShift.
+
+After the session, you can play around with the accompanying code repository that
+was used in the demo, which includes instructions how to run it on your own.
+
+
+## Outline
+
+1. What is CI/CD
+  * Continuous Integration
+  * Continuous Delivery vs Continuous Deployment
+1. Continuous Deployment
+  * Pros and Cons
+  * Requirements
+1. Deployment strategies
+  * Blue-Green
+  * Canary
+  * Rollback
+1. Q&A
