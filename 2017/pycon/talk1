@@ -1,0 +1,84 @@
+# Colorful deployments
+
+
+## Description
+
+You have just reached the point where your shiny, brand new, python application
+is ready to be deployed for the very first time.  Now what?  How do you handle
+this process?  What about future application updates?  What are the possible approaches?
+Do you care, or should you care about these, already?  Have you considered automatic
+deployments?  Which deployment strategies have you considered?
+Yet, the answer to the above questions is very simple, and straightforward, go
+full automation.  Set up the basics from the beginning and do future yourself
+a favor.  Choose the deployment strategy best fitting your organization or your
+personal approach and change it at any point in time, if required.
+During this presentation I will shortly cover what CI/CD is and the benefits of
+using them.  My main focus will be on the three different deployment strategies:
+blue-green, canary and rollback.  Each of which, will be discussed in details,
+covering the flow, the benefits and possible problems.  I will be closing each
+section with a live demo that showcases the flow using containers running in
+Kubernetes/OpenShift.
+
+After the session, every person will be able to play around with the accompanying
+code repository that was used in the demo, which includes instructions how to run
+it on your own.
+
+
+## Audience
+
+Devs, Dev/Ops and Ops interested in automated CI/CD flows, with an emphasis on
+the deployment part.
+Attendees leaving the room will learn the basics about different deployments
+strategies, leveraging a fully automated CI/CD flow.
+
+
+## Outline
+
+1. What is CI/CD
+  * Continuous Integration (2 min)
+  * Continuous Delivery vs Continuous Deployment (1 min)
+1. Continuous Deployment
+  * Pros and Cons (2 min)
+  * Requirements (2 min)
+1. Deployment strategies
+  * Blue-Green
+    * requirements (2 min)
+    * flow (2 min)
+    * pros/cons (2 min)
+    * demo (1 min)
+  * Canary
+    * requirements (2 min)
+    * flow (2 min)
+    * pros/cons (2 min)
+    * demo (1 min)
+  * Rollback
+    * requirements (2 min)
+    * flow (2 min)
+    * pros/cons (2 min)
+    * demo (1 min)
+1. Q&A (2 min)
+
+
+## Additional notes
+
+This presentation was given during PyCon PL and was well received with a vibrant
+discussion during Q&A and afterwards, mainly about tools supporting deployment
+strategies.  The slides and accompanying demos are available at
+https://github.com/soltysh/talks/tree/master/2016/pyconpl/, no recording is
+available, yet.  I am hoping to further polish this presentation during DevConf.cz
+which will be held in Brno (Czech Republic) in February 2017.
+
+The presentation main focus is on the three given deployment strategies in a technology
+agnostic way. The accompanying demo is using containers only for simplicity of
+showing the flow.
+
+I have been active PyCon PL speaker for the past several years speaking about
+continuous integration, code review, asyncio, OpenShift and leading development
+sprints during this years PyCon PL.
+I am also heavily involved in bugs.python.org development, namely I was mentoring
+a student during this year's Google Summer of Code, who was working on the integration
+between b.p.o and GitHub. Additionally, I am also hacking on IMAP library in CPython
+since last year's development sprints in Montreal.
+Finally, I have had the privilege of speaking at other conferences around Europe,
+such as KubeCon EU (batch tasks in Kubernetes) and DevConf.cz (transitioning from
+Java to Go).
