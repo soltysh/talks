@@ -1,0 +1,66 @@
+# The secure road to run python applications in containers
+
+
+## Description
+
+A lot has been written in the topic of containerizing python applications.  If
+you search any combination of words: python, application, docker, containers,
+<place your favorite python framework here>, etc. you will end up with quite a few
+results, each covering the same rules regarding how to properly write a Dockerfile.
+Some might mention possible problems, like "PID 1 zombie reaping problem", etc.
+Unfortunately, almost none, or only a few will actually cover the security problems.
+Brace yourself, because you should never ever run any of your applications as root,
+yet with containers we run them all like that!  This is only one example of such
+a security flaw containerized applications have these days.
+During this presentation, I will point out the major risks when running your
+containerized application as a privileged user.  Most importantly, I will show
+how to properly containerize your application from a security point of view, and
+what should you pay special attention to.  I will address all the aforementioned
+risks and point out common pitfalls when writing a Dockerfile.
+In the second part of the presentation, I am going to focus on an idea that allows
+transforming application source into runnable image. This approach allows operations
+team to provide developers with a secure builder images for running python applications.
+At the same time, liberating developers from a daunting task of manually writing
+Dockerfiles.  A concept that is currently being actively discussed in the Kubernetes
+community, but was solved from the early days of the OpenShift platform.
+
+
+## Audience
+
+Devs, Dev/Ops and Ops interested in securely containerizing python applications.
+
+
+## Outline
+
+1. Containerizing python application
+  * Current state (2 min)
+  * Common pitfalls (2 min)
+  * Security risks (4 min)
+1. Securely containerize python application
+  * Differences between Dockerfile instructions (2 min)
+  * Wrapper scripts (2 min)
+  * Volumes (2 min)
+  * Unprivileged user (2 min)
+  * Common pitfalls (2 min)
+1. Source-to-image
+  * Requirements (2 min)
+  * How it works (6 min)
+  * Pros/Cons (2 min)
+1. Q&A (2 min)
+
+
+## Additional notes
+
+I am the initial author of the python builder image for the OpenShift platform,
+hoping to share my knowledge about securely running python applications in containers.
+
+I have been active PyCon PL speaker for the past several years speaking about
+continuous integration, code review, asyncio, OpenShift and leading development
+sprints during this years PyCon PL.
+I am also heavily involved in bugs.python.org development, namely I was mentoring
+a student during this year's Google Summer of Code, who was working on the integration
+between b.p.o and GitHub. Additionally, I am also hacking on IMAP library in CPython
+since last year's development sprints in Montreal.
+Finally, I have had the privilege of speaking at other conferences around Europe,
+such as KubeCon EU (batch tasks in Kubernetes) and DevConf.cz (transitioning from
+Java to Go).
