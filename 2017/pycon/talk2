@@ -28,6 +28,8 @@ community, but was solved from the early days of the OpenShift platform.
 ## Audience
 
 Devs, Dev/Ops and Ops interested in securely containerizing python applications.
+No previous experience with containers is needed.  Attendees leaving the presentation
+should have basic knowledge how to securely containerize their applications.
 
 
 ## Outline
@@ -64,3 +66,7 @@ since last year's development sprints in Montreal.
 Finally, I have had the privilege of speaking at other conferences around Europe,
 such as KubeCon EU (batch tasks in Kubernetes) and DevConf.cz (transitioning from
 Java to Go).
+
+
+## Links:
+* http://docs.projectatomic.io/container-best-practices/

@@ -4,15 +4,16 @@
 ## Description
 
 You have just reached the point where your shiny, brand new, python application
-is ready to be deployed for the very first time.  Now what?  How do you handle
-this process?  What about future application updates?  What are the possible approaches?
-Do you care, or should you care about these, already?  Have you considered automatic
-deployments?  Which deployment strategies have you considered?
-Yet, the answer to all of the above questions is very simple, and straightforward,
-go full automation.  Set up the basics from the beginning and do future yourself
-a favor.  Choose the deployment strategy best fitting your organization or your
-personal approach and change it at any point in time, if required. Be agile!
-During this presentation, I will shortly cover what CI/CD is and the benefits of
+is ready to be deployed to production for the very first time.  Now what?  How
+do you handle this process?  What about future application updates?  What are the
+possible approaches? Do you care, or should you care about these, already?  Have
+you considered automatic deployments?  Which deployment strategies have you considered?
+You can tackle these problems individually, but if you do, you're creating more
+work down the road.  Set up the basics of full end-to-end automation from the
+beginning, and do future yourself a favor.  Choose the deployment strategy best
+fitting your organization, your personal approach, or your favourite color, and
+change it at any point in time, if required.  Be agile!
+During this presentation, I will cover what CI/CD is and the benefits of
 using them.  My main focus will be on the three different deployment strategies:
 blue-green, canary and rollback.  Each of which, will be discussed in details,
 covering the flow, the benefits, and possible problems.  I will be closing each
