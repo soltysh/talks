@@ -1,0 +1,103 @@
+# Effectively running python applications in Kubernetes/OpenShift
+
+
+## Description
+
+Google, Red Hat, Intel, Huawei, Mirantis, Deis and many, many others are investing
+a lot of time and effort into improving Kubernetes.  I bet, you have encountered
+that name at least once in the past twelve months, either on Hacker News, Reddit,
+or somewhere else.  Do you want to learn more about the best container orchestration
+in the universe, but were afraid of the setup complexity?  Do you want to see how
+easy it is to run any application using containers?  Do you want to experience
+the joy of scaling application with a single click?  This, and a lot more will be
+discussed in details.
+In this tutorial, every attendee will be provided with an environment, and step by
+step instructions necessary to setup the environment, build and deploy a microservices
+based sample application.  Alternatively, a sample application of any choosing can
+be used throughout the entire tutorial.  All that will be performed on OpenShift,
+which is a Red Hat distribution of Kuberenets with some add-ons that will be described
+in details at the beginning of the tutorial.  To wet your appetite even more, here
+are some of the topics we are going to cover:
+
+- automatic build and deployment
+- git integration
+- image registry integration
+- scaling application
+- containers security
+- batch tasks
+
+and much more.
+
+After the session, every person will be able to play around with the accompanying
+code repository that was used in the tutorial, which includes detailed instructions
+how to run it on your own from scratch.
+
+
+## Audience
+
+Developers interested in building, deploying and managing python containerized
+applications using containers using Kubernetes/OpenShift.  No previous experience
+with containers, or container orchestration is needed.  Attendees leaving the tutorial
+should have basic knowledge how to quickly setup development cluster and how to
+build, deploy, and debug python application in OpenShift.
+
+
+## Outline
+
+1. What is OpenShift (just lecture)
+  * Introduction to PaaS (2 min)
+  * What is the difference between Kuberentes and OpenShift (10 min)
+1. Basic concepts (just lecture)
+  * Pod (5 min)
+  * Label (4 min)
+  * Service (2 min)
+  * Namespace (2 min)
+  * Controller (5 min)
+1. Basic operations
+  * Running a single instance (1 min lecture, 4 min hands on)
+  * Deploying applications (1 min lecture, 4 min hands on)
+  * Running batch tasks (1 min lecture, 4 min hands on)
+1. Builds
+  * Defining a build configuration (5 min lecture, 10 min hands on)
+  * Build strategies (1 min lecture, 4 min hands on)
+  * Integrating with git (1 min lecture, 4 min hands on)
+  * Integrating with image registries (1 min lecture, 4 min hands on)
+  * Scaling application (1 min lecture, 4 min hands on)
+  * Running a build (1 min lecture, 4 min hands on)
+  * Security (5 min lecture)
+1. Deployments
+  * Defining a deployment configuration (5 min lecture, 10 min hands on)
+  * Deployment strategies (5 min lecture, 5 min hands on)
+  * Automatic deployments (5 min lecture, 5 min hands on)
+  * Inter-application communication (2 min lecture, 3 min hands on)
+  * Deploying application (5 min hands on)
+  * Exposing application (5 min hands on)
+  * Scaling application (1 min lecture, 4 min hands on)
+  * Security (5 min lecture)
+1. Debugging applications
+  * Logging (5 min lecture, 5 min hands on)
+  * Remote connection to application container (2 min lecture, 8 min hands on)
+1. Running batch tasks
+  * Defining a job configuration (5 min lecture, 5 min hands on)
+
+
+## Additional notes
+
+Similar version of this tutorial was given during Flock and was well received with
+a vibrant discussion during Q&A and afterwards, mainly about builds and deployment
+processes, but not exclusively.  The materials from that tutorial (including
+instructions how to build vagrant VM) are available at
+https://github.com/soltysh/talks/tree/master/2016/flock/. Unfortunately, tutorials
+during Flock where not recorded.
+
+I have been active PyCon PL speaker for the past several years speaking about
+continuous integration, code review, asyncio, OpenShift and leading development
+sprints during this years PyCon PL.
+I am also heavily involved in bugs.python.org development, namely I was mentoring
+a student during this year's Google Summer of Code, who was working on the integration
+between b.p.o and GitHub. Additionally, I am also hacking on IMAP library in CPython
+since last year's development sprints in Montreal.
+Finally, I have had the privilege of speaking at other conferences around Europe,
+such as KubeCon EU (batch tasks in Kubernetes) and DevConf.cz (transitioning from
+Java to Go).
+
