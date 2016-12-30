@@ -1,0 +1,48 @@
+# The power of CronJobs
+
+
+## Description
+
+In contrast to long running resources like Deployments and DaemonSets, Jobs allow
+you to perform one-time batch tasks within a Kubernetes cluster.  Unfortunately,
+with Job resource there is now way to specify how and when the Job should actually
+be started.  There are plenty of reasons why you might want to defer a Job to a
+later time, or to have a Job run on a recurring schedule.  Luckily, a new resource
+called CronJob is here to solve this problem for you!
+
+During this presentation, I will start by describing a Job resource, and how
+easy it is to create a sample Job in Kuberentes.  I will also cover possible usage
+areas with patterns for how to use Jobs to get the most of it.  From there, I will
+move on to the CronJob.  Again, I will start with a short overview of the CronJob
+resource itself.  Once I have covered the basics, I will dive into many of CronJob’s
+possible configuration options, and ways to use them to tweak how, and when a Job
+will be scheduled.  Finally, I will touch on the current limitations (this is still
+an alpha feature, under development), and future plans for Jobs and CronJobs, and
+I will also try to clear up the confusion between ScheduledJobs and CronJobs
+that was introduced in version 1.5.
+
+This presentation will feature a number of live demos as we move from simple to
+more advanced topics.  You will leave the talk ready to create a CronJob that can
+index the internet every 2 hours!  Do not miss out on learning about one of the
+most unusual and helpful features of Kubernetes!
+
+
+## Outline
+
+1. What is a Job
+  * Definition
+  * Possible usage areas with live examples
+  * Job patterns
+1. What is a CronJob
+  * Definition
+  * How CronJob and ScheduledJob relates
+  * Possible usage areas with live examples
+1. Future plans
+1. Q&A
+
+
+## Audience
+
+Attendees leaving the room will learn the basics about Jobs and CronJobs.  For
+myself, I am hoping to gather feedback around those features during Q&A and include
+it in plans for further releases.

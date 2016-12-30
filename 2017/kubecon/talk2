@@ -1,0 +1,54 @@
+# Audit in Kubernetes now, and the future
+
+
+## Description
+
+Quoting Wikipedia “an audit is a systematic and independent examination of (...)
+records”.  Now think for a second, how much information is floating through your
+Kubernetes cluster.  Deployments, Jobs and many other controllers creating and
+destroying Pods.  Administrators creating Users, granting Roles.  Users creating
+and modifying ConfigMaps, Secrets and many, many others.  You can limit actions
+performed by a single User creating Roles, controllers can be assigned ServiceAccounts,
+etc, of course.  But even with all that in place, are you sure you can easily
+trace when a change was introduced, and most importantly who performed it?
+This is when auditing comes into play.
+
+During this presentation, I will introduce what auditing is, and what you can
+expect from one of the best hidden features of Kubernetes, and why should you
+care.  I don't like just talking about ideas, so we’ll also walk through a live
+demo showcasing the audit feature.
+With all the current state laid out, I will discuss the future evolution of this
+feature.  Most importantly, I will cover the scope of the information that should
+be gathered during processing each request.  What policies should be implemented
+to provide reasonable balance between performance and accountability.  Lastly,
+I will cover the most sensitive topic, how to store all that information.
+
+After this session you will understand how auditing in Kubernetes works, and how
+to leverage it to stay informed about what goes on in your cluster.  Furthermore,
+I am hoping this presentation will foster a discussion about advanced audit feature
+and its shape in Kubernetes.
+
+
+## Outline
+
+1. What is auditing
+  * Definition
+  * The 7W's of auditing
+1. Current audit state in Kubernetes
+  * How it works
+  * Live demo
+1. Advanced Audit proposal
+  * Use Cases
+  * Proposed design
+    * audit events - data gathered during request processing
+    * audit policies - how detailed information will be gathered
+    * audit output - where audit data will be stored
+  * Constraints/Assumption
+1. Q&A
+
+
+## Audience
+
+Attendees leaving the room will learn the basics about auditing and what is currently
+possible in Kubernetes.  For myself, I am hoping to gather feedback around the
+advanced audit proposal during Q&A.
