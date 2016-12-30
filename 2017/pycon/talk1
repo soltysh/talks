@@ -42,17 +42,23 @@ strategies, leveraging a fully automated CI/CD flow.
   * Pros and Cons (2 min)
   * Requirements (2 min)
 1. Deployment strategies
-  * Blue-Green
+  * Blue-Green - requires having two identical environments (blue and green),
+    where one is running current version of the application, and the other is
+    used to upload the new version, at some point (green tests, for example)
+    switch the traffic from the current to the new one:
     * requirements (2 min)
     * flow (2 min)
     * pros/cons (2 min)
     * demo (1 min)
-  * Canary
+  * Canary - is about uploading a newer version of your application to a limited
+    number of users (feature toggle) and gather feedback and based on that decided
+    further steps:
     * requirements (2 min)
     * flow (2 min)
     * pros/cons (2 min)
     * demo (1 min)
-  * Rollback
+  * Rolling - is about uploading a newer version of your application gradually
+    to your servers and verify if the application is working as expected:
     * requirements (2 min)
     * flow (2 min)
     * pros/cons (2 min)
