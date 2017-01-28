@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: prod
+spec:
+  replicas: 9
+  selector:
+    run: prod
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        run: prod
+    spec:
+      containers:
+      - image: openshift/hello-openshift
+        imagePullPolicy: Always
+        name: hello
+        env:
+          - name: RESPONSE
+            value: Hello from Prod
+      restartPolicy: Always
+  triggers:
+  - type: ConfigChange
