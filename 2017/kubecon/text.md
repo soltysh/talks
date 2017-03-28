@@ -85,6 +85,23 @@ https://kubernetes.io/docs/admin/kube-apiserver/
 
 
 ---
+name: title
+layout: true
+class: center, middle, inverse
+---
+.center[
+# Audit does not provide additional security to your system
+![warning](img/warning.png)
+]
+
+???
+
+Audit does not provide additional security to your system;
+rather, it can be used to discover violations of security policies used on your system
+
+
+---
+layout: false
 .left-column[
 ![definition](img/definition.png)
 ]
@@ -106,6 +123,21 @@ applications.
 
 
 ---
+.center[
+<br /><br />
+# Cloud Auditing Data Federation
+### https://www.dmtf.org/standards/cadf
+]
+
+???
+
+We didn't came up with the ideas of this proposal out of nowhere. We based our
+work on existing solutions from Cloud Auditing Data Federation, which is used
+by OpenStack, above all. CADF comes from Distributed Management Task Force, Inc,
+which defines industry standards for common management infrastructure components.
+
+
+---
 .left-column[
 ![questions](img/questions.png)
 ]
@@ -121,27 +153,31 @@ applications.
 
 ???
 
+This is the so called 7W questions coming from the Cloud Auditing Data Federation.
+They explicitly point the amount of information we should gather for each request
+entering the system.
+
 
 ---
 .left-column[
 ![questions](img/questions.png)
 ]
 .right-column[
-## What happened?
+## .strong[What] happened?
 .big-code[
 ```bash
 method="GET"
 ```
 ]
 
-## When did it happen?
+## .strong[When] did it happen?
 .big-code[
 ```bash
 2016-09-07T13:03:57.400333046Z
 ```
 ]
 
-## Who initiated it?
+## .strong[Who] initiated it?
 .big-code[
 ```bash
 user="admin"
@@ -153,13 +189,15 @@ asgroups="<lookup>"
 
 ???
 
+Let's see how the questions map to the current audit implementation.
+
 
 ---
 .left-column[
 ![questions](img/questions.png)
 ]
 .right-column[
-## On what did it happen?
+## .strong[On what] did it happen?
 .big-code[
 ```bash
 namespace="default"
@@ -168,18 +206,44 @@ uri="/api/v1/namespaces/default/pods"
 ```
 ]
 
-## From where was it initiated?
+## .strong[From where] was it initiated?
 .big-code[
 ```bash
 ip="127.0.0.1"
 ```
 ]
 <br />
-## Where it was observed?
-## To where was it going?
+## .strong[Where] it was observed?
+## .strong[To where] was it going?
 ]
 
 ???
+
+
+---
+.center[
+.pull-left[
+# Pros
+## lightweight
+## simple format
+]
+.pull-right[
+# Cons
+## HTTP-only
+## simple
+## talkative
+## log-file based
+]]
+
+???
+
+Two main pros for the current approach is that it's very lightweight, almost negligible.
+Additionally the current format is very simplistic, it's very similar to Apache's
+access.log files, so there are tools already available to help you parse that.
+On the other hand it's limited only to HTTP requests, there's no deeper inspection
+of the requests. It's producing extreme amount of logs, both from users and internal
+components of the cluster, such us controllers etc. The simplistic form of the log
+is an advantage and and limitation, at the same time. Finally, it's only file-based.
 
 
 ---
@@ -201,10 +265,77 @@ class: center, middle, inverse
 
 ???
 
+The future looks bright! We are tracking progress of the entire audit in features
+repository. And the initial proposal for the advanced auditing was submitted quite
+a while ago and its contents is the topic of the remaining part of this talk.
+
+
 ---
 layout: false
-.left-column[]
-.right-column[]
+.left-column[
+## Architecture
+]
+.right-column[
+## In front of the apiserver
+- keeps complexity out of the apiserver
+- reuses existing solutions
+
+## Inside the apiserver
+- deeper insight into the Kubernetes api
+- knowledge of auth, authn, admission
+- access to the storage level for differential output
+
+<br />
+![architecture](img/architecture.png)
+]
+
+???
+
+First of all we needed to answer were we want the audit to be placed. We considered
+two possibilities: in front of the apiserver which would allow us to reuse existing
+solutions. Unfortunately that approach suffered from the lack of deeper insight into
+Kubernetes machinery responsible for storage and auth/authz. If you paid attention
+since the beginning you should know we went with latter approach, which is implementing
+the audit inside of the apiserver. Of course back then federation wasn't a thing,
+nor was aggregated apiserver, so currently (and the proposal does not reflect that
+yet) we'll have to support both actually.
+
+
+---
+.left-column[
+## Architecture
+## Main concepts
+]
+.right-column[
+## Event
+Holds all the data necessary for the output to produce a log entry.
+
+## Policy
+Describe which layers of the apiserver will fill the Event object.
+
+## Rules
+Describe filters which Events are interesting.
+
+## Output
+Describe where the Event should be saved.
+]
+
+???
+
+An audit event holds all the data necessary for any output backend to produce an
+audit log entry. It is a struct passed through the apiserver layers inside the
+request context. This includes: timestamp, source IP, method, URI, user info
+(including group as user and as group), namespace, group version kind, response
+code, request object.
+
+Audit policy describes which layers of the apiserver will fill the Event structure.
+Certain fields might stay empty or `nil` if the policy does not require that field.
+
+Audit rules define filters (similarly how it's done in auditd) what should be
+logged.
+
+Finally the output defines what should happen with the Event. Should that be saved
+on disk, or pushed over to a central storage, etc.
 
 
 ---
@@ -222,28 +353,3 @@ class: center, middle, inverse
 Kubernetes is community project and we need community support to design and implement
 this feature.  Users/administrators/operators provide ideas about the feature shape.
 Developers invest time into implementing this feature.
-
-############
-
-Ideas from reading about linux audit:
-- Audit does not provide additional security to your system; rather, it can be
-  used to discover violations of security policies used on your system
-
-https://github.com/linux-audit/audit-documentation/wiki
-
-1. What is auditing
-  * Definition
-  * The 7W's of auditing
-1. Current audit state in Kubernetes
-  * How it works
-  * Live demo
-1. Advanced Audit proposal
-  * Use Cases
-  * Proposed design
-    * audit events - data gathered during request processing
-    * audit policies - how detailed information will be gathered
-    * audit output - where audit data will be stored
-  * Constraints/Assumption
-
-https://github.com/kubernetes/features/issues/22
-https://github.com/kubernetes/community/pull/145
