@@ -33,7 +33,7 @@ layout: false
 # Request flow
 ]]
 .center[
-![request](img/request.png)
+![request](img/request1.png)
 ]
 
 ???
@@ -47,11 +47,26 @@ These are:
 - PanicRecovery - wraps an http Handler to recover and log panics
 - CORS - a simple CORS (cross-origin HTTP request) implementation
 - Authentication - performs authentication
-- Audit - the actual audit filter
 - Impersonation - reads request that attempt to change user (--as)
 - Authorization - performs authorization
 
-Since k8s 1.7 audit also works for not protected endpoints.
+
+---
+layout: false
+.left-column[
+<br />
+.no-margin[
+# Request flow
+]]
+.center[
+![request](img/request2.png)
+]
+
+???
+
+- Audit - the actual audit filter
+
+Since k8s 1.6 audit also works for not protected endpoints.
 
 
 ---
@@ -231,7 +246,7 @@ ip="127.0.0.1"
 # Cons
 ## HTTP-only
 ## simple
-## talkative
+## noisy
 ## log-file based
 ]]
 
@@ -294,8 +309,8 @@ layout: false
 First of all we needed to answer were we want the audit to be placed. We considered
 two possibilities: in front of the apiserver which would allow us to reuse existing
 solutions. Unfortunately that approach suffered from the lack of deeper insight into
-Kubernetes machinery responsible for storage and auth/authz. If you paid attention
-since the beginning you should know we went with latter approach, which is implementing
+Kubernetes machinery responsible for storage and auth/authz. If you've paid attention
+since the beginning you should know by now we went with latter approach, which is implementing
 the audit inside of the apiserver. Of course back then federation wasn't a thing,
 nor was aggregated apiserver, so currently (and the proposal does not reflect that
 yet) we'll have to support both actually.
@@ -330,6 +345,13 @@ code, request object.
 
 Audit policy describes which layers of the apiserver will fill the Event structure.
 Certain fields might stay empty or `nil` if the policy does not require that field.
+Initially we're discussing following levels:
+- HttpHeaders - which will reflect the current level of auditing
+- RequestObject - which will above all also provide unstructured object that was
+                  part of the request
+- StorageObject - finally StorageObject, if possible we'd like to show the value
+                  of the object before and after modification or the difference
+                  of the changes
 
 Audit rules define filters (similarly how it's done in auditd) what should be
 logged.
