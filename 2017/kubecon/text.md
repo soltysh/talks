@@ -1,14 +1,7 @@
-name: title
-layout: true
-class: center, middle, inverse
----
-# Audit in Kubernetes
-# now, and the future
-<br />
-## Maciej Szulik / @soltysh
-### Red Hat / OpenShift
+background-image: url(img/title.png)
 
 ???
+
 We are humans, and we do make mistakes.  At the same time we learn from our mistakes,
 and from others mistakes.
 
@@ -26,7 +19,6 @@ of data?
 
 
 ---
-layout: false
 .left-column[
 <br />
 .no-margin[
