@@ -19,12 +19,10 @@ of data?
 
 
 ---
-.left-column[
-<br />
-.no-margin[
-# Request flow
-]]
 .center[
+.pull-left[
+# Request flow
+]
 ![request](img/request1.png)
 ]
 
@@ -44,13 +42,10 @@ These are:
 
 
 ---
-layout: false
-.left-column[
-<br />
-.no-margin[
-# Request flow
-]]
 .center[
+.pull-left[
+# Request flow
+]
 ![request](img/request2.png)
 ]
 
