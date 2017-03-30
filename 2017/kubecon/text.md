@@ -28,6 +28,8 @@ of data?
 
 ???
 
+Let me tell you a story how audit came to live.
+
 Each request goes through several filters on its way to the actual REST handler.
 These are:
 - RequestContext - ensures there is a Context object associated with the request
@@ -224,7 +226,7 @@ ip="127.0.0.1"
 
 ---
 .center[
-.pull-left[
+.pull-left-old[
 # Pros
 ## lightweight
 ## simple format
