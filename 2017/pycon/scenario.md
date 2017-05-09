@@ -1,5 +1,19 @@
 # Effectively running python applications in Kubernetes/OpenShift
 
+## Setup
+
+To follow instructions in the latter part of this scenario it is required you have
+access to an OpenShift installation of your choosing.  Here are the possibilities:
+
+- [OpenShift Online](https://www.openshift.com/) - which gives you access to 1GiB
+  of storage and memory, which should be sufficient to run this example (verify this!!!!)
+- [Minishift](https://github.com/minishift/minishift) - which runs a single-node
+  OpenShift cluster in a pre-configured VM.
+- [oc cluster up](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md) -
+  which sets up a local all-in-one cluster using docker containers.
+
+**NOTE:** The following steps and resource files assume you're using version 1.5.0 or newer.  If you're using older installment you should check out a [1.4.0 version of the sample application](https://github.com/soltysh/blast/tree/v1.4).
+
 
 ## Introduction to CLI
 
@@ -55,9 +69,24 @@ This will result in OpenShift creating the following resources for us:
 
 ### Probes
 
-After a few minutes, our application should be up and ready, but we want the platform to monitor for its [liveness and readiness](https://docs.openshift.org/latest/dev_guide/application_health.html).  Liveness - verifies the pod is healthy, iow. running, whereas readiness goes one step further and checks whether your application is ready to accept requests.  To set readiness check our newly created application we'll create a readiness probe verifying port 8080 on which the application is running:
+After a few minutes, our application should be up and ready, but we want the platform to monitor for its [liveness and readiness](https://docs.openshift.org/latest/dev_guide/application_health.html).  Liveness - verifies the pod is healthy, iow. running, when this fails the scheduler will restart the container.  Readiness on the other hand, goes one step further, and checks whether your application is ready to accept requests, iow. when it can accept traffic.  Actually, the web console will suggest you that you should add those checks:
+
+![health warning](img/health_warning.png)
+
+To set both probes for our newly created application we'll do:
+
+    oc set probe dc/ui --liveness --open-tcp=8080
+
+![liveness](img/liveness_probe.png)
+
+To verify our the server is up and running.
 
     oc set probe dc/ui --readiness --get-url=http://:8080/
+
+![readiness](img/readiness_probe.png)
+
+To verify that the server is returning some content on /.
+
 
 ### Routes
 
@@ -66,10 +95,14 @@ use the following command:
 
     oc expose svc/ui
 
+![route](img/route.png)
+
 By now we should be able to reach our application, you can see the route address
 with:
 
     oc get route/ui
+
+Or check the overview page in the web console.
 
 
 ## Text backend
@@ -89,7 +122,7 @@ Alternatively, you can use the CLI:
         --image-stream=python:3.5 \
         --labels=app=text
 
-Once the application builds we should be able to have the backend up and running.  Unfortunately, it looks like it's not working as expected, let's debug what's wrong with our application.  Click `#1`:
+Once the application builds, we should have the backend up and running.  Unfortunately, it looks like it's not working as expected, let's debug what's wrong with our application.  Click `#1`:
 
 ![failed deployment](img/failed_deployment.png)
 
@@ -100,6 +133,16 @@ and dive into deployment details:
 to check the pod logs running our application:
 
 ![pod logs](img/pod_logs.png)
+
+Alternatively, you can use the following commands:
+
+    oc get pods -l app=text
+
+Which will return you a list of pods associated with our application.  The `-l app=text` filters the pods to all that have the label `app` set to value `text`.  This happens automatically for every application created using web console, but can be done manually when using `oc new-app` with `--labels` flag.
+
+    oc logs text-1-p07pm
+
+Make sure to use your own pod name here with `oc logs` command to get the logs of from the deployment.
 
 That's right our python runtime has a few requirements.  Let's check the python [S2I builder image](https://github.com/sclorg/s2i-python-container) in details.
 
@@ -113,19 +156,26 @@ Alternatively:
 
     oc set env dc/text APP_MODULE=api:app
 
-Like previously let's configure this application readiness probe, actually the web console will suggest us to do so:
+Like previously let's configure the application liveness and readiness probes:
 
-![health warning](img/health_warning.png)
-
-![readiness probe](img/readiness_probe.png)
-
+    oc set probe dc/text --liveness --open-tcp=8080
     oc set probe dc/text --readiness --get-url=http://:8080/blast/api/v1.0/text/x
 
+Now that we've added the probes we see that the application is not being deployed properly, let's try to debug what's wrong with it.
 
-## ConfigMap
+![terminal](img/terminal.png)
 
-    oc set env dc/text --from=configmap/config
+    oc rsh pod/text-4-1v75n
+    curl localhost:8080
 
+The error clearly states the application is not working as expected, looking into
+events shows the readiness probe failed:
+
+![failed readiness](img/failed_readiness.png)
+
+??? Is there some reasonable CLI ???
+
+The reason readiness failed is that the search backend wasn't able to connect to database, for this to work we need to setup one.
 
 ## Text database
 
@@ -135,6 +185,9 @@ Like previously let's configure this application readiness probe, actually the w
         --env=MONGODB_ADMIN_PASSWORD=admin1234 \
               MONGODB_DATABASE=blast_text
 
+## ConfigMap
+
+    oc set env dc/text --from=configmap/config
 
 ## Templates
 
@@ -147,5 +200,7 @@ Like previously let's configure this application readiness probe, actually the w
 
 ## ServiceAccounts
 
-
 ## Resource Limits
+
+## Persistent Volumes
+
