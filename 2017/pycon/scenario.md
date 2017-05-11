@@ -45,7 +45,7 @@ TODO
 
 ## Frontend - UI
 
-Create our application frontend using following command:
+Create our application front-end using following command:
 
     oc new-app \
         soltysh/lighttpd-centos7~https://github.com/soltysh/blast.git \
@@ -109,9 +109,9 @@ Or check the overview page in the web console.
 ![blast](img/blast.png)
 
 
-## Text backend
+## Text back-end
 
-This time let's try using the web UI to create one of the python backends.  Click `Add to project` at the top and pick python 3.5 builder image:
+This time let's try using the web UI to create one of the python back-ends.  Click `Add to project` at the top and pick python 3.5 builder image:
 
 ![text app](img/text_app.png)
 
@@ -127,7 +127,7 @@ Alternatively, you can use the CLI:
         --labels=app=text
     oc expose svc/text
 
-Once the application builds, we should have the backend up and running.  Unfortunately, it looks like it's not working as expected, let's debug what's wrong with our application.  Click `#1`:
+Once the application builds, we should have the back-end up and running.  Unfortunately, it looks like it's not working as expected, let's debug what's wrong with our application.  Click `#1`:
 
 ![failed deployment](img/failed_deployment.png)
 
@@ -172,7 +172,7 @@ Now that we've added the probes, we see that the application is not being deploy
 
 ??? Is there some reasonable CLI ???
 
-The reason readiness failed is that the search backend wasn't able to connect to database:
+The reason readiness failed is that the search back-end wasn't able to connect to database:
 
 ![pod logs](img/text_logs.png)
 
@@ -201,7 +201,7 @@ But since those data will be needed in several places of our application we woul
 
 ## ConfigMap
 
-On the Deployment Config configuration page, in Volumes section, there's a link allowing you to Add Config Files:
+On the Deployment Config configuration page, see Volumes section, there's a link allowing you to Add Config Files:
 
 ![add config files](img/add_config.png)
 
@@ -210,6 +210,11 @@ On the next screen we'll pick Create ConfigMap and fill it in with required data
 ![configmap value](img/configmap_value.png)
 
 **NOTE:** Both user name and password can be random strings, but database name needs to be `blast_text`.
+
+ConfigMap can be consumed in few possible ways:
+
+- as environment variables
+- as files
 
 Once that is done we'll use a nice shorthand command to point both of our text deployments to the newly created config map:
 

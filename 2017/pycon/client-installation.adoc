@@ -1,0 +1,174 @@
+## Client Installation
+
+To deploy applications to OpenShift and manage them, OpenShift provides a
+feature rich web console, as well as a command line tool. The OpenShift
+command line client is a single executable called `oc`, written in the
+http://golang.org/[Go programming language]. The command line client is
+available for Microsoft Windows, Apple OS X and Linux.
+
+This workshop will be using both the web console and command line client.
+You therefore need to download the command line client and install it,
+such that it can be found on the executable search path of your command
+shell.
+
+### Downloading the client package
+
+Download the package archive containing the client for your operating
+system using the following links:
+
+- {{DOWNLOAD_CLIENT_WINDOWS}}[Microsoft Windows]
+- {{DOWNLOAD_CLIENT_MACOSX}}[Apple OS X]
+- {{DOWNLOAD_CLIENT_LINUX_64BIT}}[Linux (64 Bit)]
+- {{DOWNLOAD_CLIENT_LINUX_32BIT}}[Linux (32 Bit)]
+
+It is suggested you place the archive in the following directory:
+
+**Windows:**
+
+[source]
+----
+C:\OpenShift
+----
+
+**OS X:**
+
+[source]
+----
+~/OpenShift
+----
+
+**Linux:**
+
+[source]
+----
+~/OpenShift
+----
+
+This can also be used as the location of the `oc` executable when extracted
+from the package archive.
+
+### Extracting the command line client
+
+To extract the package archive containing the client, do the following:
+
+**Windows:**
+
+To extract the zip archive on Windows, you will need a zip utility
+installed on your system. With newer versions of Windows (greater than XP),
+this is provided by the operating system. Right click on the downloaded
+file using __File Explorer__ and select the menu option to extract the
+contents.
+
+**OS X:**
+
+Open up a terminal window and change to the directory where you downloaded
+the file. Once you are in the directory, enter in the following command:
+
+[source]
+----
+unzip openshift-origin-client-tools-{{OC_CLIENT_VERSION}}-mac.zip
+----
+
+**Linux:**
+
+Open up a terminal window and change to the directory where you downloaded
+the file. Once you are in the directory, enter in the following command:
+
+[source]
+----
+tar --strip-components 1 -xvzf openshift-origin-client-tools-{{OC_CLIENT_VERSION}}-linux-64bit.tar.gz
+----
+
+The result should be that you can see the `oc` executable file located in
+the directory where you are extracting the package archive.
+
+### Updating executable search path
+
+To add the directory containing the `oc` executable file to your executable
+search path, do the following:
+
+**Windows:**
+
+The exact steps to add a new directory to the executable search path on
+Windows can vary depending on the version of Windows being run.
+
+For Windows 10, right click on your computer name inside of the __File
+Explorer__. Select __Advanced System Settings__. Click on the __Advanced
+Tab__, and then finally click on __Environment Variables__. From the
+dialog window, select the __Path__ variable and add `;C:\OpenShift` at the
+end. The modification will apply to any new terminal window created.
+
+If using __PowerShell__, you could also temporarily modify the executable
+search path for the current terminal window by running:
+
+[source]
+----
+$Env:Path += ";C:\OpenShift"
+----
+
+Rather than updating the excutable search path, you could always just copy
+the `oc` executable to the `C:\Windows` directory, or other directory you
+know is already on your path.
+
+For instructions on how to edit the executable search path on older
+versions of Windows see:
+
+- https://support.microsoft.com/en-us/kb/310519[Windows XP]
+- http://banagale.com/changing-your-system-path-in-windows-vista.htm[Windows Vista]
+- http://geekswithblogs.net/renso/archive/2009/10/21/how-to-set-the-windows-path-in-windows-7.aspx[Windows 7]
+- http://www.itechtics.com/customize-windows-environment-variables/[Windows 8]
+
+**OS X:**
+
+For OS X you can temporarily modify the executable search path for the
+current terminal window by running:
+
+[source]
+----
+export PATH=$PATH:~/OpenShift
+----
+
+Alternatively add this line to `~/.bash_profile` and it will apply for any
+new terminal window created.
+
+**Linux:**
+
+For Linux you can temporarily modify the executable search path for the
+current terminal window by running:
+
+[source]
+----
+export PATH=$PATH:~/OpenShift
+----
+
+Alternatively add this line to `~/.bash_profile` and it will apply for any
+new terminal window created.
+
+### Verifying the command line client
+
+At this point, the `oc` executable should be found in your executable
+search path and ready to use. Test that the executable can be found and
+runs by running:
+
+[source]
+----
+oc version
+----
+
+You should see the following (or something similar):
+
+[source]
+----
+{{OC_VERSION}}
+----
+
+If you get an error message indicating that the `oc` program cannot be
+found, you have not updated your path correctly.
+
+If you get a different version for `oc` being displayed, ensure you don't
+have an older version of the `oc` executable somewhere else in your
+executable search path. It is recommended that you use the same version as
+the version of OpenShift being used for this workshop.
+
+If you are having problems ask the instructor or workshop assistants for
+help.

@@ -1,0 +1,54 @@
+config:
+  vars:
+    - name: CONSOLE_ADDRESS
+      desc: Address to access the OpenShift console
+      value: console.pycon.pixy.io:8443
+    - name: ROUTER_ADDRESS
+      desc: Router DNS suffix (https://appname-project.<suffix>)
+      value: "apps.pycon.pixy.io"
+    - name: WORKSHOP_NOTES
+      desc: Address to access workshop notes.
+      value: "http://tutorial.apps.pycon.pixy.io"
+    - name: DOWNLOAD_CLIENT_WINDOWS
+      desc: URL to download oc client for Windows
+      value: "https://github.com/openshift/origin/releases/download/v1.5.0/openshift-origin-client-tools-v1.5.0-031cbe4-windows.zip"
+    - name: DOWNLOAD_CLIENT_MACOSX
+      desc: URL to download oc client for macOS
+      value: "https://github.com/openshift/origin/releases/download/v1.5.0/openshift-origin-client-tools-v1.5.0-031cbe4-mac.zip"
+    - name: DOWNLOAD_CLIENT_LINUX_64BIT
+      desc: URL to download oc client for 64bit Linux
+      value: "https://github.com/openshift/origin/releases/download/v1.5.0/openshift-origin-client-tools-v1.5.0-031cbe4-linux-64bit.tar.gz"
+    - name: DOWNLOAD_CLIENT_LINUX_32BIT
+      desc: URL to download oc client for 32bit Linux
+      value: "https://github.com/openshift/origin/releases/download/v1.5.0/openshift-origin-client-tools-v1.5.0-031cbe4-linux-32bit.tar.gz"
+    - name: OC_CLIENT_VERSION
+      desc: Version of oc command line client.
+      value: "v1.5.0-031cbe4"
+    - name: OC_VERSION
+      desc: Expected output when `oc version` is executed
+      value: "oc v1.5.0+031cbe4\nkubernetes v1.5.2+43a9be4"
+    - name: BLAST_REPO
+      desc: Sample application repository location
+      value: https://github.com/soltysh/blast
+
+modules:
+  workshop-overview:
+    name: Workshop Overview
+  enterprise-kubernetes:
+    name: Enterprise Kubernetes
+  openshift-architecture:
+    name: OpenShift Architecture
+  user-credentials:
+    name: User Credentials
+  client-installation:
+    name: Client Installation
+  alternative-installations:
+    name: Alternative Installations
+  application-architecture:
+    name: Application Architecture
+  accessing-openshift:
+    name: Accessing OpenShift
+  projects:
+    name: Projects
+  frontend-ui:
+    name: Frontend UI

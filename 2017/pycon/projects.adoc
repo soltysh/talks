@@ -1,0 +1,3 @@
+## Projects vs Namespaces
+
+TODO

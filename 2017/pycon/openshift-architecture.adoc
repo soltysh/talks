@@ -1,0 +1,4 @@
+## Architecture
+
+image::10k_view.png[10k View]
+

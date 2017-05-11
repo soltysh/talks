@@ -1,0 +1,12 @@
+## Alternative Installations
+
+During this workshop you will be provided with an environment, as it was already
+mentioned, but if you are interested in running those examples back at home here
+are the possible ways you can play with OpenShift:
+
+. https://www.openshift.com/[OpenShift Online] - which gives you access to 1GiB
+  of storage and memory.
+. https://github.com/minishift/minishift[Minishift] - which runs a single-node
+  OpenShift cluster in a pre-configured VM.
+. https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md[oc cluster up] -
+  which sets up a local all-in-one cluster using docker containers.

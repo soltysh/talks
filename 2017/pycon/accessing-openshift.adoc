@@ -1,0 +1,184 @@
+## Accessing OpenShift
+
+OpenShift is a multi tenant system capable of supporting multiple users at
+the same time. To do anything within an OpenShift environment you must
+first login. Once you have access, before you can deploy any application,
+you must also have a project to deploy it into.
+
+In this set of exercises you will login into the OpenShift environment and
+create a project to work in.
+
+### Logging in from the command line
+
+In order to login using the `oc` command line client, run the command:
+
+[source]
+----
+oc login {{CONSOLE_ADDRESS}}
+----
+
+You may see the following output:
+
+[source]
+----
+The server uses a certificate signed by an unknown authority.
+You can bypass the certificate check, but any data you send to the server could be intercepted by others.
+Use insecure connections? (y/n):
+----
+
+The reason you received this message is because the OpenShift environment
+being used for this workshop is using a self-signed certificate. In a
+real-world scenario, either OpenShift's certificate would be signed by a
+standard CA (eg: Thawte, Verisign, StartSSL, etc.) or signed by a
+corporate-standard CA that you already have installed on your system.
+
+Respond with `Y` to accept the use of the self signed certificate and
+continue.
+
+[NOTE]
+====
+On some versions of Microsoft Windows, you may get an error that the server
+has an invalid x.509 certificate. If you receive this error, use the
+following command instead:
+
+[source]
+----
+oc login {{CONSOLE_ADDRESS}} --insecure-skip-tls-verify=true
+----
+====
+
+Once you issue the `oc login` command, you will be prompted for the user
+name and password.
+
+Enter in the credentials for your assigned user account:
+
+[source,role=copypaste]
+----
+Username: userXX
+Password: userXX
+----
+
+When you have been authenticated successfully, you will see the following
+confirmation message:
+
+[source]
+----
+Login successful.
+
+You don't have any projects. You can try to create a new project, by running
+
+    oc new-project <projectname>
+----
+
+### Creating a new project
+
+Projects are a top level concept to help you organize your deployments. An
+OpenShift project allows a community of users (or a single user) to
+organise and manage their content in isolation from other communities.
+
+Each project can have its own resources, policies (who can or cannot
+perform actions), and constraints (quotas and limits on resources, etc).
+
+Projects act as a "wrapper" around all the application services and
+endpoints you (or your teams) are using for your work.
+
+Before you can deploy the Python web application used in this workshop, you
+need to create a new project in which to deploy it. As you are working in a
+shared OpenShift environment, you need to use a unique name for your
+project. Create a new project which incorporates your user name by running:
+
+[source,role=copypaste]
+----
+oc new-project project-userXX
+----
+
+You should see the following message to confirm the creation of the project.
+
+[source]
+----
+Now using project "project-userXX" on server "https://{{CONSOLE_ADDRESS}}".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app centos/ruby-22-centos7~https://github.com/openshift/ruby-ex.git
+
+to build a new example application in Ruby.
+----
+
+### Logging into the web console
+
+In addition to the command line client, OpenShift ships with a web console.
+The web console provides you with the ability to perform many common tasks
+as well as get a visual overview of the applications you have deployed.
+
+To login to the web console for the OpenShift environment used in this
+workshop, visit the URL:
+
+*link:https://{{CONSOLE_ADDRESS}}[]*
+
+As with logging in from the command line, you may get an error due to the
+use of a self signed certificate. Add an exception to allow the browser to
+communicate with the web site. The first screen you should then see will be
+the user authentication screen.
+
+image::login_page.png[Login Page]
+
+Enter in the credentials for your assigned user account:
+
+[source,role=copypaste]
+----
+Username: userXX
+Password: userXX
+----
+
+After you have authenticated to the web console, you will be presented with
+a list of projects that your user has permission to work with. You should be
+able to see the project you created above from the command line.
+
+image::project_list.png[Project List]
+
+Click on the project you created and you should be taken to the project
+overview page.
+
+The overview page will list details about any applications you have
+deployed in the project. As you haven't yet deployed any application, there
+is nothing to display and the overview page will prompt you to add an
+application. Don't select it just yet, we will get to deploying an
+application later.
+
+image::empty_project.png[Empty Project]
+
+If metrics have been enabled in the OpenShift environment being used for
+this workshop, because a self signed certificate is being used, you will
+see a message indicating that an error occurred getting metrics.
+
+image::enable_metrics.png[Enable Metrics]
+
+Click on the the link that says __Open metrics URL__, and add an exception
+for the certificate. This will enable any charts for metrics to be
+displayed in the web console.
+
+In the remainder of this workshop you will be using both the command line
+and the web console.
+
+### Introduction to CLI
+
+[source]
+----
+oc <verb> <resource>/<name>
+----
+
+where:
+
+- `verb` is one of: `get`, `set`, `describe`, etc. Run `oc help` to get a
+  full list.
+
+- `resource` is one of resources supported by the platform (or its alias),
+  this includes `DeploymentConfig` (or `dc`), `BuildConfig` (`bc`),
+  `ImageStream` (`is`), `Service` (`svc`), etc. When bash completions are
+  installed, running `oc get` + `<tab>` will give you a list of available
+  resource names. - `name` is the resource name given by the user.
+
+Each of the commands can additionally contain flags, see `oc <verb> --help`
+to get the list of all supported flags.
+
