@@ -1,0 +1,93 @@
+## Text back-end
+
+This time let's try using the web UI to create one of the python back-ends.
+Click __Add to project__ at the top and pick python 3.5 builder image:
+
+image::text_app.png[Test Application]
+
+[NOTE]
+====
+Don't forget to click `advanced options` and set `Context Dir` to `text`.
+====
+
+Alternatively, you can use the CLI:
+
+[source]
+----
+oc new-app \
+    https://github.com/soltysh/blast.git \
+    --context-dir=text \
+    --name=text \
+    --image-stream=python:3.5 \
+    --labels=app=text
+
+oc expose svc/text
+----
+
+Once the application builds, we should have the back-end up and running.
+Unfortunately, it looks like it's not working as expected, let's debug what's
+wrong with our application.  Click __#1__:
+
+image::failed_deployment.png[Failed Deployment]
+
+and dive into deployment details:
+
+image::failed_pod.png[Failed Pod]
+
+to check the pod logs running our application:
+
+image::pod_logs.png[Pod Logs]
+
+Alternatively, you can use the following commands:
+
+[source]
+----
+oc get pods -l app=text
+----
+
+Which will return you a list of pods associated with our application.  The
+`-l app=text` filters the pods to all that have the label `app` set to value `
+text`.  This happens automatically for every application created using web
+console, but can be done manually when using `oc new-app` with `--labels` flag.
+
+[source]
+----
+oc logs text-1-p07pm
+----
+
+Make sure to use your own pod name here with `oc logs` command to get the logs
+of from the deployment.
+
+That's right our python runtime has a few requirements.  Let's check the python link:https://github.com/sclorg/s2i-python-container[S2I builder image] for details.
+
+** Describe S2I python builder **
+
+To solve our problem we need to set `APP_MODULE=api:app` environment variable:
+
+image::set_env.png[Set Environment Variable]
+
+Alternatively:
+
+[source]
+----
+oc set env dc/text APP_MODULE=api:app
+----
+
+Like previously, let's configure the application liveness and readiness probes:
+
+[source]
+----
+oc set probe dc/text --liveness --open-tcp=8080
+oc set probe dc/text --readiness --get-url=http://:8080/blast/api/v1.0/text/x
+----
+
+Now that we've added the probes, we see that the application is not being
+deployed properly.  Let's try to debug what's wrong with it.  Looking into
+events shows the readiness probe failed:
+
+image::failed_readiness.png[Failed Readiness]
+
+The reason readiness failed is that the search back-end wasn't able to connect
+to database:
+
+image::text_logs.png[Text Logs]

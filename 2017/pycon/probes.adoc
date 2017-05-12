@@ -1,0 +1,31 @@
+## Probes
+
+After a few minutes, our application should be up and ready, but we want
+the platform to monitor for its link:https://docs.openshift.org/latest/dev_guide/application_health.html[liveness and readiness].
+Liveness - verifies the pod is healthy, iow. running, when this fails
+the scheduler will restart the container.  Readiness on the other hand, goes
+one step further, and checks whether your application is ready to accept
+requests, iow. when it can accept traffic.  Actually, the web console will
+suggest you that you should add those checks:
+
+image::health_warning.png[Health Warning]
+
+To set both probes for our newly created application we'll do:
+
+[source]
+----
+oc set probe dc/ui --liveness --open-tcp=8080
+----
+
+image::liveness_probe.png[Liveness Probe]
+
+To verify our server is up and running.
+
+[source]
+----
+oc set probe dc/ui --readiness --get-url=http://:8080/
+----
+
+image::readiness_probe.png[Readiness Probe]
+
+To verify that the server is returning some content on /.

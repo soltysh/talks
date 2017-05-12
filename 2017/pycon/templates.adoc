@@ -1,0 +1,7 @@
+## Templates
+
+[source]
+----
+oc new-app https://raw.githubusercontent.com/soltysh/blast/master/video/template.yaml
+oc new-app https://raw.githubusercontent.com/soltysh/blast/master/image/template.yaml
+----

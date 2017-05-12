@@ -238,3 +238,7 @@ Once that is done we'll use a nice shorthand command to point both of our text d
 
 ## Persistent Volumes
 
+
+
+https://learn.openshift.com/
+http://docs.openshift.org/

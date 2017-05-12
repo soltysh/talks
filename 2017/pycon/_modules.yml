@@ -50,5 +50,25 @@ modules:
     name: Accessing OpenShift
   projects:
     name: Projects
-  frontend-ui:
-    name: Frontend UI
+  frontend:
+    name: Frontend
+  probes:
+    name: Probes
+  routes:
+    name: Routes
+  text-backend:
+    name: Text Backend
+  text-database:
+    name: Text Database
+  configmap:
+    name: ConfigMap
+  templates:
+    name: Templates
+  cronjobs:
+    name: Cron Jobs
+  serviceaccounts:
+    name: Service Accounts
+  resourcelimits:
+    name: Resource Limits
+  persistentvolumes:
+    name: Persistent Volumes
