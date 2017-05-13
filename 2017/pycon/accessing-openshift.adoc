@@ -72,9 +72,10 @@ You don't have any projects. You can try to create a new project, by running
 
 ### Creating a new project
 
-Projects are a top level concept to help you organize your deployments. An
-OpenShift project allows a community of users (or a single user) to
-organise and manage their content in isolation from other communities.
+link:https://docs.openshift.org/latest/dev_guide/projects.html[Projects] are
+a top level concept to help you organize your deployments. An OpenShift
+project allows a community of users (or a single user) to organise and manage
+their content in isolation from other communities.
 
 Each project can have its own resources, policies (who can or cannot
 perform actions), and constraints (quotas and limits on resources, etc).
@@ -159,9 +160,11 @@ for the certificate. This will enable any charts for metrics to be
 displayed in the web console.
 
 In the remainder of this workshop you will be using both the command line
-and the web console.
+and the web console interchangeably.
 
 ### Introduction to CLI
+
+A rule of thumb, every command in the CLI world will take the following from:
 
 [source]
 ----
@@ -170,15 +173,14 @@ oc <verb> <resource>/<name>
 
 where:
 
-- `verb` is one of: `get`, `set`, `describe`, etc. Run `oc help` to get a
-  full list.
-
+- `verb` is one of: `get`, `set`, `describe`, etc. You can run `oc help` to
+get a full list.
 - `resource` is one of resources supported by the platform (or its alias),
   this includes `DeploymentConfig` (or `dc`), `BuildConfig` (`bc`),
   `ImageStream` (`is`), `Service` (`svc`), etc. When bash completions are
   installed, running `oc get` + `<tab>` will give you a list of available
-  resource names. - `name` is the resource name given by the user.
+  resource names.
+- `name` is the resource name given by the user.
 
 Each of the commands can additionally contain flags, see `oc <verb> --help`
 to get the list of all supported flags.
-

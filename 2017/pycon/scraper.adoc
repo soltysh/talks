@@ -1,0 +1,15 @@
+## Scraper
+
+### CronJob
+
+[source]
+----
+oc run scraper --schedule="0/1 * * * *" --image=soltysh/scraper --restart=Never
+----
+
+### ServiceAccounts
+
+[source]
+----
+oc policy add-role-to-user view -z default
+----

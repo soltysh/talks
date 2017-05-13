@@ -48,26 +48,15 @@ modules:
     name: Application Architecture
   accessing-openshift:
     name: Accessing OpenShift
-  projects:
-    name: Projects
   frontend:
-    name: Frontend
-  probes:
-    name: Probes
-  routes:
-    name: Routes
+    name: Front end
   text-backend:
     name: Text Backend
-  text-database:
-    name: Text Database
-  configmap:
-    name: ConfigMap
-  templates:
-    name: Templates
-  cronjobs:
-    name: Cron Jobs
-  serviceaccounts:
-    name: Service Accounts
+  scraper:
+    name: Scraper
+  backends:
+    name: Video & Image Backends
+
   resourcelimits:
     name: Resource Limits
   persistentvolumes:

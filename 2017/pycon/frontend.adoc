@@ -1,6 +1,14 @@
-## Frontend
+## Front end
 
-Create our application frontend using following command:
+We will start deploying our application from the frontend, since this is the
+least pythonic part of this workshop and we want to focus on python here ;-),
+right?
+
+### Startup
+
+The easiest way to deploy any application on OpenShift is to use `oc new-app`.
+This will create all the necessary resources needed to build or run your
+application. We will use the following command to create our front end:
 
 [source]
 ----
@@ -11,9 +19,20 @@ oc new-app \
     --labels=app=ui
 ----
 
-This will result in OpenShift creating the following resources for us:
+Let us break this command into pieces, since there is a lot happening in here.
+- `soltysh/lighttpd-centos7` - is the builder image (iow. build environment)
+for the application.
+- `https://github.com/soltysh/blast.git` - is the repository with our
+application.
+- `--context-dir=ui` - the entire application is kept inside a single
+repository, where each directory serves as one component.  This flag states
+that the front end is inside `ui` directory.
+- `--name` - forces to use specific name for all the resources being
+created.  Otherwise `oc new-app` will use the repository name.
+- `--labels=app=ui` - will assign label named `app` with value `ui` to all the
+created resources.
 
-
+As a result of above invocation OpenShift will create the following resources:
 - link:https://docs.openshift.org/latest/dev_guide/builds/index.html[build configuration]
 - link:https://docs.openshift.org/latest/dev_guide/deployments/how_deployments_work.html[deployment configuration]
 - link:https://docs.openshift.org/latest/dev_guide/managing_images.html)[image streams]
@@ -28,3 +47,70 @@ This will result in OpenShift creating the following resources for us:
 ** Explain ImageStreams ** (intro to image streams, including: https://blog.openshift.com/image-streams-faq/)
 
 ** Explain Service **
+
+
+### Probes
+
+After a few minutes, our application should be up and ready. At this point
+we want the platform to monitor for its link:https://docs.openshift.org/latest/dev_guide/application_health.html[liveness and readiness] of our application.
+
+[NOTE]
+====
+Liveness - verifies the pod is healthy, iow. running, when this fails
+the scheduler will restart the container.
+
+Readiness - checks whether your application is ready to accept
+requests, iow. when it can accept traffic.
+====
+
+Actually, if you check the web console, it will suggest you that you should
+add those checks:
+
+image::health_warning.png[Health Warning]
+
+To set both probes for our newly created application we will use the following
+command:
+
+[source]
+----
+oc set probe dc/ui --liveness --open-tcp=8080
+----
+
+Alternatively, we can use the web console:
+
+image::liveness_probe.png[Liveness Probe]
+
+To verify our server is up and running.
+
+[source]
+----
+oc set probe dc/ui --readiness --get-url=http://:8080/
+----
+
+image::readiness_probe.png[Readiness Probe]
+
+To verify that the server is returning some content on /.
+
+
+### Routes
+
+Our final step is to expose the application to the outside world, to do
+that we'll use the following command:
+
+[source]
+----
+oc expose svc/ui
+----
+
+image:route.png[Route]
+
+By now we should be able to reach our application, you can see the route
+address with:
+
+[source]
+----
+oc get route/ui
+----
+
+Or check the overview page in the web console where there is a click-able
+address of our newly created route.

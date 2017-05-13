@@ -1,6 +1,0 @@
-## CronJob
-
-[source]
-----
-oc run scraper --schedule="0/1 * * * *" --image=soltysh/scraper --restart=Never
-----
