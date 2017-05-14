@@ -51,7 +51,7 @@ modules:
   frontend:
     name: Front end
   text-backend:
-    name: Text Backend
+    name: Text Back end
   scraper:
     name: Scraper
   backends:
