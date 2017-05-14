@@ -1,7 +1,7 @@
 ## Alternative Installations
 
 During this workshop you will be provided with an environment, as it was already
-mentioned, but if you are interested in running those examples back at home here
+mentioned. If you are interested in running those examples back at home, here
 are the possible ways you can play with OpenShift:
 
 . https://www.openshift.com/[OpenShift Online] - which gives you access to 1GiB

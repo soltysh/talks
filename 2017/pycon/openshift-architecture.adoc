@@ -1,4 +1,39 @@
 ## Architecture
 
+Here is a high-level architecture of Kubernetes/OpenShift:
+
 image::10k_view.png[10k View]
+
+The key elements in this picture are:
+
+- link:https://docs.openshift.org/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#master[*Master*] - is
+the control plane of the entire cluster. The two main components are:
+    * API server - validates and configures data for all the API objects.
+    * Controller Manager - responsible for "driving" resources through their
+    life-cycle.
+- link:https://docs.openshift.org/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#node[*Node*] - provides
+the runtime environment for containers. This is done through Kubernetes agent -
+link:https://docs.openshift.org/latest/architecture/infrastructure_components/kubernetes_infrastructure.html#kubelet[kubelet].
+- link:https://coreos.com/etcd/docs/latest/[*Etcd*] - is a highly-available key
+value store, used for persistent storage of all REST API objects.
+- link:https://docs.openshift.org/latest/architecture/core_concepts/projects_and_users.html#namespaces[*Namespace*] - provides
+a unique scope for running resources in a cluster.
+- link:https://docs.openshift.org/latest/architecture/core_concepts/pods_and_services.html#pods[*Pod*] - is
+the smallest computing unit in Kubernetes. It consists of one or more containers
+running together on a single node.
+- link:https://docs.openshift.org/latest/architecture/core_concepts/deployments.html#replication-controllers[*Replication Controller/Replica Set*] - ensures
+that a specified number of Pods is running at all times.
+- link:https://docs.openshift.org/latest/architecture/core_concepts/pods_and_services.html#labels[*Label*] - is
+a key/value pair attached to objects. They are used to organize, group or select
+API objects.
+- link:https://docs.openshift.org/latest/architecture/core_concepts/pods_and_services.html#services[*Service*] - serves
+as an internal load balancer for a logical set of Pods. The set of Pods is determined
+using link:https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors[Label Selectors].
+- link:https://docs.openshift.org/latest/architecture/core_concepts/routes.html#overview[*Route*] - exposes
+a Service at a specified host name, so that it is reachable by external clients.
+Since not long ago, it is known in Kubernetes world as link:https://kubernetes.io/docs/concepts/services-networking/ingress/[Ingress].
+
+If you are interested in a detailed description of the architecture, I highly
+recommend going through both link:https://docs.openshift.org/latest/architecture/index.html[OpenShift]
+and link:https://kubernetes.io/docs/home/[Kubernetes] documentation.
 

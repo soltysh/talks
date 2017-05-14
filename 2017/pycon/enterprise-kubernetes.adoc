@@ -1,3 +1,17 @@
 ## Enterprise Kubernetes Distribution
 
+Kubernetes is an open-source platform for automating deployment, scaling, and
+operations of application containers across clusters of hosts, providing
+container-centric infrastructure.
+
+OpenShift is a distribution of Kubernetes optimized for continuous application
+development and multi-tenant deployment. OpenShift adds developer and
+operations-centric tools on top of Kubernetes to enable rapid application
+development, easy deployment and scaling, and long-term lifecycle maintenance
+for small and large teams.
+
+The following diagram nicely shows how the entire stack is composed. The red boxes
+represent the base operating system (can be Red Hat Enterprise Linux, CentOS,
+Fedora, etc.), the blue ones represent Kubernetes, and the green ones - OpenShift.
+
 image::openshift.png[OpenShift]
