@@ -1,13 +1,12 @@
 ## Front end
 
-We will start deploying our application from the frontend, since this is the
-least pythonic part of this workshop and we want to focus on python here ;-),
-right?
+We will start deploying our application from the top, since this is the least
+pythonic part of this workshop and we want to focus on python here ;-), right?
 
-### Startup
+### Getting started
 
 The easiest way to deploy any application on OpenShift is to use `oc new-app`.
-This will create all the necessary resources needed to build or run your
+This will create all the necessary resources needed to build and/or run your
 application. We will use the following command to create our front end:
 
 [source]
@@ -19,40 +18,136 @@ oc new-app \
     --labels=app=ui
 ----
 
-Let us break this command into pieces, since there is a lot happening in here.
-- `soltysh/lighttpd-centos7` - is the builder image (iow. build environment)
-for the application.
+Let us break this command into pieces, since there is a lot happening in here:
+
+- `soltysh/lighttpd-centos7` - builder image (iow. build environment) for the
+application. You can read about how to create your own builder in the
+link:https://docs.openshift.org/latest/creating_images/s2i.html[official docs],
+or check out my link:https://blog.openshift.com/create-s2i-builder-image/[blog post]
+where I describe how this particular image was made.
 - `https://github.com/soltysh/blast.git` - is the repository with our
 application.
 - `--context-dir=ui` - the entire application is kept inside a single
 repository, where each directory serves as one component.  This flag states
-that the front end is inside `ui` directory.
+that the front end is inside the `ui` directory.
 - `--name` - forces to use specific name for all the resources being
 created.  Otherwise `oc new-app` will use the repository name.
-- `--labels=app=ui` - will assign label named `app` with value `ui` to all the
-created resources.
+- `--labels=app=ui` - assign label `app` with value `ui` to all the created
+resources.
 
-As a result of above invocation OpenShift will create the following resources:
-- link:https://docs.openshift.org/latest/dev_guide/builds/index.html[build configuration]
-- link:https://docs.openshift.org/latest/dev_guide/deployments/how_deployments_work.html[deployment configuration]
-- link:https://docs.openshift.org/latest/dev_guide/managing_images.html)[image streams]
-- link:https://docs.openshift.org/latest/architecture/core_concepts/pods_and_services.html[service]
+As a result of the above invocation OpenShift will create the following
+resources.
 
-** Explain BuildConfig ** (explain S2I build process in details)
+### Image Stream
 
-** Explain DeploymentConfig ** (including colorful deployments demos: https://opensource.com/article/17/5/colorful-deployments)
-** Explain ReplicationController **
-** Explain Pod **
 
-** Explain ImageStreams ** (intro to image streams, including: https://blog.openshift.com/image-streams-faq/)
+link:https://docs.openshift.org/latest/dev_guide/managing_images.html[Image stream]
+is a virtual view of related images. It is important to note that an Image
+Stream does not contain the actual image data, just its metadata. This provides
+a stable pointer to an external (or internal) image, ensuring that your
+application will not break unexpectedly. You can read more about them in my
+recent link:https://blog.openshift.com/image-streams-faq/[blog post].
 
-** Explain Service **
+You can view Image Stream details using CLI, or check out __Builds__ -> __Images__
+from the menu (on the right) in the web console:
 
+[source]
+----
+oc describe is/lighttpd-centos7
+----
+
+image::imagestream.png[Image Stream]
+
+### Build Configuration
+
+link:https://docs.openshift.org/latest/dev_guide/builds/index.html[Build configuration]
+describes the build process and all the parameters needed to perform one.
+OpenShift support the following build strategies:
+
+- link:https://docs.openshift.org/latest/architecture/core_concepts/builds_and_image_streams.html#source-build[Source To Image (S2I)] - produces
+ready to run images by injecting application source code into a
+container image with a pre-configured build and runtime environment.
+- link:https://docs.openshift.org/latest/architecture/core_concepts/builds_and_image_streams.html#pipeline-build[Pipeline] - allows
+developers to define a link:https://jenkins.io/doc/pipeline/[Jenkins Pipeline].
+- link:https://docs.openshift.org/latest/architecture/core_concepts/builds_and_image_streams.html#docker-build[Docker build] - runs
+plain `docker build` command.
+- link:https://docs.openshift.org/latest/architecture/core_concepts/builds_and_image_streams.html#custom-build[Custom build] - allows
+developers to define a specific builder image responsible for the entire
+build process.
+
+To view the details of a `BuildConfig` object you can use `oc describe bc/ui`,
+or check __Builds__ -> __Builds__ in the web console.
+
+image::buildconfig.png[Build Config]
+
+We will look in details into S2I build process for python application in the
+next section when we will be building python back ends for our search engine.
+
+### Deployment Configuration
+
+link:https://docs.openshift.org/latest/dev_guide/deployments/how_deployments_work.html[Deployment configuration]
+provides a fine-grained management over user application. Under the covers
+they use three separate API objects:
+
+. A deployment configuration, which describes the desired state of a particular component of the application as a pod template.
+. One or more Replication Controllers, which contain a point-in-time record of the state of a deployment configuration as a pod template.
+. One or more Pods, which represent an instance of a particular version of an application.
+
+OpenShift supports three strategies, which allow implementing wide range of
+deployment strategies you are all familiar with:
+
+- link:https://docs.openshift.org/latest/dev_guide/deployments/deployment_strategies.html#rolling-strategy[Rolling] - slowly
+replaces instances of previous version of an application with the new version.
+- link:https://docs.openshift.org/latest/dev_guide/deployments/deployment_strategies.html#recreate-strategy[Recreate] - scales
+the previous version of an application down to zero and only then brings up the
+new version.
+- link:https://docs.openshift.org/latest/dev_guide/deployments/deployment_strategies.html#custom-strategy[Custom] - allowing
+one to implement his own flavor of deployment.
+
+To view the details of a `DeploymentConfig` object you can use `oc describe dc/ui`,
+or check __Aplications__ -> __Deployments__ in the web console.
+
+image::deploymentconfig.png[Deployment Config]
+
+### Service
+
+link:https://docs.openshift.org/latest/architecture/core_concepts/pods_and_services.html[Service]
+provides a stable access point under which the service is reachable,
+since the Pods
+link:https://kubernetes.io/docs/concepts/workloads/pods/pod/#durability-of-pods-or-lack-thereof[come and go].
+
+To view the details of a `Service object you can use `oc describe svc/ui`,
+or check __Aplications__ -> __Services__ in the web console.
+
+image::service.png[Service]
+
+### Routes
+
+So far we have set up the build and deployment processes and exposes the
+application internally. The final piece of the puzzle is the Route.
+link:https://docs.openshift.org/latest/dev_guide/routes.html[Route], like it
+was previously mentioned, exposes the Service to the outside world under given
+hostname. To do that we will use the following command:
+
+[source]
+----
+oc expose svc/ui
+----
+
+Alternatively, we can use the web console, when viewing Service details click
+__Action__ -> __Create Route__:
+
+image::route.png[Route]
+
+This will expose our React front end under `https://ui-<project>.{{ROUTER_ADDRESS}}`,
+where `<project>` will reflect the project name you created earlier.
 
 ### Probes
 
-After a few minutes, our application should be up and ready. At this point
-we want the platform to monitor for its link:https://docs.openshift.org/latest/dev_guide/application_health.html[liveness and readiness] of our application.
+Now that our application is up and running and most importantly exposed to the
+external world we want to leverage platform capabilities of self-healing.
+For that purpose, we are going to define link:https://docs.openshift.org/latest/dev_guide/application_health.html[liveness and readiness]
+checks for our application.
 
 [NOTE]
 ====
@@ -63,54 +158,27 @@ Readiness - checks whether your application is ready to accept
 requests, iow. when it can accept traffic.
 ====
 
-Actually, if you check the web console, it will suggest you that you should
-add those checks:
+Actually, some of you might already noticed the following warning in the web
+console (specifically on the overview page and in the deployment configuration
+preview):
 
 image::health_warning.png[Health Warning]
 
-To set both probes for our newly created application we will use the following
-command:
+Clicking that link will give us a page where we can configure both of the
+aforementioned checks:
+
+image::liveness_probe.png[Liveness Probe]
+
+image::readiness_probe.png[Readiness Probe]
+
+Alternatively, we can use the CLI to do the same:
 
 [source]
 ----
 oc set probe dc/ui --liveness --open-tcp=8080
-----
-
-Alternatively, we can use the web console:
-
-image::liveness_probe.png[Liveness Probe]
-
-To verify our server is up and running.
-
-[source]
-----
 oc set probe dc/ui --readiness --get-url=http://:8080/
 ----
 
-image::readiness_probe.png[Readiness Probe]
-
-To verify that the server is returning some content on /.
-
-
-### Routes
-
-Our final step is to expose the application to the outside world, to do
-that we'll use the following command:
-
-[source]
-----
-oc expose svc/ui
-----
-
-image:route.png[Route]
-
-By now we should be able to reach our application, you can see the route
-address with:
-
-[source]
-----
-oc get route/ui
-----
-
-Or check the overview page in the web console where there is a click-able
-address of our newly created route.
+Here, we are setting the liveness probe to open port `8080`, which is our link:https://www.lighttpd.net/[lighttpd server].
+This is additionally accompanied with `HTTP GET` operation to verify the
+application is up and ready for serving requests.

@@ -160,7 +160,7 @@ for the certificate. This will enable any charts for metrics to be
 displayed in the web console.
 
 In the remainder of this workshop you will be using both the command line
-and the web console interchangeably.
+and the web console, interchangeably.
 
 ### Introduction to CLI
 
@@ -174,13 +174,11 @@ oc <verb> <resource>/<name>
 where:
 
 - `verb` is one of: `get`, `set`, `describe`, etc. You can run `oc help` to
-get a full list.
-- `resource` is one of resources supported by the platform (or its alias),
-  this includes `DeploymentConfig` (or `dc`), `BuildConfig` (`bc`),
-  `ImageStream` (`is`), `Service` (`svc`), etc. When bash completions are
-  installed, running `oc get` + `<tab>` will give you a list of available
-  resource names.
+get a full list of supported actions or check the link:https://docs.openshift.org/latest/cli_reference/basic_cli_operations.html[official docs].
+- `resource` is one of the objects supported by the platform (or its alias).
+  This includes `DeploymentConfig` (or `dc`), `BuildConfig` (`bc`),
+  `ImageStream` (`is`), `Service` (`svc`), etc.
 - `name` is the resource name given by the user.
 
 Each of the commands can additionally contain flags, see `oc <verb> --help`
-to get the list of all supported flags.
+to get a full list of all supported flags.

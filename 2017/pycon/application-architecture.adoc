@@ -1,17 +1,19 @@
 ## Application Architecture
 
-During this workshop we are going to build a simple search engine consisting of
-the following components:
+During this workshop we are going to build a simple search engine. The application
+consists of the following components:
 
-- ui - is a React frontend application gathering results from three backends.
-- text - which is python-based Flask REST application responsible for text-based
-data and accompanying database.
-- image - which is python-based Flask REST application responsible for image-based
-data and accompanying database.
-- video - which is python-based Flask REST application responsible for video-based
-data and accompanying database.
-- scraper - which is responsible for scraping web and saving text data in appropriate database.
+- *ui* - a React front end application presenting results gathered from the three
+back ends.
+- *text* - a python-based Flask REST application responsible for text-based data
+and accompanying database.
+- *image* - a python-based Flask REST application responsible for image-based data
+and accompanying database.
+- *video* - a python-based Flask REST application responsible for video-based data
+and accompanying database.
+- *scraper* - a web scraper feeding text database.
+
+The application source code is available at {{BLAST_REPO}}, each subdirectory in
+that repository represents the above elements.
 
 image::blast_architecture.png[Blast Architecture]
-
-The application source code is available at {{BLAST_REPO}}
