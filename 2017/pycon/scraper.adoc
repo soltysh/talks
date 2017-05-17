@@ -1,15 +1,150 @@
 ## Scraper
 
+We have the application build and deployed, unfortunately it does not display
+anything, since there is no data present. Let's create a web scraper responsible
+for feeding the text database.
+
 ### CronJob
+
+To understand what a link:https://docs.openshift.org/latest/dev_guide/cron_jobs.html[CronJob]
+is, I first need to introduce a link:https://docs.openshift.org/latest/dev_guide/jobs.html[Job]
+resource.
+
+A Job, in contrast to link:https://docs.openshift.org/latest/architecture/core_concepts/deployments.html#deployments-and-deployment-configurations[a Deployment]
+(or link:https://docs.openshift.org/latest/architecture/core_concepts/deployments.html#replication-controllers[a Replication Controller]),
+runs Pod(s) to completion. It is meant to finish its execution and report the
+status back to the user.
+
+A CronJob runs a Job based on o predefined schedule. As you might have guessed,
+the schedule is defined using link:https://en.wikipedia.org/wiki/Cron[good, old plain cron format].
+
+[NOTE]
+====
+CronJob is an alpha feature in Kubernetes, and a technology preview in OpenShift.
+This means, it might change in future release, but we are trying hard not to.
+====
+
+I have already build and published an image that we will use in this exercise.
+The image is available on link:https://hub.docker.com/r/soltysh/scraper/[dockerhub]
+under `soltysh/scraper`. The sources can be found inside `scraper` subdirectory
+of our link:https://github.com/soltysh/blast/[sample application] ready to
+be built using link:https://docs.openshift.org/latest/architecture/core_concepts/builds_and_image_streams.html#source-build[S2I].
+The application is a simple link:https://scrapy.org/[Scrapy] spider that searches
+random word in Google, and saves the results in the text database.
+
+Let's try to deploy our CronJob using `oc run` command:
 
 [source]
 ----
-oc run scraper --schedule="0/1 * * * *" --image=soltysh/scraper --restart=Never
+oc run scraper --schedule="0/5 * * * *" --image=soltysh/scraper --restart=Never
 ----
+
+`oc run` is a very powerful command allowing one to create majority of resources
+available in Kubernetes/OpenShift world. I highly recommend looking at `oc run --help`,
+or checking out the link:http://kubernetes.io/docs/user-guide/kubectl-conventions/[official docs].
+
+Since `oc run` was not introduced before, let's try to break it down:
+
+- `scaper` - will be the name of the created resource.
+- `--schedule="0/5 * * * *"` - specifies the schedule, when a Job will be run.
+  Here, we will create one every 5 minutes.
+- `--image=soltysh/scraper` - is the image that holds the execution logic for
+  a Job.
+- `--restart=Never` - tells the generator that we will create a Job-based resource,
+  by default the value of this flag is `Always` which is the value required to
+  run Deployments, Replication Controllers, Replica Sets.
 
 ### ServiceAccounts
 
+When a person uses the web console or CLI, their API token authenticates them to
+the OpenShift API. However, when a regular user's credentials are not available,
+it is common for components to make API calls independently.
+link:https://docs.openshift.org/latest/dev_guide/service_accounts.html[Service Accounts]
+provide a flexible way to control API access without sharing a regular user's credentials.
+
+By default, every project has three Service Accounts defined:
+
+- _builder_ - used by the builds pods to push images to any image stream in the
+  same project, using the internal Docker registry.
+- _deployer_ - used by the deployment to be able to drive the deployment resources.
+- _default_ - default Service Account used to run all other Pods.
+
+Additionally, all service accounts in a project are automatically given the permission
+to pull images from the internal Docker Registry.
+
+If we wait long enough for the first Job to be scheduled, upon checking its logs
+we shall see the following error:
+
 [source]
 ----
-oc policy add-role-to-user view -z default
+$ oc logs scraper-1494984780-pnpgv
+---> Running application from Python script (app.py) ...
+Error reading config map!
+Traceback (most recent call last):
+  File "app.py", line 53, in <module>
+    user, passwd, host, port = read_configmap()
+  File "app.py", line 43, in read_configmap
+    obj = k8s.CoreV1Api().read_namespaced_config_map('text', namespace)
+  File "/opt/app-root/lib/python3.5/site-packages/kubernetes/client/apis/core_v1_api.py", line 21758, in read_namespaced_config_map
+    (data) = self.read_namespaced_config_map_with_http_info(name, namespace, **kwargs)
+  File "/opt/app-root/lib/python3.5/site-packages/kubernetes/client/apis/core_v1_api.py", line 21854, in read_namespaced_config_map_with_http_info
+    collection_formats=collection_formats)
+  File "/opt/app-root/lib/python3.5/site-packages/kubernetes/client/api_client.py", line 329, in call_api
+    _return_http_data_only, collection_formats, _preload_content, _request_timeout)
+  File "/opt/app-root/lib/python3.5/site-packages/kubernetes/client/api_client.py", line 153, in __call_api
+    _request_timeout=_request_timeout)
+  File "/opt/app-root/lib/python3.5/site-packages/kubernetes/client/api_client.py", line 361, in request
+    headers=headers)
+  File "/opt/app-root/lib/python3.5/site-packages/kubernetes/client/rest.py", line 240, in GET
+    query_params=query_params)
+  File "/opt/app-root/lib/python3.5/site-packages/kubernetes/client/rest.py", line 231, in request
+    raise ApiException(http_resp=r)
+kubernetes.client.rest.ApiException: (403)
+Reason: Forbidden
+HTTP response headers: HTTPHeaderDict({'Date': 'Wed, 17 May 2017 01:33:18 GMT', 'Content-Type': 'application/json', 'Content-Length': '293', 'Cache-Control': 'no-store'})
+HTTP response body: {
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Failure",
+  "message": "User \"system:serviceaccount:test:default\" cannot get configmaps in project \"test\"",
+  "reason": "Forbidden",
+  "details": {
+    "name": "text",
+    "kind": "configmaps"
+  },
+  "code": 403
+}
 ----
+
+The reason for that is that our Job used _default_ Service Account, since we did
+not specify any other. Additionally that Service Account does not have the necessary
+permissions to link:https://github.com/soltysh/blast/tree/master/scraper/app.py[access a ConfigMap]
+which holds the credentials.
+
+The recommended approach here, is to create a dedicated Service Account and assign
+it with just the appropriate link:https://docs.openshift.org/latest/admin_guide/manage_authorization_policy.html#managing-role-bindings[permissions]
+it needs to read the credentials.
+
+[source]
+----
+oc create serviceaccount scraper
+oc policy add-role-to-user view -z scraper
+----
+
+Now we need to modify our CronJob definition:
+
+[source]
+----
+oc edit cronjob/scraper
+----
+
+will bring up the system editor and allow you to tweak the definition. Locate the
+line with `securityContext` and add one below with `serviceAccountName: scraper`
+and the same indentation level. When you are done, saving the changes will submit
+your modifications to the cluster. Upon any error, you will be brought up the editor
+ once again, the error message will be in comment at the top of the file.
+
+Now, upon next scheduled run of our Job we should see the information being saved
+in the text database. This in turn will result in the search data being presented
+in our front end.

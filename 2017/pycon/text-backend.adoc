@@ -175,6 +175,7 @@ and looking at the logs we clearly see we need to set those three values:
 - `MONGODB_USER` - user name for the MongoDB account.
 - `MONGODB_PASSWORD` - password for the user account.
 - `MONGODB_DATABASE` - database name.
+- `MONGODB_ADMIN_PASSWORD` - password for the database admin.
 
 But, since we will need those values in several places inside our application
 we would like to have a single place for that configuration. This is where a
@@ -203,6 +204,7 @@ required data:
 - `MONGODB_USER`
 - `MONGODB_PASSWORD`
 - `MONGODB_DATABASE`
+- `MONGODB_ADMIN_PASSWORD`
 
 image::configmap_value.png[ConfigMap Value]
 
@@ -213,6 +215,7 @@ CLI alternative is as follows:
 oc create configmap text \
     --from-literal=MONGODB_USER=13eewfsd23rwef23re \
     --from-literal=MONGODB_PASSWORD=wewsfsd234eewdsa \
+    --from-literal=MONGODB_ADMIN_PASSWORD=45trre23qwedssdf \
     --from-literal=MONGODB_DATABASE=blast_text
 ----
 
@@ -232,5 +235,5 @@ oc set env dc/text-db --from=configmap/text
 oc set env dc/text --from=configmap/text
 ----
 
-We are feeding both of our deployments with this newly created ConfigMap. This
-should result in both of the deployments up and running after a short while.
+We are feeding both our deployments with this newly created ConfigMap. This
+should result in both of them up and running after a short while.

@@ -55,7 +55,7 @@ modules:
   scraper:
     name: Scraper
   backends:
-    name: Video & Image Backends
+    name: Video and Image Backends
 
   resourcelimits:
     name: Resource Limits
