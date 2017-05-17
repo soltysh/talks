@@ -112,6 +112,7 @@ rd-start
 ```
 ]
 
+
 ---
 .left-column[
 # The Future
@@ -122,14 +123,9 @@ rd-start
 <br />
 ## 2. Github OAuth integration
 <br />
-<br />
-<br />
-<br />
+## 3. Escalate to support vendor
 ]
-.large[
-.center[
-http://psf.upfronthosting.co.za/roundup/meta/
-]]
+]
 
 
 ---
@@ -138,6 +134,10 @@ layout: true
 class: center, middle, inverse
 ---
 # Questions?
-<br /><br /><br />
+<br />
+.large[.center[
+http://psf.upfronthosting.co.za/roundup/meta/
+]]
+<br /><br />
 ## Maciej Szulik / @soltysh
 ### Red Hat / OpenShift
