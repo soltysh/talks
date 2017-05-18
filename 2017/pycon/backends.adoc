@@ -1,4 +1,8 @@
-## Video and Image Backends
+## Video and Image Back ends
+
+So far we have deployed the front end and text backed. We feed text database with
+data periodically. The last remaining bit, or rather two of them are the video
+and image back ends.
 
 ### Templates
 
@@ -36,14 +40,15 @@ lower part defines a parameter, where:
 - `required` - specifies this value is required and a Template cannot be instantiated
   without this value.
 
-If you check the sources of= link:https://github.com/soltysh/blast/[our sample application],
+If you check the sources of link:https://github.com/soltysh/blast/[our sample application],
 each of the subdirectories contains a file named `template.yaml`, which holds the
 entire configuration necessary to build and deploy each of them on any cluster.
-All you need to is find a cluster
-
+All you need to is find a cluster and run:
 
 [source]
 ----
 oc new-app https://raw.githubusercontent.com/soltysh/blast/master/video/template.yaml
 oc new-app https://raw.githubusercontent.com/soltysh/blast/master/image/template.yaml
 ----
+
+which will result in creating all the resources we have previously created manually.

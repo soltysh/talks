@@ -32,6 +32,8 @@ using link:https://kubernetes.io/docs/concepts/overview/working-with-objects/lab
 - link:https://docs.openshift.org/latest/architecture/core_concepts/routes.html#overview[*Route*] - exposes
 a Service at a specified host name, so that it is reachable by external clients.
 Since not long ago, it is known in Kubernetes world as link:https://kubernetes.io/docs/concepts/services-networking/ingress/[Ingress].
+- link:https://docs.openshift.org/latest/dev_guide/events.html[*Event*] - provides
+an information about actions happening in the cluster.
 
 If you are interested in a detailed description of the architecture, I highly
 recommend going through both link:https://docs.openshift.org/latest/architecture/index.html[OpenShift]

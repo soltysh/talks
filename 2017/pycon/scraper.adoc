@@ -1,8 +1,8 @@
 ## Scraper
 
-We have the application build and deployed, unfortunately it does not display
-anything, since there is no data present. Let's create a web scraper responsible
-for feeding the text database.
+We have the text part of the application build and deployed, unfortunately it
+does not display anything, since there is no data present. Let's create a web
+scraper responsible for feeding the text database.
 
 ### CronJob
 
@@ -21,7 +21,7 @@ the schedule is defined using link:https://en.wikipedia.org/wiki/Cron[good, old 
 [NOTE]
 ====
 CronJob is an alpha feature in Kubernetes, and a technology preview in OpenShift.
-This means, it might change in future release, but we are trying hard not to.
+This means, it might change in future release, but we are trying hard not to :-).
 ====
 
 I have already build and published an image that we will use in this exercise.
@@ -117,11 +117,10 @@ HTTP response body: {
 }
 ----
 
-The reason for that is that our Job used _default_ Service Account, since we did
-not specify any other. Additionally that Service Account does not have the necessary
-permissions to link:https://github.com/soltysh/blast/tree/master/scraper/app.py[access a ConfigMap]
-which holds the credentials.
-
+The reason for that is that our Job uses a _default_ Service Account, since we did
+not specify any other. Our Job is trying to link:https://github.com/soltysh/blast/tree/master/scraper/app.py[access a ConfigMap]
+using link:https://github.com/openshift/openshift-restclient-python[OpenShift's Python Client],
+but the _default_ Service Account does not have the necessary permissions to do it.
 The recommended approach here, is to create a dedicated Service Account and assign
 it with just the appropriate link:https://docs.openshift.org/latest/admin_guide/manage_authorization_policy.html#managing-role-bindings[permissions]
 it needs to read the credentials.

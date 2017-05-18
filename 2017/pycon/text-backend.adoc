@@ -38,7 +38,7 @@ clicking __#1__ next to build name and then choosing __Logs__ tab.
 
 image::build_logs.png[Build Logs]
 
-Once the application builds, we should have the back-end up and running.
+Once the application builds, we should have the text back end up and running.
 
 Oops, it looks like it is not working as expected, let's debug and check what
 went wrong.
@@ -237,3 +237,6 @@ oc set env dc/text --from=configmap/text
 
 We are feeding both our deployments with this newly created ConfigMap. This
 should result in both of them up and running after a short while.
+
+We can verify it the application is actually running by accessing following
+address `https://text-<project>.{{ROUTER_ADDRESS}}/blast/api/v1.0/text/x`.

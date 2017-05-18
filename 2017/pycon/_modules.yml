@@ -56,8 +56,5 @@ modules:
     name: Scraper
   backends:
     name: Video and Image Backends
-
-  resourcelimits:
-    name: Resource Limits
-  persistentvolumes:
-    name: Persistent Volumes
+  other-resources:
+    name: Other Resources

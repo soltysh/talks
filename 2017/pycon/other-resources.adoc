@@ -1,0 +1,19 @@
+## Other Resources
+
+Throughout the entire workshop we have only covered a few resources. Although
+the ones presented so far are the most frequently used here are the additional
+ones you might find interesting when deploying your applications:
+
+- link:https://docs.openshift.org/latest/dev_guide/persistent_volumes.html[*Persistent Volumes*] - provide
+storage resource in OpenShift.
+- link:https://docs.openshift.org/latest/dev_guide/compute_resources.html[*Quotas and Limits*] - allow
+administrator to limit the number of resources or amount of compute resources used in a project.
+- link:https://docs.openshift.org/latest/dev_guide/secrets.html[*Secrets*] - provide
+a mechanism to hold sensitive information.
+- link:https://docs.openshift.org/latest/dev_guide/daemonsets.html[*Daemon Set*] - allows
+running exactly one Pod on a specific or all nodes in a cluster.
+- link:https://docs.openshift.org/latest/dev_guide/pod_autoscaling.html[*Horizontal Pod Autoscaler*] - allows
+automatically increase or decrease scale of an application, based on usage metrics.
+- link:https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/[*Stateful Set*] - runs
+Pods that have unique identity and provides guarantees about the ordering of deployment
+and scaling.
