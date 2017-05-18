@@ -56,5 +56,6 @@ modules:
     name: Scraper
   backends:
     name: Video and Image Backends
-  other-resources:
-    name: Other Resources
+  further-resources:
+    name: Further Resources
+
