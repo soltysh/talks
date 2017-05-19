@@ -2,31 +2,28 @@ config:
   vars:
     - name: CONSOLE_ADDRESS
       desc: Address to access the OpenShift console
-      value: console.pycon.pixy.io:8443
+      value: <console address>
     - name: ROUTER_ADDRESS
       desc: Router DNS suffix (https://appname-project.<suffix>)
-      value: "apps.pycon.pixy.io"
-    - name: WORKSHOP_NOTES
-      desc: Address to access workshop notes.
-      value: "http://tutorial.apps.pycon.pixy.io"
+      value: "<router address>"
     - name: DOWNLOAD_CLIENT_WINDOWS
       desc: URL to download oc client for Windows
-      value: "https://github.com/openshift/origin/releases/download/v1.5.0/openshift-origin-client-tools-v1.5.0-031cbe4-windows.zip"
+      value: "https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-windows.zip"
     - name: DOWNLOAD_CLIENT_MACOSX
       desc: URL to download oc client for macOS
-      value: "https://github.com/openshift/origin/releases/download/v1.5.0/openshift-origin-client-tools-v1.5.0-031cbe4-mac.zip"
+      value: "https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-mac.zip"
     - name: DOWNLOAD_CLIENT_LINUX_64BIT
       desc: URL to download oc client for 64bit Linux
-      value: "https://github.com/openshift/origin/releases/download/v1.5.0/openshift-origin-client-tools-v1.5.0-031cbe4-linux-64bit.tar.gz"
+      value: "https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz"
     - name: DOWNLOAD_CLIENT_LINUX_32BIT
       desc: URL to download oc client for 32bit Linux
-      value: "https://github.com/openshift/origin/releases/download/v1.5.0/openshift-origin-client-tools-v1.5.0-031cbe4-linux-32bit.tar.gz"
+      value: "https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-32bit.tar.gz"
     - name: OC_CLIENT_VERSION
       desc: Version of oc command line client.
-      value: "v1.5.0-031cbe4"
+      value: "v1.5.1+7b451fc"
     - name: OC_VERSION
       desc: Expected output when `oc version` is executed
-      value: "oc v1.5.0+031cbe4\nkubernetes v1.5.2+43a9be4"
+      value: "oc v1.5.1+7b451fc\nkubernetes v1.5.2+43a9be4"
     - name: BLAST_REPO
       desc: Sample application repository location
       value: https://github.com/soltysh/blast

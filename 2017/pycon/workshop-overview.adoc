@@ -1,5 +1,4 @@
 ## Workshop Overview
-## {{WORKSHOP_NOTES}}
 
 Google, Red Hat, Intel, Huawei, Mirantis, Deis and many, many others are
 investing a lot of time and effort into improving Kubernetes. I bet, you
