@@ -116,7 +116,7 @@ provides a stable access point under which the service is reachable,
 since the Pods
 link:https://kubernetes.io/docs/concepts/workloads/pods/pod/#durability-of-pods-or-lack-thereof[come and go].
 
-To view the details of a `Service object you can use `oc describe svc/ui`,
+To view the details of a Service object you can use `oc describe svc/ui`,
 or check __Aplications__ -> __Services__ in the web console.
 
 image::service.png[Service]
