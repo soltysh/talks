@@ -20,7 +20,7 @@ config:
       value: "https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-32bit.tar.gz"
     - name: OC_CLIENT_VERSION
       desc: Version of oc command line client.
-      value: "v1.5.1+7b451fc"
+      value: "v1.5.1-7b451fc"
     - name: OC_VERSION
       desc: Expected output when `oc version` is executed
       value: "oc v1.5.1+7b451fc\nkubernetes v1.5.2+43a9be4"
