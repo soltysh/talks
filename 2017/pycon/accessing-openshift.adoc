@@ -17,7 +17,7 @@ In order to login using the `oc` command line client, run the command:
 oc login {{CONSOLE_ADDRESS}}
 ----
 
-You may see the following output:
+You may see the following output, in some cases:
 
 [source]
 ----
@@ -26,9 +26,10 @@ You can bypass the certificate check, but any data you send to the server could 
 Use insecure connections? (y/n):
 ----
 
-The reason you received this message is because the OpenShift environment
-being used for this workshop is using a self-signed certificate. In a
-real-world scenario, either OpenShift's certificate would be signed by a
+The reason is that some OpenShift environments (usually self-provisioned, eg.
+https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md[oc cluster up]
+or  https://www.openshift.org/minishift/[Minishift]) are using a self-signed certificate.
+In a real-world scenario, either OpenShift's certificate would be signed by a
 standard CA (eg: Thawte, Verisign, StartSSL, etc.) or signed by a
 corporate-standard CA that you already have installed on your system.
 
@@ -48,14 +49,8 @@ oc login {{CONSOLE_ADDRESS}} --insecure-skip-tls-verify=true
 ====
 
 Once you issue the `oc login` command, you will be prompted for the user
-name and password.
+name and password. Enter in the credentials for your assigned user account.
 
-Enter in the credentials for your assigned user account:
-
-[source,role=copypaste]
-----
-Username: userXX
-Password: userXX
 ----
 
 When you have been authenticated successfully, you will see the following
@@ -124,13 +119,7 @@ the user authentication screen.
 
 image::login_page.png[Login Page]
 
-Enter in the credentials for your assigned user account:
-
-[source,role=copypaste]
-----
-Username: userXX
-Password: userXX
-----
+Enter in the credentials for your assigned user account.
 
 After you have authenticated to the web console, you will be presented with
 a list of projects that your user has permission to work with. You should be
