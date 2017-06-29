@@ -51,8 +51,6 @@ oc login {{CONSOLE_ADDRESS}} --insecure-skip-tls-verify=true
 Once you issue the `oc login` command, you will be prompted for the user
 name and password. Enter in the credentials for your assigned user account.
 
-----
-
 When you have been authenticated successfully, you will see the following
 confirmation message:
 
