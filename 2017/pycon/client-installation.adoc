@@ -18,8 +18,7 @@ system using the following links:
 
 - {{DOWNLOAD_CLIENT_WINDOWS}}[Microsoft Windows]
 - {{DOWNLOAD_CLIENT_MACOSX}}[Apple OS X]
-- {{DOWNLOAD_CLIENT_LINUX_64BIT}}[Linux (64 Bit)]
-- {{DOWNLOAD_CLIENT_LINUX_32BIT}}[Linux (32 Bit)]
+- {{DOWNLOAD_CLIENT_LINUX}}[Linux]
 
 It is suggested you place the archive in the following directory:
 
