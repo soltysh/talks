@@ -26,7 +26,7 @@ oc new-app \
     --image-stream=python:3.5 \
     --labels=app=text
 
-oc expose svc/text
+oc expose service/text
 ----
 
 As you have probably noticed, the advanced options revealed a whole bunch of
@@ -65,7 +65,7 @@ Alternatively, you can use the following series of commands for debugging:
 
 [source]
 ----
-oc get pods -l app=text
+oc get pod -l app=text
 ----
 
 Which will return you a list of pods associated with our application. The
@@ -105,7 +105,7 @@ Alternatively:
 
 [source]
 ----
-oc set env dc/text APP_MODULE=api:app
+oc set env deploymentconfig/text APP_MODULE=api:app
 ----
 
 After applying the change our application should be up and running.
@@ -115,8 +115,8 @@ to leverage platform's health checks and provide always running application:
 
 [source]
 ----
-oc set probe dc/text --liveness --open-tcp=8080
-oc set probe dc/text --readiness --get-url=http://:8080/blast/api/v1.0/text/x
+oc set probe deploymentconfig/text --liveness --open-tcp=8080
+oc set probe deploymentconfig/text --readiness --get-url=http://:8080/blast/api/v1.0/text/x
 ----
 
 Now, that we have added the probes, we see that the application is not being
@@ -148,7 +148,7 @@ As usual, the CLI alternative is:
 
 [source]
 ----
-oc get is -n openshift
+oc get imagestream -n openshift
 ----
 
 to verify which Image Streams are available in the `openshift` namespace and:
@@ -231,8 +231,8 @@ following command:
 
 [source]
 ----
-oc set env dc/text-db --from=configmap/text
-oc set env dc/text --from=configmap/text
+oc set env deploymentconfig/text-db --from=configmap/text
+oc set env deploymentconfig/text --from=configmap/text
 ----
 
 We are feeding both our deployments with this newly created ConfigMap. This

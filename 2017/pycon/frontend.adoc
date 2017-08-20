@@ -53,7 +53,7 @@ from the menu (on the right) in the web console:
 
 [source]
 ----
-oc describe is/lighttpd-centos7
+oc describe imagestream/lighttpd-centos7
 ----
 
 image::imagestream.png[Image Stream]
@@ -75,7 +75,7 @@ plain `docker build` command.
 developers to define a specific builder image responsible for the entire
 build process.
 
-To view the details of a `BuildConfig` object you can use `oc describe bc/ui`,
+To view the details of a `BuildConfig` object you can use `oc describe buildconfig/ui`,
 or check __Builds__ -> __Builds__ in the web console.
 
 image::buildconfig.png[Build Config]
@@ -104,7 +104,7 @@ new version.
 - link:https://docs.openshift.org/latest/dev_guide/deployments/deployment_strategies.html#custom-strategy[Custom] - allowing
 one to implement his own flavor of deployment.
 
-To view the details of a `DeploymentConfig` object you can use `oc describe dc/ui`,
+To view the details of a `DeploymentConfig` object you can use `oc describe deploymentconfig/ui`,
 or check __Aplications__ -> __Deployments__ in the web console.
 
 image::deploymentconfig.png[Deployment Config]
@@ -116,7 +116,7 @@ provides a stable access point under which the service is reachable,
 since the Pods
 link:https://kubernetes.io/docs/concepts/workloads/pods/pod/#durability-of-pods-or-lack-thereof[come and go].
 
-To view the details of a Service object you can use `oc describe svc/ui`,
+To view the details of a Service object you can use `oc describe service/ui`,
 or check __Aplications__ -> __Services__ in the web console.
 
 image::service.png[Service]
@@ -131,7 +131,7 @@ hostname. To do that we will use the following command:
 
 [source]
 ----
-oc expose svc/ui
+oc expose service/ui
 ----
 
 Alternatively, we can use the web console, when viewing Service details click
@@ -175,8 +175,8 @@ Alternatively, we can use the CLI to do the same:
 
 [source]
 ----
-oc set probe dc/ui --liveness --open-tcp=8080
-oc set probe dc/ui --readiness --get-url=http://:8080/
+oc set probe deploymentconfig/ui --liveness --open-tcp=8080
+oc set probe deploymentconfig/ui --readiness --get-url=http://:8080/
 ----
 
 Here, we are setting the liveness probe to open port `8080`, which is our link:https://www.lighttpd.net/[lighttpd server].
