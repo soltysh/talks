@@ -1,0 +1,50 @@
+# The new life of bugs.python.org
+
+## Description
+
+Bugs.python.org (later called BPO) is the bug tracker supporting development
+of CPython, the main implementation of Python language. During PyCon US in Portland,
+OR I was asked to help migrate the current BPO instance into a new infrastructure.
+My personal recommendation was to migrate BPO onto OpenShift Online, especially
+that it supports open source projects providing resources for running necessary
+infrastructure bits.  This presentation will be the story how I migrate legacy
+BPO installation onto latest OpenShift.
+
+
+## Audience
+
+Developers and operations interested in migrating their legacy application onto
+OpenShift or Kubernetes.
+
+
+## Objective
+
+Attendees leaving the room will learn how to leverage containers, combined with
+21st century cluster management, hidden in, the latest version of OpenShift, for
+creating fully automated CI/CD flow for deploying any legacy application.
+
+
+## Detailed abstract
+
+Bugs.python.org (later called BPO) is the bug tracker supporting development
+of CPython, the main implementation of Python language. During PyCon US in Portland,
+OR, I was asked to help migrate the current BPO instance into a new infrastructure.
+My personal recommendation was to migrate BPO onto OpenShift Online, especially
+that it supports open source projects providing resources for running necessary
+infrastructure bits.  This presentation will be the story how I migrate legacy
+BPO installation onto latest OpenShift:
+
+1. What is bugs.python.org
+  * What it is and how it's being used?
+  * Current deployment details.
+1. Pick up the pieces
+1. Build
+  * Custom builder
+    * Non-git repositories
+  * Build process
+1. Deployment
+  * Database
+  * Configuration
+  * Deployment
+1. Tips & tricks
+1. Q&A
