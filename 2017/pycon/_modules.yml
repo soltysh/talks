@@ -1,0 +1,53 @@
+config:
+  vars:
+    - name: CONSOLE_ADDRESS
+      desc: Address to access the OpenShift console
+      value: <console_address>
+    - name: ROUTER_ADDRESS
+      desc: Router DNS suffix (https://appname-project.<suffix>)
+      value: "<router_address>"
+    - name: DOWNLOAD_CLIENT_WINDOWS
+      desc: URL to download oc client for Windows
+      value: "https://github.com/openshift/origin/releases/download/v3.6.0/openshift-origin-client-tools-v3.6.0-c4dd4cf-windows.zip"
+    - name: DOWNLOAD_CLIENT_MACOSX
+      desc: URL to download oc client for macOS
+      value: "https://github.com/openshift/origin/releases/download/v3.6.0/openshift-origin-client-tools-v3.6.0-c4dd4cf-mac.zip"
+    - name: DOWNLOAD_CLIENT_LINUX
+      desc: URL to download oc client for Linux
+      value: "https://github.com/openshift/origin/releases/download/v3.6.0/openshift-origin-client-tools-v3.6.0-c4dd4cf-linux-64bit.tar.gz"
+    - name: OC_CLIENT_VERSION
+      desc: Version of oc command line client.
+      value: "v3.6.0-c4dd4cf"
+    - name: OC_VERSION
+      desc: Expected output when `oc version` is executed
+      value: "oc v3.6.0+c4dd4cf\nkubernetes v1.6.1+5115d708d7"
+    - name: BLAST_REPO
+      desc: Sample application repository location
+      value: https://github.com/soltysh/blast
+
+modules:
+  workshop-overview:
+    name: Workshop Overview
+  enterprise-kubernetes:
+    name: Enterprise Kubernetes
+  openshift-architecture:
+    name: OpenShift Architecture
+  client-installation:
+    name: Client Installation
+  alternative-installations:
+    name: OpenShift Installations
+  application-architecture:
+    name: Application Architecture
+  accessing-openshift:
+    name: Accessing OpenShift
+  frontend:
+    name: Front end
+  text-backend:
+    name: Text Back end
+  scraper:
+    name: Scraper
+  backends:
+    name: Video and Image Backends
+  further-resources:
+    name: Further Resources
+
