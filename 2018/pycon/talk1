@@ -1,0 +1,44 @@
+# The new life of bugs.python.org
+
+## Description
+
+[bugs.python.org](https://bugs.python.org/) (later called BPO) is the bug tracker
+supporting the development of CPython, the main implementation of the Python language.
+During PyCon US 2017 in Portland, OR, I was asked to help migrate the current instance to
+a new infrastructure.
+The decision was to use something new, which will be reliable yet easy to use and requiring
+not much human attention.  We have decided to go with containers and Kubernetes, as the
+current industry standard for managing them.
+This presentation will be the war story of how I migrated a legacy application to OpenShift.
+The story will cover two important topics:
+1. python application - BPO runs [roundup](http://roundup.sourceforge.net/) with a few
+additional tweaks.
+2. PostgreSQL database holding all of the BPO's data.
+Of the above two, none was working on containers out of the box before I started.
+
+
+## Audience
+
+Developers and operations interested in migrating their legacy application to
+OpenShift/Kuberentes. Attendees leaving the room will learn how to leverage containers
+for creating a fully automated CI/CD flow for deploying any legacy application.
+
+
+## Outline
+
+1. What is bugs.python.org
+  * What it is and how it's being used (1 min)
+  * Current deployment details (3 min)
+2. Pick up the pieces
+  * How to transform the current deployment into containers (3 min)
+3. Building images
+  * Custom builder and handling non-git repositories (2 min)
+  * How the build process works (3 min)
+4. Deploying application to OpenShift
+  * Database setup (2 min)
+  * Application configuration (2 min)
+  * Deployment details (4 min)
+5. Deployment - high availability with containers
+  * HA Postgresql with containers (4 min)
+  * HA Roundup (3 min)
+6. Tips & tricks (3 min)
