@@ -1,0 +1,33 @@
+# Audit in Kubernetes, the future is here
+
+## Description
+
+Last year during KubeCon EU Maciej talked about the need to improve the auditing
+mechanism in Kubernetes, one year later the goal was reached. Stefan and Maciej
+are core team members responsible for improving the aforementioned mechanism.
+This presentation will outline the current possibilities of the audit mechanism.
+How to adapt it to your own institutional and performance requirements and to
+integrate it with your infrastructure.
+
+Topics to be covered include:
+1. From basic audit to advanced audit
+2. Defining a policy
+   * Example 1: Deep object logging
+   * Example 2: Excluding secrets
+   * Example 3: Logging different objects at different levels
+3. Integrating with your infrastructure
+4.  Performance impact vs. consistency
+5. Writing an audit webhook server
+6. Which future improvements are planned
+
+
+## Benefits to the Ecosystem
+
+This presentation is a gentle introduction to the audit subsystem in Kubernetes.
+We are hoping to demystify the complexity of the policy configuration by showing
+a handful of example rules that will allow attendees to better understand the mechanism.
+For admins, we will discuss both the configuration part of the audit (how to write rules
+and manage backends), as well as discuss its overall impact on the cluster performance.
+For 3rdparties, we show how an audit webhook server can be built to consume the audit
+events to inject them into external systems.We will close the presentation discussing
+planned enhancements to the mechanism.

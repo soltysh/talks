@@ -1,0 +1,37 @@
+# Writing kube controllers for everyone
+
+## Description
+
+With the introduction of Custom Resource Definition, as well as external API servers
+everyone is now able to create its own resources and store them inside kubernetes
+cluster.  But that is only half of the work that needs to be done. During this
+presentation Maciej, who co-authored both Job and CronJob controllers, and is
+a frequent reviewer of controller and apiserver-related code will guide you
+through basic set of steps that are necessary to write a simple controller.
+As an example he will discuss his recent work around improving CronJob controller,
+as well as introduce the 11 rules that needs to be fulfilled when writing
+a good controller.
+
+Topics to be covered include:
+
+1. How controllers work, loop over:
+  * monitor resources
+  * react to changes
+2. Shared Informers.
+3. Owner references.
+4. Emitting status.
+5. Handling errors.
+
+
+## Benefits to the Ecosystem
+
+Development documentation [1] contains a description how to write a controller, which even
+contains a rough sketch of the code, but that's not always sufficient. Looking at already
+written controllers might help, but since they are heavily worked on, they contain a lot
+of additional code that is making them hard to follow. In this presentation I am hoping
+to address the initial questions when writing first controller. I am going to show a simple
+controller for a custom resource, and explain in details the 11 rules of controllers mentioned
+in [1]. The code will be available freely available on github for further reference.
+I'm hoping to close the presentation with an even more advanced use case.
+
+[1] https://github.com/kubernetes/community/blob/master/contributors/devel/controllers.md
