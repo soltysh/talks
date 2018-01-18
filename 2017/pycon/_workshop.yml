@@ -1,3 +1,31 @@
 ---
 id: pycon
 name: Effectively running python applications in Kubernetes/OpenShift
+
+content:
+  url: https://raw.githubusercontent.com/soltysh/talks/master/2017/pycon
+
+vars:
+  CONSOLE_ADDRESS: "<console_address>"
+  ROUTER_ADDRESS: "<router_address>"
+  DOWNLOAD_CLIENT_WINDOWS: "https://github.com/openshift/origin/releases/download/v3.7.1/openshift-origin-client-tools-v3.7.1-ab0f056-windows.zip"
+  DOWNLOAD_CLIENT_MACOSX: "https://github.com/openshift/origin/releases/download/v3.7.1/openshift-origin-client-tools-v3.7.1-ab0f056-mac.zip"
+  DOWNLOAD_CLIENT_LINUX: "https://github.com/openshift/origin/releases/download/v3.7.1/openshift-origin-client-tools-v3.7.1-ab0f056-linux-64bit.tar.gz"
+  OC_CLIENT_VERSION: "v3.7.1+ab0f056"
+  OC_VERSION: "oc v3.7.1+ab0f056\nkubernetes v1.7.6+a08f5eeb62"
+  BLAST_REPO: "https://github.com/soltysh/blast"
+
+modules:
+  activete:
+    - workshop-overview
+    - enterprise-kubernetes
+    - openshift-architecture
+    - client-installation
+    - alternative-installations
+    - application-architecture
+    - accessing-openshift
+    - frontend
+    - text-backend
+    - scraper
+    - backends
+    - further-resources

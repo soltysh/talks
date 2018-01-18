@@ -18,7 +18,6 @@ Alternatively, you can deploy it in OpenShift using:
     oc new-app \
         wildfly~https://github.com/osevg/workshopper.git \
         -e WORKSHOPS_URLS=https://raw.githubusercontent.com/soltysh/talks/master/2017/pycon/_workshop.yml \
-        -e CONTENT_URL_PREFIX=https://raw.githubusercontent.com/soltysh/talks/master/2017/pycon \
         --name pycon-tutorial
 
     oc expose svc/pycon-tutorial
