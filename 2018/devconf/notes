@@ -1,0 +1,129 @@
+## Steps:
+
+1. Start with https://github.com/python/docker-bpo/ and embed sources.
+   Runing on OpenShift was reasonable easy, I've setup postgresql
+   and a deployment with this container and it just worked.
+
+   Issues:
+   - none
+
+1. Start building a S2I builder based on the article I wrote a while ago
+   (https://blog.openshift.com/create-s2i-builder-image/).
+
+   Issues:
+   - mecurial repository
+   - two repositories (default value that can be overriden - this was very useful later on)
+
+1. Database deployment.
+   Postgresql deployment and service created from oc new app - only temporarily,
+   since initially the idea was to use external DB instance.
+
+1. BPO build and deployment.
+
+    Issues:
+    - liveness and readiness probes too soon!
+    - improve output, to better inform what's going on
+    - error on first deployment, temporary databse issue: after creating the
+    database one needs to get into a Pod and drop the database and give the
+    roundup user powers to create one from scratch:
+
+    ```
+    WARNING: The database is already initialised!
+    If you re-initialise it, you will lose all the data!
+    Traceback (most recent call last):
+      File "/opt/tracker/bin/roundup-admin", line 15, in <module>
+        run()
+      File "/opt/tracker/roundup/roundup/scripts/roundup_admin.py", line 49, in run
+        sys.exit(tool.main())
+      File "/opt/tracker/roundup/roundup/admin.py", line 1635, in main
+        ret = self.run_command(args)
+      File "/opt/tracker/roundup/roundup/admin.py", line 1504, in run_command
+        return self.do_initialise(self.tracker_home, args)
+      File "/opt/tracker/roundup/roundup/admin.py", line 536, in do_initialise
+        Erase it? Y/N: """))
+    EOFError: EOF when reading a line
+    ```
+
+    a temporary solution was to drop the pre-created database and add appropriate
+    privileges to roundup user to create db from scratch.
+
+    - change to our instance infrastructare (iow. bump of the roundup), which lead
+    to a stale import (https://github.com/python/docker-bpo/issues/17):
+
+    ```
+    Traceback (most recent call last):
+      File "/opt/tracker/bin/roundup-server", line 11, in <module>
+        run()
+      File "/opt/tracker/roundup/roundup/scripts/roundup_server.py", line 978, in run
+        httpd = config.get_server()
+      File "/opt/tracker/roundup/roundup/scripts/roundup_server.py", line 633, in get_server
+        for (name, home) in tracker_homes])
+      File "/opt/tracker/roundup/roundup/instance.py", line 327, in open
+        return Tracker(tracker_home, optimize=optimize)
+      File "/opt/tracker/roundup/roundup/instance.py", line 102, in __init__
+        self.detectors = self.get_extensions('detectors')
+      File "/opt/tracker/roundup/roundup/instance.py", line 207, in get_extensions
+        self._execfile(os.path.join(dirname, name), env)
+      File "/opt/tracker/roundup/roundup/instance.py", line 239, in _execfile
+        self._exec(self._compile(fname), env)
+      File "/opt/tracker/roundup/roundup/instance.py", line 233, in _exec
+        exec(obj, env)
+      File "/opt/tracker/python-dev/detectors/autonosy.py", line 8, in <module>
+        from roundup.anypy.sets_ import set
+    ImportError: No module named sets_
+    ```
+
+    Debugging was to change the run to `python -m SimpleHTTPServer 9999` and then
+    `oc rsh` into container and manually invoke `/opt/tracker/s2i/run` which failed
+    with that error.
+
+    This is where having a variable where the repo is read from came in handy.
+
+    - python-dev/db not writable by application (needed to update the assemble
+    script to give appropriate permissions)
+
+
+1. Config hardcoded in the image, I've decided to use a secret to store the
+   file contents.
+
+   Issues:
+   - upon mounting I was removing entire contents, since I was mounting directly
+   into /opt/tracker/python-dev:
+
+   ```
+    Traceback (most recent call last):
+      File "/opt/tracker/bin/roundup-server", line 11, in <module>
+        run()
+      File "/opt/tracker/roundup/roundup/scripts/roundup_server.py", line 978, in run
+        httpd = config.get_server()
+      File "/opt/tracker/roundup/roundup/scripts/roundup_server.py", line 633, in get_server
+        for (name, home) in tracker_homes])
+      File "/opt/tracker/roundup/roundup/instance.py", line 327, in open
+        return Tracker(tracker_home, optimize=optimize)
+      File "/opt/tracker/roundup/roundup/instance.py", line 95, in __init__
+        self.templates.precompile()
+      File "/opt/tracker/roundup/roundup/cgi/templating.py", line 182, in precompile
+        for filename in os.listdir(self.dir):
+    OSError: [Errno 2] No such file or directory: '/opt/tracker/python-dev/html'
+    ```
+
+    Debugging was to change the run to `python -m SimpleHTTPServer 9999` and then
+    `oc rsh` into container and manually invoke `/opt/tracker/s2i/run` which failed
+    with that error.
+
+    Solution to the problem was to have those in a separate directory which
+    linked to appropriate places. Later on I've also figured out to use some
+    default configs.
+
+    At this point I was able to see (welcome.png), but after logging in I got
+    (invalid_url.png).
+
+    Fixing the configuration helped it. After which I was able to log in, but
+    creating a new issue resulted in (traceback.png).
+
+    - due to bash error:
+     `if [ ! -z "INIT_DATABASE" ]; then` vs `if [ ! -z "$INIT_DATABASE" ]; then`
+     the run script was trying to initialize the database every time! (sic!)
+
+
+1. Database!
