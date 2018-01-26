@@ -231,15 +231,44 @@ background-image: url(img/invalid_url.png)
 
 ???
 
-And with all that in place I was able enjoy my first installment of bugs.python.org
-on OpenShift.
+And with all that in place I was able to enjoy my first installment of bugs.python.org
+on OpenShift, well almost.
+
 
 ---
-# Configuration
+#### Configuration
+```python
+Traceback (most recent call last):
+  File "/opt/tracker/bin/roundup-server", line 11, in <module>
+    run()
+  File "/opt/tracker/roundup/roundup/scripts/roundup_server.py", line 978, in run
+    httpd = config.get_server()
+  File "/opt/tracker/roundup/roundup/scripts/roundup_server.py", line 633, in
+    get_server for (name, home) in tracker_homes])
+  File "/opt/tracker/roundup/roundup/instance.py", line 327, in open
+    return Tracker(tracker_home, optimize=optimize)
+  File "/opt/tracker/roundup/roundup/instance.py", line 95, in __init__
+    self.templates.precompile()
+  File "/opt/tracker/roundup/roundup/cgi/templating.py", line 182, in precompile
+    for filename in os.listdir(self.dir):
+OSError: [Errno 2] No such file or directory: '/opt/tracker/python-dev/html'
+```
 
 ???
 
-Next task was to split the configuration bits.
+One last thing was to split out the configuration bits, which until this point was
+backed into the image. The choice was pretty simple, I had to choose between a ConfigMap
+and a Secret, which would hold the necessary config files. I went with the latter and
+upon my first mount attempt I was presented with yet another problem :/ The reason
+for that was that I was mounting files into a directory that already had some contents,
+which resulted in the entire directory contents being overridden. Thankfully getting into
+container allowed me to quickly (sort of) identify the problem and address it. The remedy
+was to mount these files into a separate directory and link them into the place where
+roundup was normally expecting them to exist.
+
+The configuration was the final piece to my success. I was now able to deploy a test
+instance.
+
 
 ---
 background-image: url(img/success.png)
@@ -248,23 +277,51 @@ background-image: url(img/success.png)
 http://test.bugs.python.org/
 ]
 
+???
 
----
-background-image: url(img/ambreen-hasan-346960.jpg)
-
+Unfortunately, this story has no happy ending, well at least yet ;)
+As soon as all the tears of joy dried I was faced with another problem:
 
 ---
 # Database
 
-## part 2
+### part 2
 
-.footnote[
-https://github.com/zalando/patroni/
-]
+???
+
+We've decided that instead of using one of the hosted solutions we'd like to run PostgreSQL
+alongside, on OpenShift. You should've seen my face back then ;)
+
+
+---
+## Database on OpenShift
+
+#### https://github.com/CrunchyData/crunchy-containers/
+#### https://github.com/zalando/patroni/
+
+???
+
+Long story short, I reached out to a few persons that I knew can help me with that asking
+for advice. Aside from the 'use a hosted version' recommendation I was pointed to two projects:
+1. Crunchy Data provides enterprise PostgreSQL docker containers, including full administrative
+   and monitoring tools
+2. Zalando with project called Patroni, which is a template for high availability PostgreSQL,
+   which can run on Kuberentes.
+Unintuitively, I went with the second approach, which leads me to this day. Currently, I'm struggling
+with running Patroni on my own. Whereas Josh Berkus, our own PostgreSQL master is trying to make
+Patroni work on top of OpenShift. The current problem is one of the main security features of OpenShift,
+specifically the random UID assigned to containers.
 
 ---
 # What's
 # next?
+
+???
+
+I'm guessing many of you are asking what's next? As soon as the Patroni problem will be solved and
+we'll be able to run in on top of OpenShift I need to perform extensive tests around performance of
+the overall approach, and most importantly its stability. Finally, we need proper monitoring tools
+hooked up for both roundup and PostgreSQL.
 
 ---
 background-image: url(img/emily-morter-188019.jpg)
