@@ -12,26 +12,25 @@ background-image: url(img/todd-quackenbush-701.jpg)
 ???
 
 This presentation is covering the current work I'm doing on migrating
-bugs.python.org to OpenShift. It's in now way complete, there are many
+bugs.python.org to OpenShift. It's in no way complete, there are many
 moving pieces, but let the facts speak for itself.
 
 
 ---
 background-image: url(img/bpo.png)
 .footnote[
-http://roundup.sourceforge.net/
+http://roundup.sourceforge.net
 ]
 ???
 
 bugs.python.org is a bug tracker supporting the development of the CPython, which is
-the references implementation of Python language. In short the most popular Python and
-most probably the one you are already using.
-The system itself is a very simple system web app, written in python, obviously. It is called
+the most popular implementation of Python language, and probably the one you are already using.
+The system itself, is a reasonably simple web app, written in python, obviously. It is called
 roundup.
 
 Back in May last year, during PyCon US in Portland, Oregon I was approached by Brett Cannon
-and Mark Mangoba with a task to migrate current BPO instance to a new place. My initial reaction
-was 'Let's OpenShift Online for that', and the rest as they say is a history, well almost ;)
+and Mark Mangoba with a task to migrate current BPO instance to a new home. My initial reaction
+was 'Let's OpenShift Online for that', and the rest, as they say, is a history, well almost ;)
 
 ---
 background-image: url(img/thomas-kvistholt-191153.jpg)
@@ -39,13 +38,15 @@ background-image: url(img/thomas-kvistholt-191153.jpg)
 ???
 
 Upon inspecting the current deployment details I found that:
+
 1. I need to run roundup
 2. I need to run postgresql
+
 None of this was new to me, since I've been supporting bugs.python.org for more than
 2 years now. I won't bore you with the exact deployment details of the current instance
 since in some time it'll be history, so let's focus on the future instead.
 And so, armed with the knowledge about how bpo works, and dirty details of the current
-deployment soon to be replaced I jumped into work.
+deployment, soon to be replaced, I jumped into work.
 
 
 ---
@@ -54,9 +55,9 @@ deployment soon to be replaced I jumped into work.
 
 ???
 
-The first step was put the entire app as is inside a container and try running it.
-But actually that step was already handled for me by a PSF's GSoC student a few years
-back. He created a docker image which would allow for a local development of BPO. For that
+The first step was put the entire app (as is) inside a container and try running it.
+But, actually that step was already handled for me by a PSF's GSoC student a few years
+back. He created a docker image which would allow a local development of BPO. For that
 he deserves a big round of aplause! So instead of starting from scartch I actually based
 my work on top of his.
 
@@ -65,15 +66,15 @@ my work on top of his.
 ## docker run
 ## python/docker-bpo
 .footnote[
-https://github.com/python/docker-bpo/
+https://github.com/python/docker-bpo
 ]
 
 ???
 
 It also happens that we publish BPO image on our official dockerhub account, so that anyone
 interested can help with BPO fixes :) In short, this image mounts a local directories with
-BPO sources and launches both PostgreSQL and roundup for you. Since I've been using since
-the early days of my BPO time I was very familiar with the entire structure of the image.
+BPO sources and launches both PostgreSQL and roundup for you. Since I've been using it since
+the early days I was very familiar with the entire structure of the image.
 
 
 ---
@@ -81,8 +82,8 @@ the early days of my BPO time I was very familiar with the entire structure of t
 
 ???
 
-All I needed was how to split the all-in-one image with mountable source code into separate
-pieces. The first step was to be able to build a BPO instance from sources.
+All I needed was to split the all-in-one image with mountable source code, into separate
+pieces. The first step was to be able to build the BPO instance from sources.
 
 
 ---
@@ -94,21 +95,28 @@ https://github.com/openshift/source-to-image
 
 ???
 
-I could not use any of the official builder images provided by OpenShift because
-bpo components are kept in mercurial repository and S2I supports git, by default.
-Moreover, there are two repositories (one with the roundup installation with some
-BPO specific bits, and second where the majority of customization is placed) you
-need so that's again not supported in S2I.
+I couldn't use any of the official builder images provided by OpenShift, because
+bpo components are kept in a mercurial repository and S2I supports git, by default.
+Moreover, there are two repositories:
 
-I ended up building an S2I builder based on the article I wrote a while ago
-(https://blog.openshift.com/create-s2i-builder-image/). In short, one needs
-to write:
-1. Dockerfile for the image.
-2. S2I scripts (assemble & run).
+1. the main roundup installation with some BPO specific bits,
+2. where the majority of customization is placed
+
+And that's again not supported in S2I.
+
 
 ---
 
-## https://github.com/python/bpo-builder/
+## https://github.com/python/bpo-builder
+
+???
+
+I ended up building an S2I builder based on the article I wrote a while ago
+(https://blog.openshift.com/create-s2i-builder-image). In short, one needs
+to write:
+
+1. Dockerfile for the image.
+2. S2I scripts (assemble & run).
 
 
 ---
@@ -118,7 +126,7 @@ to write:
 
 Initially, we were planning to use an externally hosted database, something like
 Amazon RDS or similar. This significantly simplified my work, because I didn't care
-about the database part at all. I've used a temporary PostgreSQL instance one can
+about the database part at all. I've used a temporary PostgreSQL instance, one can
 easily setup on OpenShift and worry about a thing.
 
 
@@ -131,7 +139,7 @@ easily setup on OpenShift and worry about a thing.
 
 ???
 
-With both of the bits figured out I was confident that I'm ready for my full build
+With both of the bits figured out,I was confident that I'm ready for my full build
 and deployment workflow for bugs.python.org. That was pretty bold, especially with
 my current knowledge ;)
 
@@ -144,8 +152,8 @@ my current knowledge ;)
 ???
 
 While building the builder image I was also using the s2i CLI for testing if it's
-working as it should this step unsurprisingly finished fast and without any problems.
-A few observations I've had back then was that I should probably improve the logging
+working as it should. So unsurprisingly this step finished fast and without any problems.
+A few observations I've had back then, was that I should probably improve the logging
 information so that it's clear what is being built and from where, since from start
 I allowed specifying different repository URLs through environment variables injected
 into build configuration.
@@ -173,9 +181,10 @@ EOFError: EOF when reading a line
 
 ???
 
-With way too much optimism I moved to the second part of the flow - the deployment.
-While the build was kicking in I quickly deployed the latest available PostreSQL
+With way too much optimism, I moved to the second part of the flow - the deployment.
+While the build was kicking in, I quickly deployed the latest available PostreSQL
 image and waited impatiently for the initial deplyment, which obviously failed.
+
 The problem was with the way how roundup initiates database, if database exists
 it assumes it was already initiated, but since it's empty it won't run. That's
 sort of the chicken and egg problem. Eventually, I went with two deployments
@@ -214,7 +223,7 @@ ImportError: No module named sets_
 
 ???
 
-After solving the database issue I re-run the deployment as previously described
+After solving the database issue I re-run the deployment as previously described,
 and unfortunately I was surprised with yet another unexpected problem. Sometime
 last year Ezio Melotti, who is one of the few of us actively maintaining bpo,
 performed a roundup update to catch up the latest updates. It appears that during
@@ -224,6 +233,17 @@ all the places: production, Ezio's and mine workspaces were working due to previ
 built pyc files. Since I've perform a clean build from a source repository this
 problem was caught immediately. Shortly after syncing with Ezio I submitted a proper
 fix to our main repository.
+
+---
+#### Initial deployment cont'd
+![Traceback](img/traceback.png)
+
+???
+
+The other problem that bit me, was the permissions. While building the builder image
+I didn't properly planned the directories and fixing the access rights accordingly.
+If you have a look at the current `assemble` script you'll notice a section that's
+responsible just for that.
 
 
 ---
@@ -274,7 +294,7 @@ instance.
 background-image: url(img/success.png)
 
 .footnote[
-http://test.bugs.python.org/
+http://test.bugs.python.org
 ]
 
 ???
@@ -296,17 +316,19 @@ alongside, on OpenShift. You should've seen my face back then ;)
 ---
 ## Database on OpenShift
 
-#### https://github.com/CrunchyData/crunchy-containers/
-#### https://github.com/zalando/patroni/
+#### https://github.com/CrunchyData/crunchy-containers
+#### https://github.com/zalando/patroni
 
 ???
 
 Long story short, I reached out to a few persons that I knew can help me with that asking
 for advice. Aside from the 'use a hosted version' recommendation I was pointed to two projects:
+
 1. Crunchy Data provides enterprise PostgreSQL docker containers, including full administrative
    and monitoring tools
 2. Zalando with project called Patroni, which is a template for high availability PostgreSQL,
    which can run on Kuberentes.
+
 Unintuitively, I went with the second approach, which leads me to this day. Currently, I'm struggling
 with running Patroni on my own. Whereas Josh Berkus, our own PostgreSQL master is trying to make
 Patroni work on top of OpenShift. The current problem is one of the main security features of OpenShift,
@@ -327,5 +349,5 @@ hooked up for both roundup and PostgreSQL.
 background-image: url(img/emily-morter-188019.jpg)
 
 .footnote[
-https://unsplash.com/
+https://unsplash.com
 ]
