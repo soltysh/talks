@@ -1,5 +1,7 @@
 ## Further Resources
 
+## http://bit.ly/os3work
+
 In this workshop we have only covered a few resources. Although the ones presented
 so far are the most frequently used here are the additional ones you might find
 interesting when deploying your applications:
