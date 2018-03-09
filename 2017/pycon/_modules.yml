@@ -8,19 +8,19 @@ config:
       value: "<router_address>"
     - name: DOWNLOAD_CLIENT_WINDOWS
       desc: URL to download oc client for Windows
-      value: "https://github.com/openshift/origin/releases/download/v3.6.0/openshift-origin-client-tools-v3.6.0-c4dd4cf-windows.zip"
+      value: "https://github.com/openshift/origin/releases/download/v3.7.1/openshift-origin-client-tools-v3.7.1-ab0f056-windows.zip"
     - name: DOWNLOAD_CLIENT_MACOSX
       desc: URL to download oc client for macOS
-      value: "https://github.com/openshift/origin/releases/download/v3.6.0/openshift-origin-client-tools-v3.6.0-c4dd4cf-mac.zip"
+      value: "https://github.com/openshift/origin/releases/download/v3.7.1/openshift-origin-client-tools-v3.7.1-ab0f056-mac.zip"
     - name: DOWNLOAD_CLIENT_LINUX
       desc: URL to download oc client for Linux
-      value: "https://github.com/openshift/origin/releases/download/v3.6.0/openshift-origin-client-tools-v3.6.0-c4dd4cf-linux-64bit.tar.gz"
+      value: "https://github.com/openshift/origin/releases/download/v3.7.1/openshift-origin-client-tools-v3.7.1-ab0f056-linux-64bit.tar.gz"
     - name: OC_CLIENT_VERSION
       desc: Version of oc command line client.
-      value: "v3.6.0-c4dd4cf"
+      value: "oc v3.7.1+ab0f056"
     - name: OC_VERSION
       desc: Expected output when `oc version` is executed
-      value: "oc v3.6.0+c4dd4cf\nkubernetes v1.6.1+5115d708d7"
+      value: "oc v3.7.1+ab0f056\nkubernetes v1.7.6+a08f5eeb62"
     - name: BLAST_REPO
       desc: Sample application repository location
       value: https://github.com/soltysh/blast
