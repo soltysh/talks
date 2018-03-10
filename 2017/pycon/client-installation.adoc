@@ -24,21 +24,21 @@ It is suggested you place the archive in the following directory:
 
 **Windows:**
 
-[source]
+[source,bash]
 ----
 C:\OpenShift
 ----
 
 **OS X:**
 
-[source]
+[source,bash]
 ----
 ~/OpenShift
 ----
 
 **Linux:**
 
-[source]
+[source,bash]
 ----
 ~/OpenShift
 ----
@@ -63,7 +63,7 @@ contents.
 Open up a terminal window and change to the directory where you downloaded
 the file. Once you are in the directory, enter in the following command:
 
-[source]
+[source,bash]
 ----
 unzip openshift-origin-client-tools-{{OC_CLIENT_VERSION}}-mac.zip
 ----
@@ -73,7 +73,7 @@ unzip openshift-origin-client-tools-{{OC_CLIENT_VERSION}}-mac.zip
 Open up a terminal window and change to the directory where you downloaded
 the file. Once you are in the directory, enter in the following command:
 
-[source]
+[source,bash]
 ----
 tar --strip-components 1 -xvzf openshift-origin-client-tools-{{OC_CLIENT_VERSION}}-linux-64bit.tar.gz
 ----
@@ -100,7 +100,7 @@ end. The modification will apply to any new terminal window created.
 If using __PowerShell__, you could also temporarily modify the executable
 search path for the current terminal window by running:
 
-[source]
+[source,bash]
 ----
 $Env:Path += ";C:\OpenShift"
 ----
@@ -122,7 +122,7 @@ versions of Windows see:
 For OS X you can temporarily modify the executable search path for the
 current terminal window by running:
 
-[source]
+[source,bash]
 ----
 export PATH=$PATH:~/OpenShift
 ----
@@ -135,7 +135,7 @@ new terminal window created.
 For Linux you can temporarily modify the executable search path for the
 current terminal window by running:
 
-[source]
+[source,bash]
 ----
 export PATH=$PATH:~/OpenShift
 ----
@@ -149,14 +149,14 @@ At this point, the `oc` executable should be found in your executable
 search path and ready to use. Test that the executable can be found and
 runs by running:
 
-[source]
+[source,bash]
 ----
 oc version
 ----
 
 You should see the following (or something similar):
 
-[source]
+[source,bash]
 ----
 {{OC_VERSION}}
 ----

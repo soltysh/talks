@@ -9,7 +9,7 @@ The easiest way to deploy any application on OpenShift is to use `oc new-app`.
 This will create all the necessary resources needed to build and/or run your
 application. We will use the following command to create our front end:
 
-[source]
+[source,bash]
 ----
 oc new-app \
     soltysh/lighttpd-centos7~https://github.com/soltysh/blast.git \
@@ -51,7 +51,7 @@ recent link:https://blog.openshift.com/image-streams-faq/[blog post].
 You can view Image Stream details using CLI, or check out __Builds__ -> __Images__
 from the menu (on the right) in the web console:
 
-[source]
+[source,bash]
 ----
 oc describe imagestream/lighttpd-centos7
 ----
@@ -129,7 +129,7 @@ link:https://docs.openshift.org/latest/dev_guide/routes.html[Route], like it
 was previously mentioned, exposes the Service to the outside world under given
 hostname. To do that we will use the following command:
 
-[source]
+[source,bash]
 ----
 oc expose service/ui
 ----
@@ -173,7 +173,7 @@ image::readiness_probe.png[Readiness Probe]
 
 Alternatively, we can use the CLI to do the same:
 
-[source]
+[source,bash]
 ----
 oc set probe deploymentconfig/ui --liveness --open-tcp=8080
 oc set probe deploymentconfig/ui --readiness --get-url=http://:8080/

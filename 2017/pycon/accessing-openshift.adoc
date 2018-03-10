@@ -12,14 +12,14 @@ create a project to work in.
 
 In order to login using the `oc` command line client, run the command:
 
-[source]
+[source,bash]
 ----
 oc login {{CONSOLE_ADDRESS}}
 ----
 
 You may see the following output, in some cases:
 
-[source]
+[source,bash]
 ----
 The server uses a certificate signed by an unknown authority.
 You can bypass the certificate check, but any data you send to the server could be intercepted by others.
@@ -42,7 +42,7 @@ On some versions of Microsoft Windows, you may get an error that the server
 has an invalid x.509 certificate. If you receive this error, use the
 following command instead:
 
-[source]
+[source,bash]
 ----
 oc login {{CONSOLE_ADDRESS}} --insecure-skip-tls-verify=true
 ----
@@ -54,7 +54,7 @@ name and password. Enter in the credentials for your assigned user account.
 When you have been authenticated successfully, you will see the following
 confirmation message:
 
-[source]
+[source,bash]
 ----
 Login successful.
 
@@ -88,7 +88,7 @@ oc new-project project-userXX
 
 You should see the following message to confirm the creation of the project.
 
-[source]
+[source,bash]
 ----
 Now using project "project-userXX" on server "https://{{CONSOLE_ADDRESS}}".
 
@@ -153,7 +153,7 @@ and the web console, interchangeably.
 
 A rule of thumb, every command in the CLI world will take the following from:
 
-[source]
+[source,bash]
 ----
 oc <verb> <resource>/<name>
 ----

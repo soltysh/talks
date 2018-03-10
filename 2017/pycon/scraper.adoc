@@ -34,7 +34,7 @@ random word in Google, and saves the results in the text database.
 
 Let's try to deploy our CronJob using `oc run` command:
 
-[source]
+[source,bash]
 ----
 oc run scraper --schedule="0/5 * * * *" --image=soltysh/scraper --restart=Never
 ----
@@ -75,7 +75,7 @@ to pull images from the internal Docker Registry.
 If we wait long enough for the first Job to be scheduled, upon checking its logs
 we shall see the following error:
 
-[source]
+[source,bash]
 ----
 $ oc logs scraper-1494984780-pnpgv
 ---> Running application from Python script (app.py) ...
@@ -125,7 +125,7 @@ The recommended approach here, is to create a dedicated Service Account and assi
 it with just the appropriate link:https://docs.openshift.org/latest/admin_guide/manage_authorization_policy.html#managing-role-bindings[permissions]
 it needs to read the credentials.
 
-[source]
+[source,bash]
 ----
 oc create serviceaccount scraper
 oc policy add-role-to-user view -z scraper
@@ -133,7 +133,7 @@ oc policy add-role-to-user view -z scraper
 
 Now we need to modify our CronJob definition:
 
-[source]
+[source,bash]
 ----
 oc edit cronjob/scraper
 ----

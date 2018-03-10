@@ -17,7 +17,7 @@ Alternatively, you can use the CLI. This time we do not specify the builder
 image, that is because `oc new-app` should figure out that we are trying to
 deploy a python application, and use appropriate builder image for us:
 
-[source]
+[source,bash]
 ----
 oc new-app \
     https://github.com/soltysh/blast.git \
@@ -63,7 +63,7 @@ image::pod_logs.png[Pod Logs]
 
 Alternatively, you can use the following series of commands for debugging:
 
-[source]
+[source,bash]
 ----
 oc get pod -l app=text
 ----
@@ -74,7 +74,7 @@ This happens automatically for every application created using the web
 console, but can be done manually when using `oc new-app` with `--labels` flag.
 To get the logs of a desired pods run:
 
-[source]
+[source,bash]
 ----
 oc logs pod/text-1-p07pm
 ----
@@ -103,7 +103,7 @@ image::set_env.png[Set Environment Variable]
 
 Alternatively:
 
-[source]
+[source,bash]
 ----
 oc set env deploymentconfig/text APP_MODULE=api:app
 ----
@@ -113,7 +113,7 @@ After applying the change our application should be up and running.
 Like previously, let's configure the application liveness and readiness probes,
 to leverage platform's health checks and provide always running application:
 
-[source]
+[source,bash]
 ----
 oc set probe deploymentconfig/text --liveness --open-tcp=8080
 oc set probe deploymentconfig/text --readiness --get-url=http://:8080/blast/api/v1.0/text/x
@@ -146,14 +146,14 @@ image::mongodb.png[MongoDB]
 
 As usual, the CLI alternative is:
 
-[source]
+[source,bash]
 ----
 oc get imagestream -n openshift
 ----
 
 to verify which Image Streams are available in the `openshift` namespace and:
 
-[source]
+[source,bash]
 ----
 oc new-app mongodb:3.2 \
     --name=text-db \
@@ -210,7 +210,7 @@ image::configmap_value.png[ConfigMap Value]
 
 CLI alternative is as follows:
 
-[source]
+[source,bash]
 ----
 oc create configmap text \
     --from-literal=MONGODB_USER=13eewfsd23rwef23re \
@@ -229,7 +229,7 @@ Like it was mentioned a ConfigMap can be consumed in a multiple ways. We are
 going to inject its values using environment variables. To do so, use the
 following command:
 
-[source]
+[source,bash]
 ----
 oc set env deploymentconfig/text-db --from=configmap/text
 oc set env deploymentconfig/text --from=configmap/text

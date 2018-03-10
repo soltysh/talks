@@ -45,7 +45,7 @@ each of the subdirectories contains a file named `template.yaml`, which holds th
 entire configuration necessary to build and deploy each of them on any cluster.
 All you need to is find a cluster and run:
 
-[source]
+[source,bash]
 ----
 oc new-app https://raw.githubusercontent.com/soltysh/blast/master/video/template.yaml
 oc new-app https://raw.githubusercontent.com/soltysh/blast/master/image/template.yaml
