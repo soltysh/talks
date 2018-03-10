@@ -3,4 +3,4 @@ id: pycon
 name: Effectively running python applications in Kubernetes/OpenShift
 
 content:
-  url: https://raw.githubusercontent.com/soltysh/talks/master/2017/pycon
+  url: https://raw.githubusercontent.com/soltysh/talks/openshift_workshops/2017/pycon

@@ -2,10 +2,10 @@ config:
   vars:
     - name: CONSOLE_ADDRESS
       desc: Address to access the OpenShift console
-      value: console.pycon.gce.pixy.io:8443
+      value: "console.pycon.gce.pixy.io:8443"
     - name: ROUTER_ADDRESS
       desc: Router DNS suffix (https://appname-project.<suffix>)
-      value: apps.pycon.gce.pixy.io
+      value: "apps.pycon.gce.pixy.io"
     - name: DOWNLOAD_CLIENT_WINDOWS
       desc: URL to download oc client for Windows
       value: "https://github.com/openshift/origin/releases/download/v3.7.1/openshift-origin-client-tools-v3.7.1-ab0f056-windows.zip"
@@ -23,7 +23,7 @@ config:
       value: "oc v3.7.1+ab0f056\nkubernetes v1.7.6+a08f5eeb62"
     - name: BLAST_REPO
       desc: Sample application repository location
-      value: https://github.com/soltysh/blast
+      value: "https://github.com/soltysh/blast"
 
 modules:
   workshop-overview:
