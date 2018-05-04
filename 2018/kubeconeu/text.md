@@ -2,8 +2,10 @@ layout: true
 class: center, middle, inverse
 background-image: url(img/kubeconeu.png)
 ---
+<br />
 ## Writing kube controllers for everyone
 ### Maciej Szulik / @soltysh
+### Red Hat
 
 
 ---
@@ -15,14 +17,27 @@ background-image: url(img/ugur-akdemir-238673-unsplash.jpg)
 https://unsplash.com/photos/5X39cfzKX3o
 ]
 
+???
+
+What is the first thing that comes to your mind when you hear a word controller.
+
 
 ---
 background-image: url(img/cronjob_controller.png)
-# 409 LOC
+# ~400 LOC
 
 .footnote[
 https://github.com/kubernetes/kubernetes/blob/master/pkg/controller/cronjob/cronjob_controller.go
 ]
+
+???
+
+Unfortunately, for me the controller always means code.
+
+To be honest, the controller + utils might actually be close 1000 LOC.
+
+If this looks complicated let me try to squeeze the code slightly and present it
+to you in a more digestable form.
 
 
 ---
@@ -42,6 +57,14 @@ func (c *Ctrl) processNextItem() {
 }
 ```
 ]]
+
+???
+
+Basically, every controller after being contructed invokes the worker which
+in a loop processes elementes from the queue. That's basically all you need to
+know.
+
+I hope you enjoyed this short presentation and you can all head for lunch now!
 
 
 ---
@@ -64,6 +87,16 @@ class: center, middle
 .red[
 ### Advanced
 ]
+
+???
+
+There are more than 30 existing controllers, this includes the one you might
+have heard about, such as workload controllers (deployments, stateful set,
+daemon set, replica set), batch controllers (job and cronjob). As well as
+other core controllers that are working behind the scene for you to make
+kubernetes awesome!
+
+Do not use cronjob controller as an example, not yet!
 
 
 ---
@@ -94,6 +127,11 @@ background-image: url(img/chad-kirchoff-202730-unsplash.jpg)
 https://unsplash.com/photos/xe-e69j6-Ds
 ]
 
+???
+
+If you now feel really hungry, but for knowledge not food! Let's actually look under
+the hood. Ready?
+
 
 ---
 layout: true
@@ -116,6 +154,12 @@ func (c *Ctrl) processNextItem() {
 ```
 ]
 
+???
+
+I've already shown you the controller loop, but let me refresh your memory.
+In the next few minutes we're going to slice and dice this loop into understandable
+blocks.
+
 
 ---
 # Queue
@@ -126,6 +170,14 @@ queue = workqueue.NewNamedRateLimitingQueue(
 	"foos"),
 ```
 ]
+
+???
+
+There are several variants of the rate limiters available:
+- default rate limiter
+- exponential failre rate limiter
+- fast slow rate limiter
+- combinations of eariler using MaxOfRateLimitters
 
 
 ---
@@ -147,15 +199,6 @@ matching the notification you've received in handler functions.
 
 
 ---
-### Shared informers - listers
-.big-code[
-```go
-podStore = podInformer.Lister()
-```
-]
-
-
----
 ### Shared informers - event handler
 .big-code[
 ```go
@@ -168,6 +211,15 @@ podInformer.Informer().AddEventHandler(
 		// react to object removal
 		DeleteFunc: func(obj interface{}) {},
 	})
+```
+]
+
+
+---
+### Shared informers - listers
+.big-code[
+```go
+podStore = podInformer.Lister()
 ```
 ]
 
@@ -189,6 +241,11 @@ func (c *Ctrl) syncHandler(key string) error {
 ```
 ]
 
+???
+
+This is the brain of the controller and where you can finally start cranking
+your awesome logic!
+
 
 ---
 layout: false
@@ -197,6 +254,12 @@ background-image: url(img/client-go-controller-interaction.jpeg)
 .footnote[
 https://github.com/devdattakulkarni
 ]
+
+???
+
+Let me recap what I told you so far as a nice picture, all credit goes to
+this guy at the bottom, who created it and it is meant to be included in the
+sample-controller repository for future controller authors like you!
 
 
 ---
@@ -208,6 +271,9 @@ class: center, middle
 https://github.com/kubernetes/community/blob/master/contributors/devel/controllers.md
 
 ???
+
+As a closing remark lemme point you to the ground rules every good citizien of
+kube ecosystem should follow:
 
 1. Operate on one item at a time.
 2. Random ordering between resources.
@@ -226,6 +292,9 @@ https://github.com/kubernetes/community/blob/master/contributors/devel/controlle
 layout: false
 class: center, middle, inverse
 background-image: url(img/jon-tyson-518780-unsplash.jpg)
+.pull-left[
+## @soltysh
+]
 .footnote[
 https://unsplash.com/photos/RUsczRV6ifY
 ]
