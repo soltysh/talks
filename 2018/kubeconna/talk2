@@ -1,0 +1,26 @@
+# Writing kube controllers for everyone
+
+So you have written your own Custom Resource Definition, and deployed it to your
+Kubernetes cluster. Now what? Are you done? Not really; it is time for you to look
+at custom controllers. This talk will explain how.
+During this presentation Maciej, will guide you through basic set of steps that
+are necessary to write a simple controller. As an example he will discuss his
+recent work around improving CronJob controller, as well as introduce the 11 rules
+that needs to be fulfilled when writing a good controller.
+
+Topics to be covered include:
+
+1. How controllers work, loop over:
+  * monitor resources
+  * react to changes
+2. Shared Informers
+3. Owner references
+4. Emitting status
+5. Handling errors
+
+
+# Relevance for the ecosystem
+
+Development documentation describes how to write a controller, and looking at
+existing controllers helps, but neither is sufficient to get you started. In this
+presentation I am going to address the initial questions when writing first controller.

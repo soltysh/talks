@@ -1,0 +1,36 @@
+# Audit in Kubernetes, the future is here
+
+Advanced Auditing is now available, and you should learn how to use it. Last year,
+we proposed a list of improvements to Kubernetes auditing, and this year we are
+happy to report that we have delivered them! Join us for this session to learn
+what Advanced Auditing does, how to adapt it to your own requirements, and how
+to integrate it into your infrastructure.
+
+Topics to be covered include:
+1. From basic audit to advanced audit
+2. Defining a policy (examples)
+   * Deep object logging
+   * Excluding secrets
+   * Logging different objects at different levels
+3. Integrating with your infrastructure
+4. Performance impact vs. consistency
+5. Writing an audit webhook server
+6. Which future improvements are planned
+
+We are hoping to demystify the complexity of the policy configuration by showing
+a handful of example rules that will allow attendees to better understand the
+mechanism.
+
+For admins, we will discuss both the configuration part of the audit (how to write
+rules and manage backends), as well as discuss its overall impact on the cluster
+performance. For third party applications, we show how an audit webhook server
+can be built to consume the audit events to inject them into external systems.
+We will close the presentation discussing planned enhancements to the mechanism.
+
+
+# Relevance for the ecosystem
+
+Enterprise users expect an exhaustive auditing mechanism to comply with demanding
+regulations. Kubernetes delivers this now, and allows the admin to customize
+the balance between performance impact and consistency for the environment at hand.
+This will become a standard step in every enterprise Kubernetes deployment in the future.
