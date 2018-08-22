@@ -3,8 +3,9 @@
   <head>
     <title>Colorful deployments</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
+      @import url(https://fonts.googleapis.com/css?family=Sedgwick+Ave);
       @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
       @import url(https://fonts.googleapis.com/css?family=Inconsolata:400,700,400italic);
@@ -13,12 +14,12 @@
         font-family: 'Droid Serif';
       }
       h1, h2, h3, h4 {
-        font-family: 'Yanone Kaffeesatz';
+        font-family: 'Sedgwick Ave', cursive;
         font-weight: 400;
         margin-bottom: 0;
       }
       .remark-slide-content h1 { font-size: 5em; }
-      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h2 { font-size: 3em; }
       .remark-slide-content h3 { font-size: 1.6em; }
       .remark-slide-content h4 { font-size: 1.2em; }
       .footnote {
@@ -83,7 +84,6 @@
      .right-column {
         width: 75%;
         float: right;
-        padding-top: 1em;
       }
       .center {
         margin: auto;
@@ -113,8 +113,9 @@
     </script>
     <script>
       var slideshow = remark.create({
-        ratio: '4:3',
+        ratio: '16:9',
         sourceUrl: 'text.md',
+        slideNumberFormat: '',
       });
     </script>
   </body>

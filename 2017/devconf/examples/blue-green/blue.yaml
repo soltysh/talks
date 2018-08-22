@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   name: blue
@@ -14,7 +14,7 @@ spec:
         color: blue
     spec:
       containers:
-      - image: openshift/hello-openshift
+      - image: docker.io/openshift/hello-openshift
         imagePullPolicy: Always
         name: hello
         env:

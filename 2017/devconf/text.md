@@ -227,6 +227,7 @@ layout: false
 ### Data migrations
 ### Lost transactions
 ### N-1 compatibility
+### Cost
 ]
 ]
 
