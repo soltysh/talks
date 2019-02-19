@@ -1,0 +1,48 @@
+# Writing kubectl plugins for everyone: develop, package & distribute
+
+## Description (900 character max)
+
+Many users install extra tools for tasks they can't do with kubectl. Did you know
+you can write and distribute your own kubectl subcommands? kubectl had notion
+of plugins since 2016, but after listening to the community feedback, SIG CLI
+revisited the idea, and new and simpler plugin mechanism is now available
+in kubectl.
+
+The new mechanism allows anyone to write and distribute their own subcommands
+to kubectl. This opens the door for community contributions to make kubectl better
+without having to propose a feature to the kubectl core.
+
+During this session, Maciej (lead of SIG CLI) and Ahmet (developer of Krew plugin
+manager) will explain:
+* how kubectl plugin mechanism works under the covers
+* how does a good plugin look like, best practices & available libraries
+* hands-on demo of developing a plugin
+* how to package plugins for multiple OS/distros and make them discoverable
+
+
+## Benefits to the Ecosystem (Max of 1,500 characters.)
+
+Extensibility is a critical theme for Kubernetes: The project now encourages
+contributors to write new features as extensions (CRDs, plugins etc).
+This presentation is meant exactly to address this extensibility from a kubectl
+point of view:
+Kubectl Plugins are a new feature and we're not doing a good job talking about it.
+We aim to advocate for plugin development so that the community develops tooling
+for kubectl with this talk.
+
+Currently, there are challenges in the plugin development world:
+* no established conventions around naming, semantics, command-line flags
+* lack of documentation how to efficiently communicate with kubernetes API
+* lack of documentation how to re-use primitives exposed by SIG CLI
+* packaging for OS/distros is much harder than developing the plugin itself
+* users cannot easily discover plugins, so developers need to publicize their work
+
+
+This talk will:
+1. show sample code for a plugin, with best practices around development
+2. explain what does it mean to be a "good" kubectl plugin
+3. present libraries like cli-runtime, client-go which we use to build kubectl
+that the developers can leverage to their own benefit.
+
+At the end, we aim to encourage developers and help them come up with high
+quality plugins that enrich the ecosystem.
