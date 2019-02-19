@@ -1,0 +1,31 @@
+# Talking Python to Kubernetes
+
+## Description (90-200 words)
+
+These days Kubernetes is de facto norm in the containers world. There are many tools
+already available to talk kubernetes from CLI to web UI. Yet, if you want to
+write your own, the situation is not that simple. Mostly because the majority
+of examples, and provided libraries are in Go, the language Kubernetes is written in.
+
+During this presentation, Maciej will guide you through basic set of steps that
+are necessary to write a simple application talking to any kubernetes cluster in
+Python. Topics to be covered include:
+- connecting to a cluster, including reading configuration files,
+- using in-cluster configuration for an application running inside the cluster,
+- setting up access right for your application,
+- overview of the available API.
+
+After this talk you will feel comfortable using Python to talk to any kubernetes
+cluster. You will be armed with a set of simple examples showing all the aspects
+covered during this presentation.
+
+
+## Why you're the right person to talk about the topic (50-90 words)
+
+I'm a passionate developer with over 10 years of experience in many languages.
+Currently, I'm working for Red Hat, and for the past 4 years, I'm one of the
+core contributors to Kubernetes and OpenShift. In Kubernetes I've been writing
+everything starting from controllers, through API. Currently, I'm leading the
+kubectl subproject, which is one of the main consumers of Kubernetes API.
+At the same time, I'm using Python daily for my side projects, also I'm helping
+CPython core developers maintaining bugs.python.org and working on IMAP built-in.
