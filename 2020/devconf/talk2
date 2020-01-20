@@ -1,0 +1,20 @@
+# What it's like to lead SIG in Kubernetes and team in OpenShift at the same time
+
+## Description
+
+Have you ever wondered how to combine product leadership and open source
+project leadership role? If you ever struggled with at least one of the roles
+you are aware it is not that easy. What if I tell you it is possible to go one
+step further, and overlook efforts in two fast paced and big projects such
+as Kubernetes and OpenShift.
+During this presentation Maciej who is leading special interest group focused on
+CLI tools in Kubernetes project, and is overlooking workloads team in OpenShift
+will cover his struggles and successes. He will discuss his strategies for
+long-term planning as well as his daily routines.
+
+Topics to be covered include:
+1. What is SIG-CLI and its role in Kubernetes project.
+2. What is team workloads and its role in OpenShift product.
+3. How to combine and project and product leading roles:
+  * open source vs product
+  * responsibilities

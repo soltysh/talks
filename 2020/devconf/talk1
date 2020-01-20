@@ -1,0 +1,17 @@
+# Everything you always wanted to know about kubectl & oc but were afraid to ask
+
+## Description
+
+This session is intended for all interested in what kubectl & oc is and what it does.
+Whether you are fresh to Kubernetes/OpenShift or an old-timer you are more than welcome.
+During this presentation Maciej who is overlooking CLI efforts both in Kubernetes
+and OpenShift will discuss accomplishments of the past twelve months and will
+cover the future of the tool. Additionally, Maciej is hoping to answer as
+many questions as possible and turn this session into interactive discussion.
+
+Topics to be covered include:
+
+1. Splitting kubectl and oc to separate repositories.
+2. Plugins - its development and management.
+3. Resource configuration with Kustomize.
+4. Dynamic commands, etc.

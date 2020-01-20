@@ -1,0 +1,23 @@
+# Can we make Python faster - Multiple Interpreters in the Stdlib
+
+## Description
+
+Pythonistas are well aware when dealing with computation intensive operation the
+threading module is of not much help because of the dreaded Global Interpreter
+Lock. The alternative is to use multiprocessing which runs all the operations in
+a separate process, unfortunately the down side of that approach is communication.
+What if there is middle ground, something that provides the separation like in
+the multiprocessing, but still allows data sharing similarly to how threading does.
+This is were PEP 554 introduced by Eric Snow comes in to play. It describes a
+new provisional module called interpreters which will allow sharing data between
+interpreters.
+During this presentation Maciej will describe basic ideas presented in this enhancement
+and the consequences of implementing them.
+
+Topics to be covered include:
+
+1. Threading vs multiprocessing vs GIL.
+2. How to deal with concurrency.
+3. How to share data.
+4. Current progress and future.
+
