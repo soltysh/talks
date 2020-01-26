@@ -55,6 +55,7 @@ Communicate & Communicate <br />
 https://github.com/kubernetes/community/blob/master/committee-steering/governance/sig-governance.md
 https://github.com/kubernetes/community/blob/master/sig-cli/charter.md
 
+
 ---
 ### Team
 <br />
@@ -97,6 +98,7 @@ class: center, middle, inverse
 # Challenges
 ]
 
+
 ---
 layout: true
 class: center
@@ -115,6 +117,9 @@ Peak Performance - Bred Stulberg, Steve Magness
 Getting Things Done - David Allen
 bulletjournal.com
 Journal
+Jogging
+Take time off keyboard & work / meditation
+No multitasking
 
 
 ---
@@ -127,6 +132,10 @@ https://unsplash.com/photos/Dph00R2SwFo
 ]
 
 ???
+Think what a bad manager would do
+Work assignment
+Shielding from interruptions
+Self-motivated (SIG) vs more structural approach (team)
 
 
 ---
@@ -141,6 +150,7 @@ https://unsplash.com/photos/71CjSSB83Wo
 
 ???
 Even if you're working by yourself, you still need to communicate. You're just talking to yourself. - Hina Popal
+Code of conduct / Communication guidelines / Corporate policy
 
 
 ---
