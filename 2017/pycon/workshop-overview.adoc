@@ -1,6 +1,6 @@
 ## Workshop Overview
 
-Google, Red Hat, Intel, Huawei, Mirantis, Deis and many, many others are
+Google, Red Hat, Intel, Huawei, Mirantis, Microsoft and many, many others are
 investing a lot of time and effort into improving Kubernetes. I bet, you
 have encountered that name at least once in the past twelve months, either
 on Hacker News, Reddit, or somewhere else. Do you want to learn more about
